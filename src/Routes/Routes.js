@@ -1,5 +1,6 @@
 import React from 'react'
 import {Routes,Route, } from "react-router-dom";
+import PublicRoute from './PublicRoutes';
 //screens
 import Dashboard from '../Screens/Dashboard/Dashboard';
 import Login from '../Screens/Login/Login';

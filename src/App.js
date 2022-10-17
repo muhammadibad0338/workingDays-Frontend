@@ -1,24 +1,43 @@
 import logo from './logo.svg';
 import './App.css';
+import Layout from './Layout/Layout';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+
+const theme = createTheme({
+  // typography: {
+  //   body1:{
+  //     fontFamily: ["Motserrat", "sans-serif"].join(","),
+
+  //   }
+  // },
+  // overrides: {
+  //   MuiButton: {
+  //     root: {
+  //       height: 40,
+  //     },
+  //   },
+
+
+  // },
+  breakpoints: {
+    values: {
+      xs: 0,
+      ms: 479,
+      sm: 600,
+      md: 1090,
+      lg: 1200,
+      fl: 1350,
+      xl: 1556,
+    },
+  }
+});
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme} >
+      <Layout />
+    </ThemeProvider>
   );
 }
 
