@@ -54,7 +54,7 @@ const Login = () => {
             <Container maxWidth='fl'  >
                 <Grid container mt={2} className={classes.ContainerBorder}  >
                     <Grid item xs={12} >
-                        <Typography className={classes.mainHead}  >Signup</Typography>
+                        <Typography className={classes.mainHead}  >Login</Typography>
                     </Grid>
                     <Grid item xs={12} md={5} className={classes.alignCnter} >
                         <LoginForm />
