@@ -64,13 +64,13 @@ const SignupForm = () => {
     const classes = useStyles();
     return (
         <Grid container >
-            <Grid xs={12} >
+            <Grid item xs={12} >
                 <Box my={1} mx={2} style={{ width: "auto" }}>
                     <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
                         Name
                     </Typography>
                     <OutlinedInput
-                        fullwidth
+                        fullwidth="true"
                         // className={classes.productInput}
                         style={{ width: "100%" }}
                         type="text"
@@ -78,13 +78,13 @@ const SignupForm = () => {
                     />
                 </Box>
             </Grid>
-            <Grid xs={12} >
+            <Grid item xs={12} >
                 <Box my={1} mx={2} style={{ width: "auto" }}>
                     <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
                         Email
                     </Typography>
                     <OutlinedInput
-                        fullwidth
+                        fullwidth="true"
                         // className={classes.productInput}
                         style={{ width: "100%" }}
                         type="text"
@@ -92,13 +92,13 @@ const SignupForm = () => {
                     />
                 </Box>
             </Grid>
-            <Grid xs={12} >
+            <Grid item xs={12} >
                 <Box my={1} mx={2} style={{ width: "auto" }}>
                     <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
                         Password
                     </Typography>
                     <OutlinedInput
-                        fullwidth
+                        fullwidth="true"
                         // className={classes.productInput}
                         style={{ width: "100%" }}
                         type="password"
@@ -106,13 +106,13 @@ const SignupForm = () => {
                     />
                 </Box>
             </Grid>
-            <Grid xs={12} >
+            <Grid item xs={12} >
                 <Box my={1} mx={2} style={{ width: "auto" }}>
                     <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
                         Description
                     </Typography>
                     <OutlinedInput
-                        fullwidth
+                        fullwidth="true"
                         multiline
                         rows={3}
                         // className={classes.productInput}
@@ -122,13 +122,13 @@ const SignupForm = () => {
                     />
                 </Box>
             </Grid>
-            <Grid xs={12} >
+            <Grid item xs={12} >
                 <Box my={1} mx={2} style={{ width: "auto" }}>
                     <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
                         Number
                     </Typography>
                     <OutlinedInput
-                        fullwidth
+                        fullwidth="true"
                         // className={classes.productInput}
                         style={{ width: "100%" }}
                         type="number"
@@ -136,7 +136,7 @@ const SignupForm = () => {
                     />
                 </Box>
             </Grid>
-            <Grid xs={12} >
+            <Grid item xs={12} >
                 <FormControl>
                     <Box my={1} mx={2} style={{ width: "auto" }}>
                         <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>

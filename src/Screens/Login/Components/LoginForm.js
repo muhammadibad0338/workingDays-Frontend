@@ -65,13 +65,13 @@ const LoginForm = () => {
     const classes = useStyles();
     return (
         <Grid container mt={8} >
-            <Grid xs={12} >
+            <Grid item xs={12} >
                 <Box my={1} mx={2} style={{ width: "auto" }}>
                     <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
                         Email
                     </Typography>
                     <OutlinedInput
-                        fullwidth
+                        fullwidth="true"
                         // className={classes.productInput}
                         style={{ width: "100%" }}
                         type="text"
@@ -79,13 +79,13 @@ const LoginForm = () => {
                     />
                 </Box>
             </Grid>
-            <Grid xs={12} >
+            <Grid item xs={12} >
                 <Box my={1} mx={2} style={{ width: "auto" }}>
                     <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
                         Password
                     </Typography>
                     <OutlinedInput
-                        fullwidth
+                        fullwidth="true"
                         // className={classes.productInput}
                         style={{ width: "100%" }}
                         type="password"
