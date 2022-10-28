@@ -126,7 +126,6 @@ const SignupForm = () => {
                         </Typography>
                         <OutlinedInput
                             fullwidth="true"
-                            // className={classes.productInput}
                             style={{ width: "100%" }}
                             type="text"
                             placeholder='user@gmail.com'
