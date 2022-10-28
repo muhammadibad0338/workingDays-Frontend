@@ -97,7 +97,7 @@ const SignupForm = () => {
     return (
         <form onSubmit={formik.handleSubmit}>
             <Grid container >
-                <Grid item xs={12} >
+                <Grid item xs={12} md={6} >
                     <Box my={1} mx={2} style={{ width: "auto" }}>
                         <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
                             Name
@@ -119,7 +119,7 @@ const SignupForm = () => {
                         }
                     </Box>
                 </Grid>
-                <Grid item xs={12} >
+                <Grid item xs={12} md={6} >
                     <Box my={1} mx={2} style={{ width: "auto" }}>
                         <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
                             Email
@@ -230,11 +230,11 @@ const SignupForm = () => {
                 </Grid>
                 <Grid item xs={12} >
                     <Box mx={2} className={classes.AlignBtwn}  >
-                        <Button type='submit' variant="contained" style={{ margin: '5px 0px' }} >
+                        <Button type='submit' variant="contained" style={{ margin: '5px 0px', backgroundColor:'#0096FF' }} >
                             Signup
                         </Button>
-                        <Typography style={{ textAlign: 'center', marginTop: '5px' }} >
-                            <Link to='/login'  style={{textDecoration:'none'}} >
+                        <Typography style={{ textAlign: 'center', marginTop: '5px' , color:'#0096FF'}} >
+                            <Link to='/login'  style={{textDecoration:'none',color:'0096FF'}} >
                                 Already Have an Account? Login
                             </Link>
                         </Typography>

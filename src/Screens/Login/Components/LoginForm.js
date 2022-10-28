@@ -21,6 +21,7 @@ import { Link } from 'react-router-dom';
 
 
 
+
 const useStyles = makeStyles((theme) => ({
     AlignBtwn: {
         display: 'flex',
@@ -84,7 +85,7 @@ const LoginForm = () => {
     const classes = useStyles();
     return (
         <form onSubmit={formik.handleSubmit}>
-            <Grid container mt={8} >
+            <Grid container  >
                 <Grid item xs={12} >
                     <Box my={1} mx={2} style={{ width: "auto" }}>
                         <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
@@ -130,11 +131,11 @@ const LoginForm = () => {
                 </Grid>
                 <Grid item xs={12} >
                     <Box className={classes.AlignBtwn} m={2} >
-                        <Button type='submit' variant="contained" style={{ margin: '5px 0px' }} >
+                        <Button type='submit' variant="contained" style={{ margin: '5px 0px' , backgroundColor: '#0096FF' }} >
                             Login
                         </Button>
-                        <Typography style={{ textAlign: 'center', marginTop: '5px' }} >
-                            <Link to='/signup'  style={{textDecoration:'none'}}>
+                        <Typography style={{ textAlign: 'center', marginTop: '5px' , color:'#0096FF' }} >
+                            <Link to='/signup'  style={{textDecoration:'none' ,color:'#0096FF' }}>
                                 Don't Have an Account? Signup
                             </Link>
                         </Typography>
