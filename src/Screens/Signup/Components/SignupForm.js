@@ -89,7 +89,7 @@ const SignupForm = () => {
             continueas: Yup.string().required("A radio option is required"),
         }),
         onSubmit: values => {
-            console.log(values)
+            console.log(values,"values")
         }
     })
 

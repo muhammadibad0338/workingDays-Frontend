@@ -7,11 +7,12 @@ import {
     Hidden
 } from "@mui/material";
 import { makeStyles } from "@mui/styles"
-import { styled } from '@mui/system';
-import Banner from "../../Assets/Images/SignupBanner.png"
+// import { styled } from '@mui/system';
+// import Banner from "../../Assets/Images/SignupBanner.png"
 import SignupForm from './Components/SignupForm';
 // import bg from "../../Assets/Images/wave.png"
 import bg from "../../Assets/Images/wave2.jpg"
+import { Navigate } from "react-router-dom"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -56,6 +57,10 @@ const useStyles = makeStyles((theme) => ({
 
 const Signup = () => {
     const classes = useStyles();
+
+    if (localStorage.getItem('token')) {
+        return <Navigate to={-1} />
+    }
     return (
         <div className={classes.backImg}>
            <Container maxWidth='md'  >

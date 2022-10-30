@@ -1,13 +1,15 @@
 import React from 'react'
-import {Routes,Route, } from "react-router-dom";
+import { Routes, Route, } from "react-router-dom";
 import PublicRoute from './PublicRoutes';
+import { withRouter } from './WithRouter'
+import ProtectedRoutes from './ProtectedRoutes';
 //screens
 import Dashboard from '../Screens/Dashboard/Dashboard';
 import Login from '../Screens/Login/Login';
 import Signup from '../Screens/Signup/Signup';
 
 
-import { withRouter } from './WithRouter'
+
 
 const routesArr = [
     {
@@ -23,24 +25,33 @@ const routesArr = [
         Component: Signup,
     },
 ]
+const AuthRoutesArr = [
+    {
+        path: "/",
+        Component: Dashboard,
+    },
+]
 
 
 const routes = () => {
     return (
-      <Routes>
-          {
-              routesArr.map(({path,Component})=>{
-                  return(
-                      <Route 
-                          key={path}
-                          path={path}
-                          element={<PublicRoute component={Component}  />}
-                      />
-                  )
-              })
-          }
-      </Routes>
+        <Routes>
+            <Route path='/login' element={<Login/>} />
+            <Route path='/signup' element={<Signup/>} />
+            {
+                routesArr.map(({ path, Component }) => {
+                    return (
+                        <Route
+                            key={path}
+                            path={path}
+                            // element={<PublicRoute component={Component} />}
+                            element={<ProtectedRoutes component={Component} />}
+                        />
+                    )
+                })
+            }
+        </Routes>
     )
-  }
-  
-  export default withRouter(routes)
+}
+
+export default withRouter(routes)

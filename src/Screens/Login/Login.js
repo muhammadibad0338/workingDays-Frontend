@@ -8,10 +8,12 @@ import {
 } from "@mui/material";
 import bg from "../../Assets/Images/wave2.jpg"
 import { makeStyles } from "@mui/styles"
-import { styled } from '@mui/system';
+// import { styled } from '@mui/system';
 // import Banner from "../../Assets/Images/loginback1.jpg";
 // import Banner from "../../Assets/Images/LoginBanner1.png"
 import LoginForm from './Components/LoginForm';
+import { Navigate } from "react-router-dom"
+
 const useStyles = makeStyles((theme) => ({
     mainHead: {
         color: '#0096FF',
@@ -65,6 +67,10 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = () => {
     const classes = useStyles();
+
+    if (localStorage.getItem('token')) {
+        return <Navigate to={-1} />
+    }
     return (
         <div className={classes.backImg} >
 
