@@ -1,4 +1,4 @@
-import axios  from "axios";
+import axios from "axios";
 import { baseUrl } from "../baseUrl";
 import {
     SET_ERROR,
@@ -41,4 +41,82 @@ export const setToken = (token) => {
         type: SET_TOKEN,
         payload: token,
     };
+};
+
+
+export const registerUser = (data) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true));
+        let res = await axios({
+            url: `${baseUrl}/auth/signup`,
+            method: "POST",
+            data: data
+        });
+        await Swal.fire({
+            customClass: {
+                container: `my-swal`,
+            },
+            icon: "success",
+            title: "Working Days",
+            html: `<strong><font color="black">User Created Sucessfully</font></strong>`
+        });
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("uid", res.data?.user?._id);
+        dispatch(setLoading(false));
+        dispatch(setUser(res?.data?.user))
+        console.log(res, "Signup response")
+        return res
+    } catch (err) {
+        Swal.fire({
+            customClass: {
+                container: `my-swal`,
+            },
+            icon: "error",
+            title: "Working Days",
+            html: `<strong><font color="black">${err?.response?.data?.message || err?.response?.data}</font></strong>`,
+        });
+        console.log("signup error", err)
+        dispatch(setError(err));
+        dispatch(setLoading(false));
+        return null
+    }
+};
+
+
+export const loginUser = (data) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true));
+        let res = await axios({
+            url: `${baseUrl}/auth/login`,
+            method: "POST",
+            data:data
+        });
+        await Swal.fire({
+            customClass: {
+                container: `my-swal`,
+            },
+            icon: "success",
+            title: "Working Days",
+            html: `<strong><font color="black">User LoggedIn Sucessfully</font></strong>`
+        });
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("uid", res.data?.user?._id);
+        dispatch(setUser(res?.data?.user))
+        console.log("login res", res)
+        dispatch(setLoading(false));
+        return res
+    } catch (err) {
+        Swal.fire({
+            customClass: {
+                container: `my-swal`,
+            },
+            icon: "error",
+            title: "Working Days",
+            html: `<strong><font color="black">${err?.response?.data?.message || err?.response?.data}</font></strong>`,
+        });
+        dispatch(setError(err?.message));
+        dispatch(setLoading(false));
+        console.log("user login err", err)
+        return null
+    }
 };

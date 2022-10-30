@@ -13,11 +13,13 @@ import {
     FormControlLabel,
     Radio,
     RadioGroup,
-    Button
+    Button,
+    CircularProgress
 } from "@mui/material";
+import { connect } from "react-redux";
 import { makeStyles, withStyles } from "@mui/styles"
-import { styled } from '@mui/system';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
+import { loginUser } from '../../../Redux/User/UserAction';
 
 
 
@@ -65,7 +67,10 @@ const BootstrapInput = withStyles((theme) => ({
     },
 }))(InputBase);
 
-const LoginForm = () => {
+const LoginForm = ({ loginUser, reduxLoading }) => {
+    let navigate = useNavigate();
+
+    //form Validation
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -78,11 +83,19 @@ const LoginForm = () => {
 
         }),
         onSubmit: values => {
-            console.log(values);
+            console.log(values,"login values");
+            loginUser(values).then((res) => {
+                if (res) {
+                    navigate('/')
+                }
+            })
         },
     });
 
+    //calling css classes
     const classes = useStyles();
+
+    //component
     return (
         <form onSubmit={formik.handleSubmit}>
             <Grid container  >
@@ -131,11 +144,11 @@ const LoginForm = () => {
                 </Grid>
                 <Grid item xs={12} >
                     <Box className={classes.AlignBtwn} m={2} >
-                        <Button type='submit' variant="contained" style={{ margin: '5px 0px' , backgroundColor: '#0096FF' }} >
-                            Login
+                        <Button type='submit' disabled={reduxLoading} variant="contained" style={{ margin: '5px 0px', backgroundColor: '#0096FF' }} >
+                            {reduxLoading ? <CircularProgress /> : 'Login'}
                         </Button>
-                        <Typography style={{ textAlign: 'center', marginTop: '5px' , color:'#0096FF' }} >
-                            <Link to='/signup'  style={{textDecoration:'none' ,color:'#0096FF' }}>
+                        <Typography style={{ textAlign: 'center', marginTop: '5px', color: '#0096FF' }} >
+                            <Link to='/signup' style={{ textDecoration: 'none', color: '#0096FF' }}>
                                 Don't Have an Account? Signup
                             </Link>
                         </Typography>
@@ -146,4 +159,16 @@ const LoginForm = () => {
     )
 }
 
-export default LoginForm
+
+//Redux Action
+const mapStateToProps = (store) => ({
+    reduxLoading: store.user.loading
+});
+
+
+const mapDispatchToProps = (dispatch) => ({
+    // loginUser: (email, password) => dispatch(loginUser(email, password))
+    loginUser: (data) => dispatch(loginUser(data))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

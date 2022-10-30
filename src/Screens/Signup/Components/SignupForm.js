@@ -13,11 +13,14 @@ import {
     FormControlLabel,
     Radio,
     RadioGroup,
-    Button
+    Button,
+    CircularProgress
 } from "@mui/material";
 import { makeStyles, withStyles } from "@mui/styles"
 import { styled } from '@mui/system';
-import { Link } from 'react-router-dom';
+import { connect } from "react-redux";
+import { useNavigate, Link } from 'react-router-dom';
+import { registerUser } from '../../../Redux/User/UserAction';
 
 const useStyles = makeStyles((theme) => ({
     AlignBtwn: {
@@ -65,7 +68,8 @@ const BootstrapInput = withStyles((theme) => ({
 const valStyle = {
     color: 'red',
 }
-const SignupForm = () => {
+const SignupForm = ({ reduxLoading, registerUser }) => {
+    let navigate = useNavigate();
 
     const formik = useFormik({
         initialValues: {
@@ -73,23 +77,28 @@ const SignupForm = () => {
             email: '',
             password: '',
             description: '',
-            number: '',
-            continueas: ''
+            phoneNumber: '',
+            role: ''
         },
         validationSchema: Yup.object({
             name: Yup.string().min(2).max(20).required('Please Enter Your Name'),
             email: Yup.string().email().required('Please Enter Your Email'),
             password: Yup.string().min(6).max(20).required('Please Enter Your password'),
             description: Yup.string().min(6).required('Please Enter Your Desription'),
-            number: Yup.number().typeError("That doesn't look like a phone number")
+            phoneNumber: Yup.number().typeError("That doesn't look like a phone number")
                 .positive("A phone number can't start with a minus")
                 .integer("A phone number can't include a decimal point")
                 .min(11)
                 .required('A phone number is required'),
-            continueas: Yup.string().required("A radio option is required"),
+            role: Yup.string().required("Please Select Your Role"),
         }),
         onSubmit: values => {
-            console.log(values,"values")
+            console.log(values, "values")
+            registerUser(values).then((res) => {
+                if (res) {
+                    navigate('/')
+                }
+            })
         }
     })
 
@@ -194,12 +203,12 @@ const SignupForm = () => {
                             style={{ width: "100%" }}
                             type="number"
                             placeholder='03XXXXXXXX'
-                            name='number'
-                            value={formik.values.number}
+                            name='phoneNumber'
+                            value={formik.values.phoneNumber}
                             onChange={formik.handleChange}
                         />
-                        {formik.errors.number && formik.touched.number ? (
-                            <p style={valStyle}>{formik.errors.number}</p>
+                        {formik.errors.phoneNumber && formik.touched.phoneNumber ? (
+                            <p style={valStyle}>{formik.errors.phoneNumber}</p>
                         ) : null
                         }
                     </Box>
@@ -218,11 +227,11 @@ const SignupForm = () => {
                             // onChange={handleChange}
                             >
 
-                                <FormControlLabel value='Employee' control={<Radio />} label="Employee" name='continueas' onChange={formik.handleChange} />
-                                <FormControlLabel value='Comapany' control={<Radio />} label="Softwarecompany" name='continueas' onChange={formik.handleChange} />
+                                <FormControlLabel value='Employee' control={<Radio />} label="Employee" name='role' onChange={formik.handleChange} />
+                                <FormControlLabel value='softwareCompany' control={<Radio />} label="Software Company" name='role' onChange={formik.handleChange} />
                             </RadioGroup>
-                            {formik.errors.continueas && formik.touched.continueas ? (
-                                <p style={valStyle}>{formik.errors.continueas}</p>
+                            {formik.errors.role && formik.touched.role ? (
+                                <p style={valStyle}>{formik.errors.role}</p>
                             ) : null
                             }
                         </Box>
@@ -230,11 +239,11 @@ const SignupForm = () => {
                 </Grid>
                 <Grid item xs={12} >
                     <Box mx={2} className={classes.AlignBtwn}  >
-                        <Button type='submit' variant="contained" style={{ margin: '5px 0px', backgroundColor:'#0096FF' }} >
-                            Signup
+                        <Button type='submit' disabled={reduxLoading} variant="contained" style={{ margin: '5px 0px', backgroundColor: '#0096FF' }} >
+                            {reduxLoading ? <CircularProgress /> : 'Signup'}
                         </Button>
-                        <Typography style={{ textAlign: 'center', marginTop: '5px' , color:'#0096FF'}} >
-                            <Link to='/login'  style={{textDecoration:'none',color:'0096FF'}} >
+                        <Typography style={{ textAlign: 'center', marginTop: '5px', color: '#0096FF' }} >
+                            <Link to='/login' style={{ textDecoration: 'none', color: '0096FF' }} >
                                 Already Have an Account? Login
                             </Link>
                         </Typography>
@@ -245,4 +254,15 @@ const SignupForm = () => {
     )
 }
 
-export default SignupForm;
+//Redux Action
+const mapStateToProps = (store) => ({
+    reduxLoading: store.user.loading
+});
+
+
+const mapDispatchToProps = (dispatch) => ({
+    // loginUser: (email, password) => dispatch(loginUser(email, password))
+    registerUser: (data) => dispatch(registerUser(data))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignupForm);
