@@ -120,3 +120,27 @@ export const loginUser = (data) => async (dispatch) => {
         return null
     }
 };
+
+export const getCurrentUser = (id) => async (dispatch) => {
+    try {
+      dispatch(setLoading(true));
+      let res = await axios({
+        method: "GET",
+        url: `${baseUrl}/auth/currentUserDetails/${id}`,
+        params: id
+      });
+      await dispatch(setUser(res?.data?.user))
+      dispatch(setLoading(false));
+    } catch (err) {
+      Swal.fire({
+        customClass: {
+          container: `my-swal`,
+        },
+        icon: "error",
+        title: "Working Days",
+        html: `<strong><font color="black">Something went wrong while getting your Profile</font></strong>`,
+      });
+      dispatch(setLoading(false));
+      dispatch(setError(err));
+    }
+  };
