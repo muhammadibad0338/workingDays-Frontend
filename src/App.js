@@ -1,8 +1,10 @@
+import React, {useEffect} from "react"
 import logo from './logo.svg';
 import './App.css';
 import Layout from './Layout/Layout';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
+import { connect } from "react-redux";
+import { getCurrentUser } from './Redux/User/UserAction';
 
 const theme = createTheme({
   // typography: {
@@ -33,7 +35,15 @@ const theme = createTheme({
   }
 });
 
-function App() {
+function App({getCurrentUser}) {
+  let uid = localStorage.getItem('uid');
+
+  useEffect(() => {
+    if (uid) {
+        getCurrentUser(uid);
+    }
+}, [])
+
   return (
     <ThemeProvider theme={theme} >
       <Layout />
@@ -41,4 +51,13 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = (store) => ({
+  reduxLoading: store.user.loading
+});
+
+
+const mapDispatchToProps = (dispatch) => ({
+  getCurrentUser: (id) => dispatch(getCurrentUser(id))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

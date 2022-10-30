@@ -127,7 +127,6 @@ export const getCurrentUser = (id) => async (dispatch) => {
       let res = await axios({
         method: "GET",
         url: `${baseUrl}/auth/currentUserDetails/${id}`,
-        params: id
       });
       await dispatch(setUser(res?.data?.user))
       dispatch(setLoading(false));
@@ -142,5 +141,6 @@ export const getCurrentUser = (id) => async (dispatch) => {
       });
       dispatch(setLoading(false));
       dispatch(setError(err));
+    //   console.log(err,"getCurrentUser")
     }
   };

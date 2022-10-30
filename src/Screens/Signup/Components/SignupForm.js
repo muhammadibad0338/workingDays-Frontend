@@ -261,7 +261,6 @@ const mapStateToProps = (store) => ({
 
 
 const mapDispatchToProps = (dispatch) => ({
-    // loginUser: (email, password) => dispatch(loginUser(email, password))
     registerUser: (data) => dispatch(registerUser(data))
 });
 

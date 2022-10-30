@@ -1,9 +1,21 @@
 import React from 'react'
+import { connect } from "react-redux";
 
-const Dashboard = () => {
+
+const Dashboard = ({currentUser}) => {
   return (
-    <div>Dashboard update </div>
+    <div>Welcome {currentUser?.name}</div>
   )
 }
 
-export default Dashboard
+//Redux Action
+const mapStateToProps = (store) => ({
+  reduxLoading: store.user.loading,
+  currentUser: store.user.user
+});
+
+
+const mapDispatchToProps = (dispatch) => ({
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
