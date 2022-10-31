@@ -28,6 +28,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { makeStyles, withStyles } from "@mui/styles"
+import { Link,useNavigate } from 'react-router-dom';
 
 //Components
 import ProfileMenu from './ProfileMenu';
@@ -50,8 +51,9 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+
 const pages = ['Your Work', 'Team', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
 
 const ResponsiveAppbar = ({ currentUser }) => {
     //calling css classes
@@ -59,7 +61,13 @@ const ResponsiveAppbar = ({ currentUser }) => {
     //state
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+    let navigate = useNavigate();
+    
+    const logout = () =>{
+        localStorage.clear();
+        navigate('/login')
+    } 
+    const settings = [{name:'Profile' }, {name: 'Account'}, {name:'Dashboard'}, {name: 'Logout',fncn: logout }];
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -74,10 +82,12 @@ const ResponsiveAppbar = ({ currentUser }) => {
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
+        // localStorage.clear()
+        // navigate('/login')
     };
 
     return (
-        <AppBar position="static" style={{ backgroundColor: '#5800FF' }} >
+        <AppBar position="sticky" style={{ backgroundColor: '#5800FF'}} >
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />

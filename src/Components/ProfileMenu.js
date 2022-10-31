@@ -25,8 +25,11 @@ const ProfileMenu = ({anchorElUser,handleCloseUserMenu,options,currentUser}) => 
             onClose={handleCloseUserMenu}
         >
             {options.map((option) => (
-                <MenuItem key={option} onClick={handleCloseUserMenu}   >
-                    <Typography textAlign="center" > {option} </Typography>
+                <MenuItem key={option} onClick={() =>{
+                    handleCloseUserMenu()
+                    option?.fncn()
+                }}   >
+                    <Typography textAlign="center" > {option?.name} </Typography>
                 </MenuItem>
             ))}
         </Menu>
