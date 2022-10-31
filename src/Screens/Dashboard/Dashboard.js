@@ -17,22 +17,32 @@ import {
   CircularProgress
 } from "@mui/material";
 import { styled } from '@mui/system';
-
+import ContainedBtn from '../../Components/ContainedBtn';
+import { makeStyles, withStyles } from "@mui/styles"
 
 const ProjectHead = styled(Typography)(({ theme }) => ({
   fontSize: '2rem',
 }));
 
+const useStyles = makeStyles((theme) => ({
+  spaceBtwn: {
+      display: 'flex',
+      justifyContent:'space-between'
+  }
+}));
+
 
 const Dashboard = ({ currentUser }) => {
+  const classes = useStyles();
   return (
     <>
       <ResponsiveAppbar currentUser={currentUser} />
       {/* <div>Welcome {currentUser?.name}</div> */}
       <Container maxWidth='fl' >
         <Grid container >
-          <Grid item xs={12} mt={4} >
+          <Grid item xs={12} mt={4} className={classes.spaceBtwn} >
             <ProjectHead  >Projects</ProjectHead>
+            <ContainedBtn title='Create Project' />
           </Grid>
         </Grid>
       </Container>
