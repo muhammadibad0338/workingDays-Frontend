@@ -35,31 +35,31 @@ import ProfileMenu from './ProfileMenu';
 // styling
 const useStyles = makeStyles((theme) => ({
     mdUpLogo: {
-        height:'60px',
-        width:'auto',
+        height: '60px',
+        width: 'auto',
         [theme.breakpoints.down("md")]: {
-            display:'none'
+            display: 'none'
         }
     },
     mdDownLogo: {
-        height:'fit-Content',
-        width:'auto',
+        height: 'fit-Content',
+        width: 'auto',
         [theme.breakpoints.up("md")]: {
-            display:'none'
+            display: 'none'
         }
     }
 }));
 
-const pages = ['Your Work','Team' ,'Pricing', 'Blog'];
+const pages = ['Your Work', 'Team', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-const ResponsiveAppbar = () => {
+const ResponsiveAppbar = ({ currentUser }) => {
     //calling css classes
     const classes = useStyles();
     //state
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-    
+
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -77,7 +77,7 @@ const ResponsiveAppbar = () => {
     };
 
     return (
-        <AppBar position="static" style={{backgroundColor:'#5800FF'}} >
+        <AppBar position="static" style={{ backgroundColor: '#5800FF' }} >
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -98,7 +98,7 @@ const ResponsiveAppbar = () => {
                     >
                         LOGO
                     </Typography> */}
-                    
+
                     <img src={Logo} className={classes.mdUpLogo} />
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
@@ -132,13 +132,13 @@ const ResponsiveAppbar = () => {
                             {pages.map((page) => (
                                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                                     <Typography textAlign="center"  >{page}</Typography>
-                                    
+
                                 </MenuItem>
                             ))}
                         </Menu>
-                        <img src={Logo}  />
+                        <img src={Logo} />
                     </Box>
-                    
+
                     {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                     <Typography
                         variant="h5"
@@ -164,7 +164,7 @@ const ResponsiveAppbar = () => {
                             <Button
                                 key={page}
                                 onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block',fontWeight:'bold',fontSize:'inherit' }}
+                                sx={{ my: 2, color: 'white', display: 'block', fontWeight: 'bold', fontSize: 'inherit' }}
                             >
                                 {page}
                             </Button>
@@ -174,10 +174,15 @@ const ResponsiveAppbar = () => {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                <Avatar alt={currentUser.name} src="/static/images/avatar/2.jpg" />
                             </IconButton>
                         </Tooltip>
-                        <ProfileMenu anchorElUser={anchorElUser} handleCloseUserMenu={handleCloseUserMenu} options={settings} />
+                        <ProfileMenu
+                            anchorElUser={anchorElUser}
+                            handleCloseUserMenu={handleCloseUserMenu}
+                            options={settings}
+                            currentUser={currentUser}
+                        />
                     </Box>
                 </Toolbar>
             </Container>

@@ -6,7 +6,7 @@ import {
     ListItemText
 } from "@mui/material";
 
-const ProfileMenu = ({anchorElUser,handleCloseUserMenu,options}) => {
+const ProfileMenu = ({anchorElUser,handleCloseUserMenu,options,currentUser}) => {
     return (
         <Menu
             sx={{ mt: '45px' }}
@@ -26,7 +26,7 @@ const ProfileMenu = ({anchorElUser,handleCloseUserMenu,options}) => {
         >
             {options.map((option) => (
                 <MenuItem key={option} onClick={handleCloseUserMenu}   >
-                    <Typography textAlign="center"  >{option}</Typography>
+                    <Typography textAlign="center" > {option} </Typography>
                 </MenuItem>
             ))}
         </Menu>
