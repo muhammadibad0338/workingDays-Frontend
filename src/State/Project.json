@@ -1,0 +1,40 @@
+{
+    "projects": [
+        {
+            "name": "splitgate",
+            "lead": "Peter Parker",
+            "type": "Service management",
+            "image": "https://splitgate.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10420?size=small"
+        },
+        {
+            "name": "splitgate",
+            "lead": "Peter Parker",
+            "type": "Team Software",
+            "image": "https://splitgate.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10408?size=small"
+        },
+        {
+            "name": "splitgate",
+            "lead": "Peter Parker",
+            "type": "Service management",
+            "image": "https://splitgate.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10420?size=small"
+        },
+        {
+            "name": "splitgate",
+            "lead": "Peter Parker",
+            "type": "Team Software",
+            "image": "https://splitgate.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10408?size=small"
+        },
+        {
+            "name": "splitgate",
+            "lead": "Peter Parker",
+            "type": "Service management",
+            "image": "https://splitgate.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10420?size=small"
+        },
+        {
+            "name": "splitgate",
+            "lead": "Peter Parker",
+            "type": "Service management",
+            "image": "https://splitgate.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10408?size=small"
+        }
+    ]
+}

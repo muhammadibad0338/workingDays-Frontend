@@ -17,13 +17,16 @@ import {
   Button,
   CircularProgress,
   InpuBase,
-  IconButton
+  IconButton,
+  ToggleButtonGroup,
+  ToggleButton
 } from "@mui/material";
 import { styled } from '@mui/system';
 import ContainedBtn from '../../Components/ContainedBtn';
 import { makeStyles, withStyles } from "@mui/styles"
-import ClearIcon from '@mui/icons-material/Clear';
-import SearchIcon from '@mui/icons-material/Search';
+import GridViewIcon from '@mui/icons-material/GridView';
+import ListIcon from '@mui/icons-material/List';
+import SearchBar from '../../Components/SearchBar';
 
 const ProjectHead = styled(Typography)(({ theme }) => ({
   fontSize: '2rem',
@@ -34,30 +37,22 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between'
   },
-  rootSearch: {
-    padding: "2px 4px",
-    display: "flex",
-    alignItems: "center",
-    width: 500,
-    marginBottom: 20,
-    marginTop: 30,
-    [theme.breakpoints.down("md")]: {
-      width: "100%",
-    },
-  },
-  input: {
-    marginLeft: theme.spacing(2),
-    flex: 1,
-  },
-  iconButton: {
-    padding: 10,
-  },
+  alignEnd: {
+    display: 'flex',
+    justifyContent: 'end'
+  }
 }));
 
 
 const Dashboard = ({ currentUser }) => {
   const classes = useStyles();
-  const [showClear, setshowClear] = useState(false);
+
+  //Toggle View
+  const [alignment, setAlignment] = React.useState('gridView');
+  const handleAlignment = (event, newAlignment) => {
+    setAlignment(newAlignment);
+  };
+
   return (
     <>
       <ResponsiveAppbar currentUser={currentUser} />
@@ -69,25 +64,21 @@ const Dashboard = ({ currentUser }) => {
             <ContainedBtn title='Create Project' />
           </Grid>
           <Grid item xs={12} >
-            <Box my={2}>
-              <Paper elevation={2} className={classes.rootSearch}>
-                <InputBase
-                  className={classes.input}
-                  placeholder="Search..."
-                  // value={searchString}
-                  // onChange={(e) => handleSearch(e)}
-                  onKeyPress={e => {
-                    // if (e.charCode === 13) {
-                    //   handleGetData(0, 10)
-                    //   setshowClear(true)
-                    // }
-                  }}
-                />
-                <IconButton className={classes.iconButton} >
-                  {showClear ? <ClearIcon /> : <SearchIcon />}
-                </IconButton>
-              </Paper>
-            </Box>
+            <SearchBar />
+          </Grid>
+          <Grid item xs={12} className={classes.alignEnd} >
+            <ToggleButtonGroup
+              value={alignment}
+              exclusive
+              onChange={handleAlignment}
+            >
+              <ToggleButton value="gridView" aria-label="left aligned" >
+                <GridViewIcon />
+              </ToggleButton>
+              <ToggleButton value="listView" aria-label="left aligned" >
+                <ListIcon />
+              </ToggleButton>
+            </ToggleButtonGroup>
           </Grid>
         </Grid>
       </Container>
