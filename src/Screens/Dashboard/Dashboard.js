@@ -6,18 +6,6 @@ import {
   Typography,
   Grid,
   Container,
-  Hidden,
-  InputBase,
-  Paper,
-  OutlinedInput,
-  FormControl,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  Button,
-  CircularProgress,
-  InpuBase,
-  IconButton,
   ToggleButtonGroup,
   ToggleButton
 } from "@mui/material";
@@ -27,6 +15,8 @@ import { makeStyles, withStyles } from "@mui/styles"
 import GridViewIcon from '@mui/icons-material/GridView';
 import ListIcon from '@mui/icons-material/List';
 import SearchBar from '../../Components/SearchBar';
+import GridView from './Components/GridView';
+import ListView from './Components/ListView';
 
 const ProjectHead = styled(Typography)(({ theme }) => ({
   fontSize: '2rem',
@@ -48,7 +38,7 @@ const Dashboard = ({ currentUser }) => {
   const classes = useStyles();
 
   //Toggle View
-  const [alignment, setAlignment] = React.useState('gridView');
+  const [alignment, setAlignment] = React.useState('listView');
   const handleAlignment = (event, newAlignment) => {
     setAlignment(newAlignment);
   };
@@ -72,13 +62,19 @@ const Dashboard = ({ currentUser }) => {
               exclusive
               onChange={handleAlignment}
             >
-              <ToggleButton value="gridView" aria-label="left aligned" >
-                <GridViewIcon />
-              </ToggleButton>
+
               <ToggleButton value="listView" aria-label="left aligned" >
                 <ListIcon />
               </ToggleButton>
+              <ToggleButton value="gridView" aria-label="left aligned" >
+                <GridViewIcon />
+              </ToggleButton>
             </ToggleButtonGroup>
+          </Grid>
+          <Grid item xs={12} >
+            {
+              alignment === "gridView" ? <GridView /> : <ListView />
+            }
           </Grid>
         </Grid>
       </Container>
