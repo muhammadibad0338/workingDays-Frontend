@@ -71,7 +71,7 @@ const Dashboard = ({ currentUser }) => {
               </ToggleButton>
             </ToggleButtonGroup>
           </Grid>
-          <Grid item xs={12} >
+          <Grid item xs={12} mt={4} >
             {
               alignment === "gridView" ? <GridView /> : <ListView />
             }
