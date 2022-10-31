@@ -1,10 +1,14 @@
 import React from 'react'
 import { connect } from "react-redux";
+import ResponsiveAppbar from '../../Components/ResponsiveAppbar';
 
 
-const Dashboard = ({currentUser}) => {
+const Dashboard = ({ currentUser }) => {
   return (
-    <div>Welcome {currentUser?.name}</div>
+    <>
+      <ResponsiveAppbar />
+      <div>Welcome {currentUser?.name}</div>
+    </>
   )
 }
 
