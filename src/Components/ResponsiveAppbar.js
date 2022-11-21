@@ -67,7 +67,7 @@ const ResponsiveAppbar = ({ currentUser }) => {
         localStorage.clear();
         navigate('/login')
     } 
-    const settings = [{name:'Profile' }, {name: 'Account'}, {name:'Dashboard'}, {name: 'Logout',fncn: logout }];
+    const settings = [{name:'Profile' }, {name: 'Logout',fncn: logout }];
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -182,7 +182,7 @@ const ResponsiveAppbar = ({ currentUser }) => {
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
+                        <Tooltip title="Profile Menu">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar alt={currentUser.name} src="/static/images/avatar/2.jpg" />
                             </IconButton>
