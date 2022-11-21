@@ -45,7 +45,7 @@ const Dashboard = ({ currentUser }) => {
 
   return (
     <>
-      <ResponsiveAppbar currentUser={currentUser} />
+      {/* <ResponsiveAppbar currentUser={currentUser} /> */}
       {/* <div>Welcome {currentUser?.name}</div> */}
       <Container maxWidth='fl' >
         <Grid container >

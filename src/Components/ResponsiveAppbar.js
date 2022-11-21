@@ -28,7 +28,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { makeStyles, withStyles } from "@mui/styles"
-import { Link,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 //Components
 import ProfileMenu from './ProfileMenu';
@@ -52,7 +52,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const pages = ['Your Work', 'Team', 'Pricing', 'Blog'];
+const pages = [
+    {
+        title: 'Your Work',
+        path: "/"
+    },
+    {
+        title: 'Team',
+        path: "/team"
+    },
+    {
+        title: 'Pricing',
+        path: "/"
+    },
+    ];
 
 
 const ResponsiveAppbar = ({ currentUser }) => {
@@ -62,12 +75,12 @@ const ResponsiveAppbar = ({ currentUser }) => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     let navigate = useNavigate();
-    
-    const logout = () =>{
+
+    const logout = () => {
         localStorage.clear();
         navigate('/login')
-    } 
-    const settings = [{name:'Profile' }, {name: 'Logout',fncn: logout }];
+    }
+    const settings = [{ name: 'Profile' }, { name: 'Logout', fncn: logout }];
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -87,7 +100,7 @@ const ResponsiveAppbar = ({ currentUser }) => {
     };
 
     return (
-        <AppBar position="sticky" style={{ backgroundColor: '#5800FF'}} >
+        <AppBar position="sticky" style={{ backgroundColor: '#5800FF' }} >
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -140,8 +153,11 @@ const ResponsiveAppbar = ({ currentUser }) => {
                             }}
                         >
                             {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center"  >{page}</Typography>
+                                <MenuItem key={page} onClick={() =>{
+                                    navigate(`${page.path}`)
+                                    handleCloseNavMenu()
+                                }}>
+                                    <Typography textAlign="center"  >{page.title}</Typography>
 
                                 </MenuItem>
                             ))}
@@ -172,11 +188,15 @@ const ResponsiveAppbar = ({ currentUser }) => {
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
                             <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2,mx:1, color: 'white', display: 'block', fontWeight: 'bold', fontSize: 'inherit' }}
+                                key={page.title}
+                                // onClick={handleCloseNavMenu}
+                                onClick={() =>{
+                                    navigate(`${page.path}`)
+                                    handleCloseNavMenu()
+                                }}
+                                sx={{ my: 2, mx: 1, color: 'white', display: 'block', fontWeight: 'bold', fontSize: 'inherit' }}
                             >
-                                {page}
+                                {page.title }
                             </Button>
                         ))}
                     </Box>

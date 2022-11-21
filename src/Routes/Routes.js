@@ -7,6 +7,7 @@ import ProtectedRoutes from './ProtectedRoutes';
 import Dashboard from '../Screens/Dashboard/Dashboard';
 import Login from '../Screens/Login/Login';
 import Signup from '../Screens/Signup/Signup';
+import Team from '../Screens/Team/Team';
 
 
 
@@ -24,12 +25,17 @@ const routesArr = [
         path: "/signup",
         Component: Signup,
     },
+    {
+        path: "/team",
+        Component: Team ,
+    },
 ]
 const AuthRoutesArr = [
     {
         path: "/",
         Component: Dashboard,
     },
+    
 ]
 
 
