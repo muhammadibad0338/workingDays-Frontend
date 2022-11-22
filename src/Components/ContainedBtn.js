@@ -13,6 +13,7 @@ const Btn = styled(Button)(({ theme }) => ({
     padding:'10px 25px',
     borderRadius:'10px',
     fontWeight:'bold',
+    height:'48px',
     '&:hover':{
         transition: '0.2 s',
         background: '#0096FF',

@@ -17,6 +17,7 @@ import ListIcon from '@mui/icons-material/List';
 import SearchBar from '../../Components/SearchBar';
 import GridView from './Components/GridView';
 import ListView from './Components/ListView';
+import HeadingOne from '../../Components/HeadingOne';
 
 const ProjectHead = styled(Typography)(({ theme }) => ({
   fontSize: '2rem',
@@ -50,7 +51,7 @@ const Dashboard = ({ currentUser }) => {
       <Container maxWidth='fl' >
         <Grid container >
           <Grid item xs={12} mt={4} className={classes.spaceBtwn} >
-            <ProjectHead  >Projects</ProjectHead>
+            <HeadingOne title="Projects" />
             <ContainedBtn title='Create Project' />
           </Grid>
           <Grid item xs={12} >
