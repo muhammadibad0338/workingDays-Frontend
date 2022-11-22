@@ -29,6 +29,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { makeStyles, withStyles } from "@mui/styles"
 import { Link, useNavigate } from 'react-router-dom';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
 //Components
 import ProfileMenu from './ProfileMenu';
@@ -65,7 +66,7 @@ const pages = [
         title: 'Pricing',
         path: "/"
     },
-    ];
+];
 
 
 const ResponsiveAppbar = ({ currentUser }) => {
@@ -153,7 +154,7 @@ const ResponsiveAppbar = ({ currentUser }) => {
                             }}
                         >
                             {pages.map((page) => (
-                                <MenuItem key={page} onClick={() =>{
+                                <MenuItem key={page} onClick={() => {
                                     navigate(`${page.path}`)
                                     handleCloseNavMenu()
                                 }}>
@@ -190,18 +191,23 @@ const ResponsiveAppbar = ({ currentUser }) => {
                             <Button
                                 key={page.title}
                                 // onClick={handleCloseNavMenu}
-                                onClick={() =>{
+                                onClick={() => {
                                     navigate(`${page.path}`)
                                     handleCloseNavMenu()
                                 }}
                                 sx={{ my: 2, mx: 1, color: 'white', display: 'block', fontWeight: 'bold', fontSize: 'inherit' }}
                             >
-                                {page.title }
+                                {page.title}
                             </Button>
                         ))}
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
+                        <Tooltip title="Profile Menu">
+                            <IconButton onClick={handleOpenUserMenu} sx={{ pr: 2 }}>
+                                <PeopleAltIcon style={{color:'white'}} fontSize='medium' />
+                            </IconButton>
+                        </Tooltip>
                         <Tooltip title="Profile Menu">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar alt={currentUser.name} src="/static/images/avatar/2.jpg" />
