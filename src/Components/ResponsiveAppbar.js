@@ -30,9 +30,12 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { makeStyles, withStyles } from "@mui/styles"
 import { Link, useNavigate } from 'react-router-dom';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 //Components
 import ProfileMenu from './ProfileMenu';
+import CustomDrawer from './CustomDrawer';
+import Notification from '../Screens/Notification/Notification';
 
 // styling
 const useStyles = makeStyles((theme) => ({
@@ -75,6 +78,8 @@ const ResponsiveAppbar = ({ currentUser }) => {
     //state
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
+
     let navigate = useNavigate();
 
     const logout = () => {
@@ -100,28 +105,14 @@ const ResponsiveAppbar = ({ currentUser }) => {
         // navigate('/login')
     };
 
+    const toggleNotificationDrawer = () => {
+        setIsDrawerOpen(!isDrawerOpen)
+    }
+
     return (
         <AppBar position="sticky" style={{ backgroundColor: '#5800FF' }} >
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="a"
-                        href="/"
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        LOGO
-                    </Typography> */}
 
                     <img src={Logo} className={classes.mdUpLogo} />
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -165,27 +156,6 @@ const ResponsiveAppbar = ({ currentUser }) => {
                         </Menu>
                         <img src={Logo} />
                     </Box>
-
-                    {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href=""
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'flex', md: 'none' },
-                            flexGrow: 1,
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        LOGO
-                    </Typography> */}
-                    {/* <img src={Logo} className={classes.mdDownLogo} /> */}
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
                             <Button
@@ -204,10 +174,13 @@ const ResponsiveAppbar = ({ currentUser }) => {
 
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Profile Menu">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ pr: 2 }}>
-                                <PeopleAltIcon style={{color:'white'}} fontSize='medium' />
+                            <IconButton onClick={toggleNotificationDrawer} sx={{ pr: 2 }}>
+                                <NotificationsIcon style={{ color: 'white' }} fontSize='medium' />
                             </IconButton>
                         </Tooltip>
+                        <CustomDrawer isDrawerOpen={isDrawerOpen} toggleDrawer={toggleNotificationDrawer} drawerAnchor='right'   >
+                           <Notification toggleNotificationDrawer={toggleNotificationDrawer} />
+                        </CustomDrawer>
                         <Tooltip title="Profile Menu">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar alt={currentUser.name} src="/static/images/avatar/2.jpg" />

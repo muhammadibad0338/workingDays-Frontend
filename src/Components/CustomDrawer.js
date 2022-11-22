@@ -1,15 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {
-    Grid,
-    Box,
-    Typography,
     Drawer,
-    CircularProgress,
-    Button
 } from "@mui/material";
-import { styled } from '@mui/system';
 import { makeStyles } from "@mui/styles";
-import CloseIcon from '@mui/icons-material/Close';
 
 const useStyles = makeStyles((theme) => ({
     closeIconBtnCntnr: {
@@ -27,11 +20,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const CustomDrawer = ({ children, isDrawerOpen, toggleDrawer, drawerAnchor, drawerVariant }) => {
+const CustomDrawer = (props) => {
     const classes = useStyles();
+    const { children, isDrawerOpen, toggleDrawer, drawerAnchor, drawerVariant } = props;
     return (
         <Drawer
             anchor={drawerAnchor}
+            // anchor='right'
             variant={drawerVariant}
             open={isDrawerOpen}
             onClose={toggleDrawer}
