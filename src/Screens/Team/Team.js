@@ -67,7 +67,7 @@ const Team = () => {
             <Container maxWidth='fl' >
                 <Grid container >
                     <Grid item xs={12} mt={4} className={classes.stickyBox} >
-                        <Box className={classes.spaceBtwn} >
+                        <Box pt={1} className={classes.spaceBtwn} >
                             <Box>
                                 <HeadingOne title="Team" />
                                 <Typography>30 Team Members</Typography>
