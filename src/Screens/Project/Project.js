@@ -159,6 +159,7 @@ const openedMixin = (theme) => ({
         duration: theme.transitions.duration.enteringScreen,
     }),
     overflowX: 'hidden',
+    marginTop:"72px"
 });
 
 const closedMixin = (theme) => ({
@@ -171,6 +172,7 @@ const closedMixin = (theme) => ({
     [theme.breakpoints.up('sm')]: {
         width: `calc(${theme.spacing(8)} + 1px)`,
     },
+    marginTop:"72px"
 });
 
 
@@ -209,7 +211,7 @@ export default function MiniDrawer() {
         <Box sx={{ display: 'flex' }}>
             {/* <CssBaseline /> */}
 
-            <Drawer variant="permanent" open={!open}>
+            <Drawer variant="permanent" open={!open}  >
                 <Divider />
                 <List>
                     {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
@@ -262,7 +264,7 @@ export default function MiniDrawer() {
                 </List>
             </Drawer>
             <Box component="main" sx={{ flexGrow: 1, p: 1 }}>
-                <Button  onClick={() => setOpen(!open)} >toggle</Button>
+                <Button onClick={() => setOpen(!open)} >toggle</Button>
 
             </Box>
         </Box>
