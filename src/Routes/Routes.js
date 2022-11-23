@@ -8,6 +8,7 @@ import Dashboard from '../Screens/Dashboard/Dashboard';
 import Login from '../Screens/Login/Login';
 import Signup from '../Screens/Signup/Signup';
 import Team from '../Screens/Team/Team';
+import Project from '../Screens/Project/Project';
 
 
 
@@ -28,6 +29,10 @@ const routesArr = [
     {
         path: "/team",
         Component: Team ,
+    },
+    {
+        path: "/project/borad/:id",
+        Component: Project ,
     },
 ]
 const AuthRoutesArr = [
