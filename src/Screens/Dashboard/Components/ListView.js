@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { styled } from '@mui/system';
 import { makeStyles, withStyles } from "@mui/styles";
+import { Link, useNavigate } from 'react-router-dom';
 import State from "../../../State/Project.json"
 
 const useStyles = makeStyles((theme) => ({
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
         fontFamily: "inherit",
     },
     tableRow: {
+        cursor:'pointer',
         "&:hover": {
             color: "#09926E",
             backgroundColor: "#f5f5f5",
@@ -45,12 +47,12 @@ const useStyles = makeStyles((theme) => ({
     tableCellBody: {
         textAlign: "left",
     },
-    select:{
+    select: {
         border: '1px solid #ced4da',
         borderRadius: 4,
-        outline:'none',
+        outline: 'none',
         padding: '5px',
-        outline:'none',
+        outline: 'none',
         '&:focus': {
             borderRadius: 4,
             borderColor: '#80bdff',
@@ -66,7 +68,7 @@ const BootstrapInput = withStyles((theme) => ({
         },
     },
     input: {
-        
+
         borderRadius: "10px",
         marginTop: "5px",
         position: 'relative',
@@ -98,6 +100,11 @@ const BootstrapInput = withStyles((theme) => ({
 
 const ListView = () => {
     const classes = useStyles();
+    let navigate = useNavigate();
+
+    const navigateToProjectBoard = (ind) => {
+        navigate(`/project/board/${ind}`)
+    }
     return (
         <>
             <TableContainer className={classes.tableContainer}>
@@ -116,7 +123,7 @@ const ListView = () => {
                         {
                             State.projects.map((project, ind) => {
                                 return (
-                                    <TableRow key={ind} className={classes.tableRow} >
+                                    <TableRow key={ind} className={classes.tableRow} onClick={() => navigateToProjectBoard(ind)} >
                                         <TableCell className={classes.tableCellBody} >{ind + 1}</TableCell>
                                         <TableCell className={classes.tableCellBody}  > <img className={classes.iconImg} src={project.image} alt="Icon" /> {project.name} </TableCell>
                                         <TableCell className={classes.tableCellBody} > {project.type} </TableCell>

@@ -31,7 +31,7 @@ const routesArr = [
         Component: Team ,
     },
     {
-        path: "/project/borad/:id",
+        path: "/project/board/:id",
         Component: Project ,
     },
 ]
