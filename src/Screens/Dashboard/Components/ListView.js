@@ -103,7 +103,7 @@ const ListView = () => {
     let navigate = useNavigate();
 
     const navigateToProjectBoard = (ind) => {
-        navigate(`/project/board/${ind}`)
+        navigate(`/board/${ind}`)
     }
     return (
         <>
