@@ -24,6 +24,8 @@ import State from "../../../State/Project.json"
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import SettingsIcon from '@mui/icons-material/Settings';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 const drawerWidth = 230;
 
@@ -34,6 +36,16 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: '2px',
         marginRight: '15px'
     },
+    iconButton: {
+        width: '30px',
+        height: '30px'
+    },
+    iconButtonCntnr: {
+        display: 'flex',
+        alignItems: 'flex-end',
+        justifyContent: 'end',
+        // backgroundColor:'red'
+    }
 }));
 
 
@@ -109,12 +121,19 @@ export default function MiniDrawer({ Component }) {
     ]
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box
+         sx={{ display: '-webkit-box', }} 
+         >
             {/* <CssBaseline /> */}
 
             <Drawer variant="permanent" open={!open}  >
                 {/* <Divider /> */}
-                <Box px={3} py={3} style={{ display: 'flex' }} >
+                <Box py={1} className={classes.iconButtonCntnr} >
+                    <IconButton className={classes.iconButton} onClick={() => setOpen(!open)} >
+                        {open ? <KeyboardArrowRightIcon /> : <KeyboardArrowLeftIcon />}
+                    </IconButton>
+                </Box>
+                <Box px={3} style={{ display: 'flex' }} >
                     <img src={State.projects[0].image} className={classes.projectIcon} />
                     <div>
                         <Typography>Splitgate</Typography>
@@ -147,8 +166,9 @@ export default function MiniDrawer({ Component }) {
                     ))}
                 </List>
             </Drawer>
-            <Box component="main" sx={{ flexGrow: 1, p: 1 }}>
-                <Button onClick={() => setOpen(!open)} >toggle</Button>
+            <Box 
+            sx={{ flexGrow: 1, p: 1 }}
+            >
                 <Component />
             </Box>
         </Box>

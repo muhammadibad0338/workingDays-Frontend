@@ -24,8 +24,10 @@ import State from "../../State/Project.json"
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { Link, useNavigate } from 'react-router-dom';
+import Model from './Components/Model';
 
-const drawerWidth = 230;
+
 
 const useStyles = makeStyles((theme) => ({
     projectIcon: {
@@ -34,85 +36,53 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: '2px',
         marginRight: '15px'
     },
+    mainHead: {
+        textTransform: 'uppercase',
+        margin: '20px 0px !important'
+    },
+    modelCntnr: {
+        display: 'flex',
+        flexFlow: 'row nowrap',
+        position: 'sticky',
+        width: 'auto',
+        height: '100%',
+        overflow: 'auto !important',
+        flex: '1 1 0%',
+    }
 }));
 
 
-const openedMixin = (theme) => ({
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-    }),
-    overflowX: 'hidden',
-    marginTop: "72px"
-});
 
-const closedMixin = (theme) => ({
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: `calc(${theme.spacing(7)} + 1px)`,
-    [theme.breakpoints.up('sm')]: {
-        width: `calc(${theme.spacing(8)} + 1px)`,
-    },
-    marginTop: "72px"
-});
+const AgileCntnr = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexFlow: 'row nowrap',
+    position: 'sticky',
+    width: 'auto',
+    height: '100%',
+    overflow: 'auto !important',
+    whiteSpace:'nowrap',
+    flex: '1 1 0%',
+}));
 
 
-
-
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
-        width: drawerWidth,
-        flexShrink: 0,
-        whiteSpace: 'nowrap',
-        boxSizing: 'border-box',
-        ...(open && {
-            ...openedMixin(theme),
-            '& .MuiDrawer-paper': openedMixin(theme),
-        }),
-        ...(!open && {
-            ...closedMixin(theme),
-            '& .MuiDrawer-paper': closedMixin(theme),
-        }),
-    }),
-);
 
 export default function MiniDrawer() {
     const theme = useTheme();
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
-
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
-
-    let drawerRoutes = [
-        {
-            name : 'Board',
-            Icon : LeaderboardIcon,
-        },
-        {
-            name : 'Project Tree',
-            Icon : AccountTreeIcon
-        },
-        {
-            name : 'Project Setting',
-            Icon : SettingsIcon
-        }
-    ]
+    let navigate = useNavigate();
 
     return (
-        <Box sx={{ display: 'flex' }}>
-            {/* <CssBaseline /> */}
-
-            <Typography>Project Screen</Typography>
+        <Box p={3} >
+            <Typography> <Link to='/' style={{ textDecoration: 'none' }} >Projects / </Link> Splitgate </Typography>
+            <Typography variant='h5' className={classes.mainHead} >Splitgate Board</Typography>
+            <AgileCntnr  >
+                <Model modelHeading='Requirments' />
+                <Model modelHeading='Design' />
+                <Model modelHeading='develop' />
+                <Model modelHeading='test' />
+                <Model modelHeading='deploy' />
+                <Model modelHeading='maintenance' />
+            </AgileCntnr>
         </Box>
     );
 }
