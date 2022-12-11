@@ -10,6 +10,7 @@ import Signup from '../Screens/Signup/Signup';
 import Team from '../Screens/Team/Team';
 import Project from '../Screens/Project/Project';
 import Board from '../Screens/Project/Components/Board';
+import ProjectTree from '../Screens/ProjectTree/ProjectTree';
 
 
 
@@ -45,6 +46,11 @@ const routesArr = [
                 Component: Board
             }
         ]
+    },
+    {
+        path: "/project/:id/tree",
+        Component: ProjectTree ,
+        projectDrawer : true,
     },
 ]
 const AuthRoutesArr = [
