@@ -20,7 +20,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { makeStyles, withStyles } from "@mui/styles";
-import State from "../../State/Project.json"
+import State from "../../../State/Project.json"
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -80,7 +80,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-export default function MiniDrawer() {
+export default function MiniDrawer({ Component }) {
     const theme = useTheme();
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
@@ -95,16 +95,16 @@ export default function MiniDrawer() {
 
     let drawerRoutes = [
         {
-            name : 'Board',
-            Icon : LeaderboardIcon,
+            name: 'Board',
+            Icon: LeaderboardIcon,
         },
         {
-            name : 'Project Tree',
-            Icon : AccountTreeIcon
+            name: 'Project Tree',
+            Icon: AccountTreeIcon
         },
         {
-            name : 'Project Setting',
-            Icon : SettingsIcon
+            name: 'Project Setting',
+            Icon: SettingsIcon
         }
     ]
 
@@ -112,7 +112,45 @@ export default function MiniDrawer() {
         <Box sx={{ display: 'flex' }}>
             {/* <CssBaseline /> */}
 
-            <Typography>Project Screen</Typography>
+            <Drawer variant="permanent" open={!open}  >
+                {/* <Divider /> */}
+                <Box px={3} py={3} style={{ display: 'flex' }} >
+                    <img src={State.projects[0].image} className={classes.projectIcon} />
+                    <div>
+                        <Typography>Splitgate</Typography>
+                        <span style={{ fontSize: '12px' }} >Software project</span>
+                    </div>
+                </Box>
+                <Divider />
+                <List>
+                    {drawerRoutes.map(({ name, Icon }, index) => (
+                        <ListItem key={name} disablePadding sx={{ display: 'block' }}>
+                            <ListItemButton
+                                sx={{
+                                    minHeight: 48,
+                                    justifyContent: open ? 'initial' : 'center',
+                                    px: 2.5,
+                                }}
+                            >
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: !open ? 3 : 'auto',
+                                        justifyContent: 'center',
+                                    }}
+                                >
+                                    <Icon />
+                                </ListItemIcon>
+                                <ListItemText primary={name} sx={{ opacity: !open ? 1 : 0 }} />
+                            </ListItemButton>
+                        </ListItem>
+                    ))}
+                </List>
+            </Drawer>
+            <Box component="main" sx={{ flexGrow: 1, p: 1 }}>
+                <Button onClick={() => setOpen(!open)} >toggle</Button>
+                <Component />
+            </Box>
         </Box>
     );
 }
