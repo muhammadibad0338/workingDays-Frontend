@@ -11,6 +11,7 @@ import Team from '../Screens/Team/Team';
 import Project from '../Screens/Project/Project';
 import Board from '../Screens/Project/Components/Board';
 import ProjectTree from '../Screens/ProjectTree/ProjectTree';
+import Profile from '../Screens/Profile/Profile';
 
 
 
@@ -34,6 +35,11 @@ const routesArr = [
     {
         path: "/team",
         Component: Team,
+        projectDrawer : false
+    },
+    {
+        path: "/profile",
+        Component: Profile,
         projectDrawer : false
     },
     {

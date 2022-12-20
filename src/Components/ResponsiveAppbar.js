@@ -86,7 +86,10 @@ const ResponsiveAppbar = ({ currentUser }) => {
         localStorage.clear();
         navigate('/login')
     }
-    const settings = [{ name: 'Profile' }, { name: 'Logout', fncn: logout }];
+    const gotoProfile = () =>{
+        navigate('/profile')
+    }
+    const settings = [{ name: 'Profile',fncn:gotoProfile }, { name: 'Logout', fncn: logout }];
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
