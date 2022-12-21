@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const SearchBar = () => {
+const SearchBar = (props) => {
     const classes = useStyles();
     const [showClear, setshowClear] = useState(false);
     return (
@@ -60,6 +60,7 @@ const SearchBar = () => {
                         //   setshowClear(true)
                         // }
                     }}
+                    {...props}
                 />
                 <IconButton className={classes.iconButton} >
                     {showClear ? <ClearIcon /> : <SearchIcon />}
