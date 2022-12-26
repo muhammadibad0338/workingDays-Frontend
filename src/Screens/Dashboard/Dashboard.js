@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from "react-redux";
 import ResponsiveAppbar from '../../Components/ResponsiveAppbar';
 import {
@@ -22,6 +22,7 @@ import GridView from './Components/GridView';
 import ListView from './Components/ListView';
 import HeadingOne from '../../Components/HeadingOne';
 import FullScreenDialog from '../../Components/Dialog';
+import { getUserProjects,createProject } from '../../Redux/Project/ProjectAction';
 
 const ProjectHead = styled(Typography)(({ theme }) => ({
   fontSize: '2rem',
@@ -50,15 +51,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Dashboard = ({ currentUser }) => {
+const Dashboard = ({ currentUser, getUserProjects, userProjects,createProject }) => {
   const classes = useStyles();
+  const uid = localStorage.getItem('uid')
   const [isDialogOpen, setisDialogOpen] = useState(false)
+  const [credentials, setcredentials] = useState({
+    name: "",
+    description: "",
+    icon: "https://splitgate.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10420?size=small",
+    employees:[uid],
+    user: {
+      ...currentUser
+    }
+  })
 
   //Toggle View
   const [alignment, setAlignment] = React.useState('listView');
   const handleAlignment = (event, newAlignment) => {
     setAlignment(newAlignment);
   };
+
+  useEffect(() => {
+    const uid = localStorage.getItem('uid')
+    getUserProjects(uid)
+  }, [])
+
+
+  const createUserProject=() =>{
+    const uid = localStorage.getItem('uid')
+    createProject(credentials,uid)
+  }
 
   return (
     <>
@@ -68,7 +90,7 @@ const Dashboard = ({ currentUser }) => {
         <Grid container >
           <Grid item xs={12} mt={4} className={classes.spaceBtwn} >
             <HeadingOne title="Projects" />
-            <ContainedBtn title='Create Project' onClick={() => setisDialogOpen(true)} />
+            {currentUser.role === "softwareCompany" && <ContainedBtn title='Create Project' onClick={() => setisDialogOpen(true)} />}
           </Grid>
           <Grid item xs={12} >
             <SearchBar />
@@ -116,13 +138,13 @@ const Dashboard = ({ currentUser }) => {
                 style={{ width: "100%" }}
                 placeholder="Project Name"
                 type="text"
-              // value={currentUser?.email}
-              // onChange={(e) => {
-              //   setcredentials({
-              //     ...credentials,
-              //     price: e.target.value,
-              //   });
-              // }}
+                // value={currentUser?.email}
+                onChange={(e) => {
+                  setcredentials({
+                    ...credentials,
+                    name: e.target.value,
+                  });
+                }}
               />
             </Box>
             <Box my={3} style={{ width: "100%" }}>
@@ -139,16 +161,16 @@ const Dashboard = ({ currentUser }) => {
                 placeholder="Description"
                 type="text"
               // value={currentUser?.email}
-              // onChange={(e) => {
-              //   setcredentials({
-              //     ...credentials,
-              //     price: e.target.value,
-              //   });
-              // }}
+              onChange={(e) => {
+                setcredentials({
+                  ...credentials,
+                  description: e.target.value,
+                });
+              }}
               />
             </Box>
             <Box mt={1} className={classes.alignEndDialogBtn} >
-              <ContainedBtn title="Create" />
+              <ContainedBtn title="Create" onClick={createUserProject} />
             </Box>
           </Box>
 
@@ -161,11 +183,14 @@ const Dashboard = ({ currentUser }) => {
 //Redux Action
 const mapStateToProps = (store) => ({
   reduxLoading: store.user.loading,
-  currentUser: store.user.user
+  currentUser: store.user.user,
+  userProjects: store.project.projects
 });
 
 
 const mapDispatchToProps = (dispatch) => ({
+  getUserProjects: (id) => dispatch(getUserProjects(id)),
+  createProject: (data,id) => dispatch(createProject(data,id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

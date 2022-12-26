@@ -19,6 +19,7 @@ import { styled } from '@mui/system';
 import { makeStyles, withStyles } from "@mui/styles";
 import { Link, useNavigate } from 'react-router-dom';
 import State from "../../../State/Project.json"
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     iconImg: {
@@ -98,7 +99,7 @@ const BootstrapInput = withStyles((theme) => ({
     },
 }))(InputBase);
 
-const ListView = () => {
+const ListView = ({userProjects}) => {
     const classes = useStyles();
     let navigate = useNavigate();
 
@@ -121,13 +122,13 @@ const ListView = () => {
                     </TableHead>
                     <TableBody>
                         {
-                            State.projects.map((project, ind) => {
+                            userProjects.map((project, ind) => {
                                 return (
                                     <TableRow key={ind} className={classes.tableRow} onClick={() => navigateToProjectBoard(ind)} >
                                         <TableCell className={classes.tableCellBody} >{ind + 1}</TableCell>
-                                        <TableCell className={classes.tableCellBody}  > <img className={classes.iconImg} src={project.image} alt="Icon" /> {project.name} </TableCell>
-                                        <TableCell className={classes.tableCellBody} > {project.type} </TableCell>
-                                        <TableCell className={classes.tableCellBody} > {project.lead} </TableCell>
+                                        <TableCell className={classes.tableCellBody}  > <img className={classes.iconImg} src={project.icon} alt="Icon" /> {project.name} </TableCell>
+                                        <TableCell className={classes.tableCellBody} > {project.description} </TableCell>
+                                        <TableCell className={classes.tableCellBody} > Service management </TableCell>
                                         <TableCell className={classes.tableCellBody} >
                                             <NativeSelect
                                                 key={ind}
@@ -151,4 +152,15 @@ const ListView = () => {
     )
 }
 
-export default ListView
+//Redux Action
+const mapStateToProps = (store) => ({
+    reduxLoading: store.user.loading,
+    currentUser: store.user.user,
+    userProjects: store.project.projects
+  });
+  
+  
+  const mapDispatchToProps = (dispatch) => ({
+  });
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(ListView);

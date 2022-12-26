@@ -5,3 +5,6 @@
   /* overflow-y: auto; */
 }
 
+.swal2-container {
+  z-index: 1301 !important;
+}
