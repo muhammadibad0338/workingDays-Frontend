@@ -5,7 +5,8 @@ import {
     SET_LOADING,
     SET_LOGOUT,
     SET_USER,
-    SET_TOKEN
+    SET_TOKEN,
+    SEARCH_USER
 } from "./UserTypes";
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
     authToken: "",
     passwordOtp: "",
     users: [],
+    searchUser: []
 };
 
 const userReducer = (state = initialState, action) => {
@@ -31,6 +33,11 @@ const userReducer = (state = initialState, action) => {
                 logged: true,
                 loading: false,
             };
+        case SEARCH_USER:
+            return {
+                ...state,
+                searchUser: payload
+            }
         case SET_LOGOUT:
             return {
                 ...state,

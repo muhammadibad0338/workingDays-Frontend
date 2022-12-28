@@ -126,8 +126,8 @@ const ListView = ({userProjects}) => {
                                 return (
                                     <TableRow key={ind} className={classes.tableRow} onClick={() => navigateToProjectBoard(ind)} >
                                         <TableCell className={classes.tableCellBody} >{ind + 1}</TableCell>
-                                        <TableCell className={classes.tableCellBody}  > <img className={classes.iconImg} src={project.icon} alt="Icon" /> {project.name} </TableCell>
-                                        <TableCell className={classes.tableCellBody} > {project.description} </TableCell>
+                                        <TableCell className={classes.tableCellBody}  > <img className={classes.iconImg} src={project?.icon} alt="Icon" /> {project?.name} </TableCell>
+                                        <TableCell className={classes.tableCellBody} > {project?.description} </TableCell>
                                         <TableCell className={classes.tableCellBody} > Service management </TableCell>
                                         <TableCell className={classes.tableCellBody} >
                                             <NativeSelect

@@ -5,7 +5,8 @@ import {
     SET_LOADING,
     SET_LOGOUT,
     SET_USER,
-    SET_TOKEN
+    SET_TOKEN,
+    SEARCH_USER
 } from "./UserTypes";
 import Swal from "sweetalert2";
 
@@ -22,6 +23,13 @@ export const setLoading = (loading) => {
         payload: loading,
     };
 };
+
+export const setSearchUser = (user) =>{
+    return{
+        type:SEARCH_USER,
+        payload:user
+    }
+}
 
 export const setError = (error) => {
     return {
@@ -138,6 +146,30 @@ export const getCurrentUser = (id) => async (dispatch) => {
         icon: "error",
         title: "Working Days",
         html: `<strong><font color="black">Something went wrong while getting your Profile</font></strong>`,
+      });
+      dispatch(setLoading(false));
+      dispatch(setError(err));
+    //   console.log(err,"getCurrentUser")
+    }
+  };
+
+  export const getSearchUsers = (key) => async (dispatch) => {
+    try {
+      dispatch(setLoading(true));
+      let res = await axios({
+        method: "GET",
+        url: `${baseUrl}/auth/searchUser/${key}`,
+      });
+      await dispatch(setSearchUser(res?.data))
+      dispatch(setLoading(false));
+    } catch (err) {
+      Swal.fire({
+        customClass: {
+          container: `my-swal`,
+        },
+        icon: "error",
+        title: "Working Days",
+        html: `<strong><font color="black">Something went wrong while Searching for Users </font></strong>`,
       });
       dispatch(setLoading(false));
       dispatch(setError(err));

@@ -32,10 +32,10 @@ const GridView = ({userProjects}) => {
           userProjects.map((project, ind) => {
             return (
               <div className={classes.mainCntntr} key={ind} >
-                <img src={project.icon} style={{ height: '35%', width: '100%', borderRadius: '5px', marginTop: '5px' }} />
+                <img src={project?.icon} style={{ height: '35%', width: '100%', borderRadius: '5px', marginTop: '5px' }} />
                 <div style={{display:'flex',flexDirection:"column",justifyContent:'space-between'}} >
-                  <Typography variant='h5' style={{ textTransform: 'uppercase', color: '#5800FF', fontWeight: 'bold', margin: '5px 0px', letterSpacing: '2px' }} > {project.name} </Typography>
-                  <Typography variant='h6' style={{ textTransform: 'uppercase', color: '#5800FF', fontWeight: 'bold', margin: '5px 0px' }} >DESC : {project.description} </Typography>
+                  <Typography variant='h5' style={{ textTransform: 'uppercase', color: '#5800FF', fontWeight: 'bold', margin: '5px 0px', letterSpacing: '2px' }} > {project?.name} </Typography>
+                  <Typography variant='h6' style={{ textTransform: 'uppercase', color: '#5800FF', fontWeight: 'bold', margin: '5px 0px' }} >DESC : {project?.description} </Typography>
                   <Typography variant='h6' style={{ textTransform: 'uppercase', color: '#5800FF', fontWeight: 'bold', margin: '5px 0px' }} > Service management </Typography>
                 </div>
               </div>
