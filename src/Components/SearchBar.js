@@ -43,9 +43,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const SearchBar = (props) => {
+const SearchBar = ({showClear,btnClickHandler,reduxUserLoading,...props}) => {
     const classes = useStyles();
-    const [showClear, setshowClear] = useState(false);
+    // const [showClear, setshowClear] = useState(false);
     return (
         <Box my={2}>
             <Paper elevation={2} className={classes.rootSearch}>
@@ -54,16 +54,18 @@ const SearchBar = (props) => {
                     placeholder="Search..."
                     // value={searchString}
                     // onChange={(e) => handleSearch(e)}
-                    onKeyPress={e => {
+                    // onKeyPress={e => {
                         // if (e.charCode === 13) {
                         //   handleGetData(0, 10)
                         //   setshowClear(true)
                         // }
-                    }}
+                    // }}
                     {...props}
+                    disabled={reduxUserLoading}
                 />
-                <IconButton className={classes.iconButton} >
-                    {showClear ? <ClearIcon /> : <SearchIcon />}
+                <IconButton className={classes.iconButton} onClick={btnClickHandler} >
+                    {/* {showClear ? <ClearIcon /> : <SearchIcon />} */}
+                    <SearchIcon/>
                 </IconButton>
             </Paper>
         </Box>

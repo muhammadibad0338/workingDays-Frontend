@@ -23,6 +23,9 @@ import AddIcon from '@mui/icons-material/Add';
 import State from "../../State/Team.json"
 import FullScreenDialog from '../../Components/Dialog';
 import CloseIcon from '@mui/icons-material/Close';
+import AddTeamMembers from './Components/AddTeamMembers';
+import { connect } from "react-redux";
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -58,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Team = () => {
+const Team = ({currentUser}) => {
     const classes = useStyles();
     const [isDialogOpen, setisDialogOpen] = useState(false)
 
@@ -72,7 +75,7 @@ const Team = () => {
                                 <HeadingOne title="Team" />
                                 <Typography>30 Team Members</Typography>
                             </Box>
-                            <ContainedBtn title='ADD' startIcon={<AddIcon />} onClick={() => setisDialogOpen(true)} />
+                           {currentUser?.role == "softwareCompany" && <ContainedBtn title='ADD' startIcon={<AddIcon />} onClick={() => setisDialogOpen(true)} />}
                         </Box>
                         <SearchBar />
                     </Grid>
@@ -170,25 +173,24 @@ const Team = () => {
                     </Grid>
                 </Grid>
             </Container>
-            <FullScreenDialog maxWidth='sm' fullWidth={true} open={isDialogOpen} hideDialogHandler={() => setisDialogOpen(false)} >
-                <Box p={2} >
-                    <Box className={classes.alignEnd} >
-                        <IconButton aria-label="Close" onClick={() => setisDialogOpen(false)} >
-                            <CloseIcon />
-                        </IconButton>
-                    </Box>
-                    <Typography variant='h6' style={{ fontWeight: 'bold' }} >Add Team Member to WorkingDays </Typography>
-                    <Box my={2} style={{ maxWidth: '300px' }} >
-                        <Typography style={{ marginBottom: '-20px' }} >Name or emails</Typography>
-                        <SearchBar />
-                        <Box mt={1} className={classes.alignEnd} >
-                            <ContainedBtn title="ADD" />
-                        </Box>
-                    </Box>
-                </Box>
-            </FullScreenDialog>
+            <AddTeamMembers 
+                isDialogOpen={isDialogOpen}
+                hideDialogHandler={() => setisDialogOpen(false)}
+            />
         </>
     )
 }
 
-export default Team
+
+//Redux Action
+const mapStateToProps = (store) => ({
+    reduxUserLoading: store.user.loading,
+    currentUser: store.user.user,
+    searchUser: store.user.searchUser
+});
+
+
+const mapDispatchToProps = (dispatch) => ({
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Team);
