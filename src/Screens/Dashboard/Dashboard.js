@@ -22,7 +22,8 @@ import GridView from './Components/GridView';
 import ListView from './Components/ListView';
 import HeadingOne from '../../Components/HeadingOne';
 import FullScreenDialog from '../../Components/Dialog';
-import { getUserProjects,createProject } from '../../Redux/Project/ProjectAction';
+import { getUserProjects, createProject } from '../../Redux/Project/ProjectAction';
+import { getUserRequest } from '../../Redux/User/UserAction';
 
 const ProjectHead = styled(Typography)(({ theme }) => ({
   fontSize: '2rem',
@@ -51,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Dashboard = ({ currentUser, getUserProjects, userProjects,createProject }) => {
+const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject,getUserRequest }) => {
   const classes = useStyles();
   const uid = localStorage.getItem('uid')
   const [isDialogOpen, setisDialogOpen] = useState(false)
@@ -59,7 +60,7 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects,createProject })
     name: "",
     description: "",
     icon: "https://splitgate.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10420?size=small",
-    employees:[uid],
+    employees: [uid],
     user: {
       ...currentUser
     }
@@ -74,12 +75,13 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects,createProject })
   useEffect(() => {
     const uid = localStorage.getItem('uid')
     getUserProjects(uid)
+    
   }, [])
 
 
-  const createUserProject=() =>{
+  const createUserProject = () => {
     const uid = localStorage.getItem('uid')
-    createProject(credentials,uid)
+    createProject(credentials, uid)
   }
 
   return (
@@ -160,13 +162,13 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects,createProject })
                 style={{ width: "100%" }}
                 placeholder="Description"
                 type="text"
-              // value={currentUser?.email}
-              onChange={(e) => {
-                setcredentials({
-                  ...credentials,
-                  description: e.target.value,
-                });
-              }}
+                // value={currentUser?.email}
+                onChange={(e) => {
+                  setcredentials({
+                    ...credentials,
+                    description: e.target.value,
+                  });
+                }}
               />
             </Box>
             <Box mt={1} className={classes.alignEndDialogBtn} >
@@ -190,7 +192,8 @@ const mapStateToProps = (store) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getUserProjects: (id) => dispatch(getUserProjects(id)),
-  createProject: (data,id) => dispatch(createProject(data,id))
+  createProject: (data, id) => dispatch(createProject(data, id)),
+  getUserRequest: (id) => dispatch(getUserRequest(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
