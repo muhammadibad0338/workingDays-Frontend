@@ -279,3 +279,36 @@ export const getUserRequest = (id) => async (dispatch) => {
         //   console.log(err,"getCurrentUser")
     }
 };
+
+
+export const updateRequestStatus = (id,data) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true))
+        let res = await axios({
+            url: `${baseUrl}/request/changeRequestStatus/${id}`,
+            method: "PUT",
+            data: data
+        });
+        await Swal.fire({
+            customClass: {
+                container: `my-swal`,
+            },
+            icon: "success",
+            title: "Working Days",
+            html: `<strong><font color="black">Request ${data.status} Sucessfully</font></strong>`
+        });
+        dispatch(setLoading(false))
+    }
+    catch (err) {
+        Swal.fire({
+            customClass: {
+                container: `my-swal`,
+            },
+            icon: "error",
+            title: "Working Days",
+            html: `<strong><font color="black">${err?.response?.data?.message || err?.response?.data}</font></strong>`,
+        });
+        dispatch(setError(err?.message));
+        dispatch(setLoading(false));
+    }
+}
