@@ -15,7 +15,7 @@ import { makeStyles } from "@mui/styles";
 import CloseIcon from '@mui/icons-material/Close';
 import { connect } from "react-redux";
 import DoneIcon from '@mui/icons-material/Done';
-import { getUserRequest } from '../../Redux/User/UserAction';
+import { getUserRequest, updateRequestStatus } from '../../Redux/User/UserAction';
 
 // styling
 const useStyles = makeStyles((theme) => ({
@@ -39,7 +39,7 @@ const NotificationBox = styled(Box)(({ }) => ({
     display: 'flex'
 }))
 
-const Notification = ({ toggleNotificationDrawer, userRequest, getUserRequest, currentUser }) => {
+const Notification = ({ toggleNotificationDrawer, userRequest, getUserRequest, currentUser, updateRequestStatus }) => {
     const classes = useStyles();
     const uid = localStorage.getItem('uid')
 
@@ -55,7 +55,7 @@ const Notification = ({ toggleNotificationDrawer, userRequest, getUserRequest, c
                 </IconButton>
             </Box>
             <Typography variant='h4' style={{ fontWeight: '600', marginBottom: '32px' }} >Notifications</Typography>
-            
+
             {
                 userRequest.length === 0 ? <CircularProgress /> : <>
                     {
@@ -86,10 +86,22 @@ const Notification = ({ toggleNotificationDrawer, userRequest, getUserRequest, c
                                         {request?.status === "Rejected" && <Typography style={{ fontSize: '13px' }} >You REJECT a joining request from {request?.softwareCompany?.name} Compnay </Typography>}
                                         {request?.status === "Accepted" && <Typography style={{ fontSize: '13px' }} >you ACCEPTED  a joining Request from {request?.softwareCompany?.name} </Typography>}
                                         {request?.status === "Pending" && <Box m={1} className={classes.alignEnd} >
-                                            <Button variant="contained" color="success">
+                                            <Button variant="contained" color="success" onClick={() => {
+                                                updateRequestStatus(request?._id, {
+                                                    employee: request?.employee?._id,
+                                                    softwareCompany: request?.softwareCompany?._id,
+                                                    status: 'Accepted'
+                                                }, currentUser?.role)
+                                            }} >
                                                 <DoneIcon />
                                             </Button>
-                                            <Button variant="contained" color="error" style={{ marginLeft: '8px' }} >
+                                            <Button variant="contained" color="error" style={{ marginLeft: '8px' }} onClick={() => {
+                                                updateRequestStatus(request?._id, {
+                                                    employee: request?.employee?._id,
+                                                    softwareCompany: request?.softwareCompany?._id,
+                                                    status: 'Rejected'
+                                                }, currentUser?.role)
+                                            }} >
                                                 <CloseIcon />
                                             </Button>
                                         </Box>}
@@ -115,7 +127,8 @@ const mapStateToProps = (store) => ({
 
 
 const mapDispatchToProps = (dispatch) => ({
-    getUserRequest: (id) => dispatch(getUserRequest(id))
+    getUserRequest: (id) => dispatch(getUserRequest(id)),
+    updateRequestStatus: (id, data, role) => dispatch(updateRequestStatus(id, data, role))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notification);

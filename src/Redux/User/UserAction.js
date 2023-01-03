@@ -281,7 +281,7 @@ export const getUserRequest = (id) => async (dispatch) => {
 };
 
 
-export const updateRequestStatus = (id,data) => async (dispatch) => {
+export const updateRequestStatus = (id, data, role) => async (dispatch) => {
     try {
         dispatch(setLoading(true))
         let res = await axios({
@@ -298,6 +298,10 @@ export const updateRequestStatus = (id,data) => async (dispatch) => {
             html: `<strong><font color="black">Request ${data.status} Sucessfully</font></strong>`
         });
         dispatch(setLoading(false))
+        if (role === "Employee") {
+            dispatch(getUserRequest(data.employee))
+            dispatch(getUserTeam(data.employee))
+        }
     }
     catch (err) {
         Swal.fire({
