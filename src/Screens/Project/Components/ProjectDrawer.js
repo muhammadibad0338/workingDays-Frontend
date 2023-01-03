@@ -26,6 +26,9 @@ import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import SettingsIcon from '@mui/icons-material/Settings';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { connect } from "react-redux";
+
+
 
 const drawerWidth = 230;
 
@@ -92,7 +95,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-export default function MiniDrawer({ Component }) {
+function MiniDrawer({ Component,projectDetails }) {
     const theme = useTheme();
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
@@ -134,9 +137,9 @@ export default function MiniDrawer({ Component }) {
                     </IconButton>
                 </Box>
                 <Box px={3} style={{ display: 'flex' }} >
-                    <img src={State.projects[0].image} className={classes.projectIcon} />
+                    <img src={projectDetails?.icon} className={classes.projectIcon} />
                     <div>
-                        <Typography>Splitgate</Typography>
+                        <Typography>{projectDetails?.name} </Typography>
                         <span style={{ fontSize: '12px' }} >Software project</span>
                     </div>
                 </Box>
@@ -174,3 +177,16 @@ export default function MiniDrawer({ Component }) {
         </Box>
     );
 }
+//Redux Action
+const mapStateToProps = (store) => ({
+    reduxUserLoading: store.project.loading,
+    currentUser: store.user.user,
+    searchUser: store.user.searchUser,
+    projectDetails: store.project.projectDetails
+});
+
+
+const mapDispatchToProps = (dispatch) => ({
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MiniDrawer);

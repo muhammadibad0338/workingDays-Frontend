@@ -3,7 +3,8 @@ import { baseUrl } from "../baseUrl";
 import {
   SET_ERROR,
   SET_LOADING,
-  GET_ALL_PROJECTS
+  GET_ALL_PROJECTS,
+  GET_PROJECT_DETAILS
 } from "./ProjectTypes";
 import Swal from "sweetalert2";
 
@@ -25,6 +26,13 @@ export const setProjects = (projects) => {
   return {
     type: GET_ALL_PROJECTS,
     payload: projects
+  }
+}
+
+export const setProjectDetails = (projectDetails) => {
+  return {
+    type: GET_PROJECT_DETAILS,
+    payload: projectDetails
   }
 }
 
@@ -86,3 +94,28 @@ export const createProject = (data, userId) => async (dispatch) => {
     dispatch(setLoading(false));
   }
 }
+
+export const getProjectDetails = (id) => async (dispatch) => {
+  try {
+      dispatch(setLoading(true));
+      let res = await axios({
+          method: "GET",
+          url: `${baseUrl}/project/projectDetails/${id}`,
+      });
+      await dispatch(setProjectDetails(res?.data?.project))
+      // console.log(res?.data, "getUserTeam")
+      dispatch(setLoading(false));
+  } catch (err) {
+      Swal.fire({
+          customClass: {
+              container: `my-swal`,
+          },
+          icon: "error",
+          title: "Working Days",
+          html: `<strong><font color="black">Something went wrong while Getting your Project </font></strong>`,
+      });
+      dispatch(setLoading(false));
+      dispatch(setError(err));
+      //   console.log(err,"getCurrentUser")
+  }
+};

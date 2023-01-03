@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -11,6 +11,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import FullScreenDialog from '../../Components/Dialog';
 import SearchBar from '../../Components/SearchBar';
 import ContainedBtn from '../../Components/ContainedBtn';
+import { connect } from "react-redux";
+import { getProjectDetails } from "../../Redux/Project/ProjectAction"
+import { useParams } from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme) => ({
     projectIcon: {
@@ -58,19 +62,25 @@ const AgileCntnr = styled(Box)(({ theme }) => ({
 }));
 
 
-
-export default function MiniDrawer() {
+function MiniDrawer({ getProjectDetails, projectDetails }) {
     const theme = useTheme();
     const classes = useStyles();
     let navigate = useNavigate();
     const [isDialogOpen, setisDialogOpen] = useState(false)
 
+    let { id } = useParams();
+
+    useEffect(() => {
+        getProjectDetails(id)
+    }, [])
+
+
     return (
         <>
             <Box p={3} >
-                <Typography> <Link to='/' style={{ textDecoration: 'none' }} >Projects / </Link> Splitgate </Typography>
+                <Typography> <Link to='/' style={{ textDecoration: 'none' }} >Projects / </Link> {projectDetails?.name} </Typography>
                 <Box className={classes.alignCntnr} >
-                    <Typography variant='h5' className={classes.mainHead} >Splitgate Board</Typography>
+                    <Typography variant='h5' className={classes.mainHead} >{projectDetails?.name}  Board</Typography>
                     <IconButton style={{ marginLeft: '10px' }} color="primary" aria-label="upload picture" component="label"
                         onClick={() => setisDialogOpen(true)}
                     >
@@ -93,7 +103,7 @@ export default function MiniDrawer() {
                             <CloseIcon />
                         </IconButton>
                     </Box>
-                    <Typography variant='h6' style={{ fontWeight: 'bold' }} >Add Team Member to Project </Typography>
+                    <Typography variant='h6' style={{ fontWeight: 'bold' }} >Add Team Member to {projectDetails?.name}  </Typography>
                     <Box my={2} style={{ maxWidth: '300px' }} >
                         <Typography style={{ marginBottom: '-20px' }} >Name or emails</Typography>
                         <SearchBar />
@@ -106,3 +116,19 @@ export default function MiniDrawer() {
         </>
     );
 }
+
+
+//Redux Action
+const mapStateToProps = (store) => ({
+    reduxUserLoading: store.project.loading,
+    currentUser: store.user.user,
+    searchUser: store.user.searchUser,
+    projectDetails: store.project.projectDetails
+});
+
+
+const mapDispatchToProps = (dispatch) => ({
+    getProjectDetails: (id) => dispatch(getProjectDetails(id))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MiniDrawer);
