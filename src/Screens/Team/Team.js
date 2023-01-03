@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {
     Box,
     Typography,
@@ -12,7 +12,8 @@ import {
     Table,
     Tooltip,
     Avatar,
-    IconButton
+    IconButton,
+    CircularProgress
 } from "@mui/material";
 import { makeStyles, } from "@mui/styles"
 import { styled } from '@mui/system';
@@ -25,6 +26,7 @@ import FullScreenDialog from '../../Components/Dialog';
 import CloseIcon from '@mui/icons-material/Close';
 import AddTeamMembers from './Components/AddTeamMembers';
 import { connect } from "react-redux";
+import { getUserTeam } from "../../Redux/User/UserAction"
 
 
 
@@ -61,9 +63,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Team = ({currentUser}) => {
+const Team = ({currentUser,getUserTeam,userTeam}) => {
     const classes = useStyles();
     const [isDialogOpen, setisDialogOpen] = useState(false)
+    const uid = localStorage.getItem('uid')
+
+    useEffect(() => {
+        getUserTeam(uid)
+    }, [])
+    
 
     return (
         <>
@@ -73,7 +81,7 @@ const Team = ({currentUser}) => {
                         <Box pt={1} className={classes.spaceBtwn} >
                             <Box>
                                 <HeadingOne title="Team" />
-                                <Typography>30 Team Members</Typography>
+                                <Typography>{userTeam?.teamMembers?.length} Team Members</Typography>
                             </Box>
                            {currentUser?.role == "softwareCompany" && <ContainedBtn title='ADD' startIcon={<AddIcon />} onClick={() => setisDialogOpen(true)} />}
                         </Box>
@@ -82,24 +90,24 @@ const Team = ({currentUser}) => {
                     {/* <Grid item xs={12} style={{ display: 'flex' }}  >
                     </Grid> */}
                     <Grid item xs={12} >
-                        <Box  >
+                        { Object.keys(userTeam).length == 0 ? <CircularProgress/> : <Box  >
                             <Box px={2} py={0.5} style={{ backgroundColor: '#F1F5F9' }} >
-                                <Typography>A</Typography>
+                                <Typography>{userTeam?.team?.name} </Typography>
                             </Box>
                             <TableContainer className={classes.tableContainer}>
                                 <Table>
                                     <TableBody>
                                         {
-                                            State.team.map((person, i) => {
+                                            userTeam?.team?.teamMembers?.map((person, i) => {
                                                 return (
                                                     <TableRow key={i} className={classes.tableRow} >
                                                         <Box p={2} className={classes.contactBox} >
                                                             <Tooltip >
-                                                                <Avatar src={person.image} />
+                                                                <Avatar src={person?.profilePicture} />
                                                             </Tooltip>
                                                             <Box ml={1} >
-                                                                <Typography style={{ fontSize: '13px' }} >{person.name} </Typography>
-                                                                <Typography style={{ fontSize: '13px' }} >{person.role} </Typography>
+                                                                <Typography style={{ fontSize: '13px' }} >{person?.name} </Typography>
+                                                                <Typography style={{ fontSize: '13px' }} >{person?.email} </Typography>
                                                             </Box>
                                                         </Box>
                                                     </TableRow>
@@ -109,67 +117,7 @@ const Team = ({currentUser}) => {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={12} >
-                        <Box  >
-                            <Box px={2} py={0.5} style={{ backgroundColor: '#F1F5F9' }} >
-                                <Typography>B</Typography>
-                            </Box>
-                            <TableContainer className={classes.tableContainer}>
-                                <Table>
-                                    <TableBody>
-                                        {
-                                            State.team.map((person, i) => {
-                                                return (
-                                                    <TableRow key={i} className={classes.tableRow} >
-                                                        <Box p={2} className={classes.contactBox} >
-                                                            <Tooltip >
-                                                                <Avatar src={person.image} />
-                                                            </Tooltip>
-                                                            <Box ml={1} >
-                                                                <Typography style={{ fontSize: '13px' }} >{person.name} </Typography>
-                                                                <Typography style={{ fontSize: '13px' }} >{person.role} </Typography>
-                                                            </Box>
-                                                        </Box>
-                                                    </TableRow>
-                                                )
-                                            })
-                                        }
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={12} >
-                        <Box  >
-                            <Box px={2} py={0.5} style={{ backgroundColor: '#F1F5F9' }} >
-                                <Typography>C</Typography>
-                            </Box>
-                            <TableContainer className={classes.tableContainer}>
-                                <Table>
-                                    <TableBody >
-                                        {
-                                            State.team.map((person, i) => {
-                                                return (
-                                                    <TableRow key={i} className={classes.tableRow} >
-                                                        <Box p={2} className={classes.contactBox} >
-                                                            <Tooltip >
-                                                                <Avatar src={person.image} />
-                                                            </Tooltip>
-                                                            <Box ml={1} >
-                                                                <Typography style={{ fontSize: '13px' }} >{person.name} </Typography>
-                                                                <Typography style={{ fontSize: '13px' }} >{person.role} </Typography>
-                                                            </Box>
-                                                        </Box>
-                                                    </TableRow>
-                                                )
-                                            })
-                                        }
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </Box>
+                        </Box>}
                     </Grid>
                 </Grid>
             </Container>
@@ -186,11 +134,13 @@ const Team = ({currentUser}) => {
 const mapStateToProps = (store) => ({
     reduxUserLoading: store.user.loading,
     currentUser: store.user.user,
-    searchUser: store.user.searchUser
+    searchUser: store.user.searchUser,
+    userTeam: store.user.userTeam
 });
 
 
 const mapDispatchToProps = (dispatch) => ({
+    getUserTeam: (id) => dispatch(getUserTeam(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Team);

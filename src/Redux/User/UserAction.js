@@ -6,7 +6,8 @@ import {
     SET_LOGOUT,
     SET_USER,
     SET_TOKEN,
-    SEARCH_USER
+    SEARCH_USER,
+    USER_TEAM
 } from "./UserTypes";
 import Swal from "sweetalert2";
 
@@ -17,6 +18,13 @@ export const setUser = (user) => {
     };
 };
 
+export const setUserTeam = (team) => {
+    return {
+        type: USER_TEAM,
+        payload:team
+    }
+}
+
 export const setLoading = (loading) => {
     return {
         type: SET_LOADING,
@@ -24,10 +32,10 @@ export const setLoading = (loading) => {
     };
 };
 
-export const setSearchUser = (user) =>{
-    return{
-        type:SEARCH_USER,
-        payload:user
+export const setSearchUser = (user) => {
+    return {
+        type: SEARCH_USER,
+        payload: user
     }
 }
 
@@ -97,7 +105,7 @@ export const loginUser = (data) => async (dispatch) => {
         let res = await axios({
             url: `${baseUrl}/auth/login`,
             method: "POST",
-            data:data
+            data: data
         });
         await Swal.fire({
             customClass: {
@@ -131,48 +139,73 @@ export const loginUser = (data) => async (dispatch) => {
 
 export const getCurrentUser = (id) => async (dispatch) => {
     try {
-      dispatch(setLoading(true));
-      let res = await axios({
-        method: "GET",
-        url: `${baseUrl}/auth/currentUserDetails/${id}`,
-      });
-      await dispatch(setUser(res?.data?.user))
-      dispatch(setLoading(false));
+        dispatch(setLoading(true));
+        let res = await axios({
+            method: "GET",
+            url: `${baseUrl}/auth/currentUserDetails/${id}`,
+        });
+        await dispatch(setUser(res?.data?.user))
+        dispatch(setLoading(false));
     } catch (err) {
-      Swal.fire({
-        customClass: {
-          container: `my-swal`,
-        },
-        icon: "error",
-        title: "Working Days",
-        html: `<strong><font color="black">Something went wrong while getting your Profile</font></strong>`,
-      });
-      dispatch(setLoading(false));
-      dispatch(setError(err));
-    //   console.log(err,"getCurrentUser")
+        Swal.fire({
+            customClass: {
+                container: `my-swal`,
+            },
+            icon: "error",
+            title: "Working Days",
+            html: `<strong><font color="black">Something went wrong while getting your Profile</font></strong>`,
+        });
+        dispatch(setLoading(false));
+        dispatch(setError(err));
+        //   console.log(err,"getCurrentUser")
     }
-  };
+};
 
-  export const getSearchUsers = (key) => async (dispatch) => {
+export const getSearchUsers = (key) => async (dispatch) => {
     try {
-      dispatch(setLoading(true));
-      let res = await axios({
-        method: "GET",
-        url: `${baseUrl}/auth/searchUser/${key}`,
-      });
-      await dispatch(setSearchUser(res?.data))
-      dispatch(setLoading(false));
+        dispatch(setLoading(true));
+        let res = await axios({
+            method: "GET",
+            url: `${baseUrl}/auth/searchUser/${key}`,
+        });
+        await dispatch(setSearchUser(res?.data))
+        dispatch(setLoading(false));
     } catch (err) {
-      Swal.fire({
-        customClass: {
-          container: `my-swal`,
-        },
-        icon: "error",
-        title: "Working Days",
-        html: `<strong><font color="black">Something went wrong while Searching for Users </font></strong>`,
-      });
-      dispatch(setLoading(false));
-      dispatch(setError(err));
-    //   console.log(err,"getCurrentUser")
+        Swal.fire({
+            customClass: {
+                container: `my-swal`,
+            },
+            icon: "error",
+            title: "Working Days",
+            html: `<strong><font color="black">Something went wrong while Searching for Users </font></strong>`,
+        });
+        dispatch(setLoading(false));
+        dispatch(setError(err));
+        //   console.log(err,"getCurrentUser")
     }
-  };
+};
+
+export const getUserTeam = (id) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true));
+        let res = await axios({
+            method: "GET",
+            url: `${baseUrl}/team/currentUserTeam/${id}`,
+        });
+        await dispatch(setUserTeam(res?.data))
+        console.log(res?.data,"getUserTeam")
+        dispatch(setLoading(false));
+    } catch (err) {
+        Swal.fire({
+            customClass: {
+                container: `my-swal`,
+            },
+            icon: "error",
+            title: "Working Days",
+            html: `<strong><font color="black">Something went wrong while Getting your Teams </font></strong>`,
+        });
+        dispatch(setLoading(false));
+        dispatch(setError(err));
+        //   console.log(err,"getCurrentUser")
+    }
+};

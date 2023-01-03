@@ -55,11 +55,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const AddTeamMembers = ({ isDialogOpen, hideDialogHandler, getSearchUsers, reduxUserLoading, searchUser }) => {
+const AddTeamMembers = ({ isDialogOpen, hideDialogHandler, getSearchUsers, reduxUserLoading, searchUser, userTeam }) => {
     const classes = useStyles();
     const [showClear, setshowClear] = useState(false);
     const [searchQuery, setSearchQuery] = useState('')
     const [searchLoading, setsearchLoading] = useState(false)
+    const uid = localStorage.getItem('uid')
 
     const handelSearch = (e) => {
         setSearchQuery(e.target.value)
@@ -70,6 +71,8 @@ const AddTeamMembers = ({ isDialogOpen, hideDialogHandler, getSearchUsers, redux
             getSearchUsers(searchQuery)
         }
     }
+
+
 
     return (
         <>
@@ -108,7 +111,10 @@ const AddTeamMembers = ({ isDialogOpen, hideDialogHandler, getSearchUsers, redux
                                                     <Typography style={{ fontSize: '13px' }} >{user?.email} </Typography>
                                                 </Box>
                                             </Box>
-                                            <ContainedBtn title="add Employee" endIcon={<PersonAddAltIcon />} />
+                                            {
+                                                user?.joinedSoftwareCompany == uid ? <Typography>Already in your softwareCompany</Typography>
+                                               : <ContainedBtn title="add Employee" endIcon={<PersonAddAltIcon />} />
+                                            }
                                         </Box>
                                     )
                                 }
@@ -126,7 +132,8 @@ const AddTeamMembers = ({ isDialogOpen, hideDialogHandler, getSearchUsers, redux
 const mapStateToProps = (store) => ({
     reduxUserLoading: store.user.loading,
     currentUser: store.user.user,
-    searchUser: store.user.searchUser
+    searchUser: store.user.searchUser,
+    userTeam: store.user.userTeam
 });
 
 

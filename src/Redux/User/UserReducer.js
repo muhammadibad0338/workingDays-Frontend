@@ -6,7 +6,8 @@ import {
     SET_LOGOUT,
     SET_USER,
     SET_TOKEN,
-    SEARCH_USER
+    SEARCH_USER,
+    USER_TEAM
 } from "./UserTypes";
 
 const initialState = {
@@ -18,7 +19,8 @@ const initialState = {
     authToken: "",
     passwordOtp: "",
     users: [],
-    searchUser: []
+    searchUser: [],
+    userTeam: {}
 };
 
 const userReducer = (state = initialState, action) => {
@@ -33,6 +35,12 @@ const userReducer = (state = initialState, action) => {
                 logged: true,
                 loading: false,
             };
+        case USER_TEAM: {
+            return {
+                ...state,
+                userTeam: payload
+            }
+        }
         case SEARCH_USER:
             return {
                 ...state,
