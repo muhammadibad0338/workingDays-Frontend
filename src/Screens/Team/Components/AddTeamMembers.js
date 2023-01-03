@@ -13,7 +13,7 @@ import FullScreenDialog from '../../../Components/Dialog';
 import ContainedBtn from '../../../Components/ContainedBtn';
 import SearchBar from '../../../Components/SearchBar';
 import { connect } from "react-redux";
-import { getSearchUsers } from '../../../Redux/User/UserAction';
+import { getSearchUsers, sentRequest } from '../../../Redux/User/UserAction';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 
 
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const AddTeamMembers = ({ isDialogOpen, hideDialogHandler, getSearchUsers, reduxUserLoading, searchUser, userTeam }) => {
+const AddTeamMembers = ({ isDialogOpen, hideDialogHandler, getSearchUsers, reduxUserLoading, searchUser, userTeam, sentRequest }) => {
     const classes = useStyles();
     const [showClear, setshowClear] = useState(false);
     const [searchQuery, setSearchQuery] = useState('')
@@ -113,7 +113,12 @@ const AddTeamMembers = ({ isDialogOpen, hideDialogHandler, getSearchUsers, redux
                                             </Box>
                                             {
                                                 user?.joinedSoftwareCompany == uid ? <Typography>Already in your softwareCompany</Typography>
-                                               : <ContainedBtn title="add Employee" endIcon={<PersonAddAltIcon />} />
+                                                    : <ContainedBtn title="add Employee" endIcon={<PersonAddAltIcon />} onClick={() => {
+                                                        sentRequest({
+                                                            employee: user._id,
+                                                            softwareCompany: uid
+                                                        })
+                                                    }} />
                                             }
                                         </Box>
                                     )
@@ -139,6 +144,7 @@ const mapStateToProps = (store) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     getSearchUsers: (key) => dispatch(getSearchUsers(key)),
+    sentRequest: (data) => dispatch(sentRequest(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddTeamMembers);

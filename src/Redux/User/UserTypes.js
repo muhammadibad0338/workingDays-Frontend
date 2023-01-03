@@ -6,3 +6,4 @@ export const SET_LOGOUT = "USER_SET_LOGOUT";
 export const SEARCH_USER = "SEARCH_USER";
 export const USER_TEAM = "USER_TEAM";
 export const SENT_REQUEST =  "SENT_REQUEST";
+export const SET_USER_REQUEST = "SET_USER_REQUEST";

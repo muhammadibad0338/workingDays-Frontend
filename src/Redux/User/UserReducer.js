@@ -7,7 +7,8 @@ import {
     SET_USER,
     SET_TOKEN,
     SEARCH_USER,
-    USER_TEAM
+    USER_TEAM,
+    SET_USER_REQUEST
 } from "./UserTypes";
 
 const initialState = {
@@ -20,7 +21,8 @@ const initialState = {
     passwordOtp: "",
     users: [],
     searchUser: [],
-    userTeam: {}
+    userTeam: {},
+    userRequest: []
 };
 
 const userReducer = (state = initialState, action) => {
@@ -39,6 +41,12 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userTeam: payload
+            }
+        }
+        case SET_USER_REQUEST: {
+            return {
+                ...state,
+                userRequest: payload
             }
         }
         case SEARCH_USER:

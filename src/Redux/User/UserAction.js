@@ -7,7 +7,9 @@ import {
     SET_USER,
     SET_TOKEN,
     SEARCH_USER,
-    USER_TEAM
+    USER_TEAM,
+    SENT_REQUEST,
+    SET_USER_REQUEST
 } from "./UserTypes";
 import Swal from "sweetalert2";
 
@@ -21,7 +23,14 @@ export const setUser = (user) => {
 export const setUserTeam = (team) => {
     return {
         type: USER_TEAM,
-        payload:team
+        payload: team
+    }
+}
+
+export const setUserRequest = (requests) => {
+    return {
+        type: SET_USER_REQUEST,
+        payload: requests
     }
 }
 
@@ -193,7 +202,7 @@ export const getUserTeam = (id) => async (dispatch) => {
             url: `${baseUrl}/team/currentUserTeam/${id}`,
         });
         await dispatch(setUserTeam(res?.data))
-        console.log(res?.data,"getUserTeam")
+        console.log(res?.data, "getUserTeam")
         dispatch(setLoading(false));
     } catch (err) {
         Swal.fire({
@@ -203,6 +212,67 @@ export const getUserTeam = (id) => async (dispatch) => {
             icon: "error",
             title: "Working Days",
             html: `<strong><font color="black">Something went wrong while Getting your Teams </font></strong>`,
+        });
+        dispatch(setLoading(false));
+        dispatch(setError(err));
+        //   console.log(err,"getCurrentUser")
+    }
+};
+
+
+export const sentRequest = (data) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true))
+        let res = await axios({
+            url: `${baseUrl}/request/sendRequest`,
+            method: "POST",
+            data: data
+        });
+        await Swal.fire({
+            customClass: {
+                container: `my-swal`,
+            },
+            icon: "success",
+            title: "Working Days",
+            html: `<strong><font color="black">Request send Sucessfully</font></strong>`
+        });
+        dispatch(setLoading(false))
+        return res
+    }
+    catch (err) {
+        Swal.fire({
+            customClass: {
+                container: `my-swal`,
+            },
+            icon: "error",
+            title: "Working Days",
+            html: `<strong><font color="black">${err?.response?.data?.message || err?.response?.data}</font></strong>`,
+        });
+        dispatch(setError(err?.message));
+        dispatch(setLoading(false));
+        return null
+    }
+}
+
+
+export const getUserRequest = (id) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true));
+        let res = await axios({
+            method: "GET",
+            url: `${baseUrl}/request/userRequest/${id}`,
+        });
+        await dispatch(setUserRequest(res?.data?.requests))
+        // console.log(res?.data, "getUserTeam")
+        dispatch(setLoading(false));
+    } catch (err) {
+        Swal.fire({
+            customClass: {
+                container: `my-swal`,
+            },
+            icon: "error",
+            title: "Working Days",
+            html: `<strong><font color="black">Something went wrong while Getting your Request </font></strong>`,
         });
         dispatch(setLoading(false));
         dispatch(setError(err));
