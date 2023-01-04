@@ -119,3 +119,37 @@ export const getProjectDetails = (id) => async (dispatch) => {
       //   console.log(err,"getCurrentUser")
   }
 };
+
+
+export const addEmployeeToproject = (data) => async (dispatch) => {
+  try {
+    dispatch(setLoading(true))
+    let res = await axios({
+      url: `${baseUrl}/project/addEmployeeToProject`,
+      method: "PUT",
+      data: data
+    });
+    await Swal.fire({
+      customClass: {
+        container: `my-swal`,
+      },
+      icon: "success",
+      title: "Working Days",
+      html: `<strong><font color="black">EMPLOYEE Addedd To Project Sucessfully</font></strong>`
+    });
+    dispatch(setLoading(false))
+    await dispatch(getProjectDetails(data.projectId))
+  }
+  catch (err) {
+    Swal.fire({
+      customClass: {
+        container: `my-swal`,
+      },
+      icon: "error",
+      title: "Working Days",
+      html: `<strong><font color="black">${err?.response?.data?.message || err?.response?.data}</font></strong>`,
+    });
+    dispatch(setError(err?.message));
+    dispatch(setLoading(false));
+  }
+}

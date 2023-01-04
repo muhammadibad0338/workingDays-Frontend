@@ -8,7 +8,8 @@ import {
     SET_TOKEN,
     SEARCH_USER,
     USER_TEAM,
-    SET_USER_REQUEST
+    SET_USER_REQUEST,
+    SEARCH_USER_IN_TEAM
 } from "./UserTypes";
 
 const initialState = {
@@ -22,7 +23,8 @@ const initialState = {
     users: [],
     searchUser: [],
     userTeam: {},
-    userRequest: []
+    userRequest: [],
+    searchUserInTeam: []
 };
 
 const userReducer = (state = initialState, action) => {
@@ -41,6 +43,12 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userTeam: payload
+            }
+        }
+        case SEARCH_USER_IN_TEAM: {
+            return {
+                ...state,
+                searchUserInTeam: payload
             }
         }
         case SET_USER_REQUEST: {

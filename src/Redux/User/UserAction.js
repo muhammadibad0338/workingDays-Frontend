@@ -9,7 +9,8 @@ import {
     SEARCH_USER,
     USER_TEAM,
     SENT_REQUEST,
-    SET_USER_REQUEST
+    SET_USER_REQUEST,
+    SEARCH_USER_IN_TEAM
 } from "./UserTypes";
 import Swal from "sweetalert2";
 
@@ -44,6 +45,13 @@ export const setLoading = (loading) => {
 export const setSearchUser = (user) => {
     return {
         type: SEARCH_USER,
+        payload: user
+    }
+}
+
+export const setSearchUserInTeam = (user) => {
+    return {
+        type: SEARCH_USER_IN_TEAM,
         payload: user
     }
 }
@@ -316,3 +324,28 @@ export const updateRequestStatus = (id, data, role) => async (dispatch) => {
         dispatch(setLoading(false));
     }
 }
+
+export const getSearchUsersInTeam = (key,uid) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true));
+        console.log(uid,"uid in redux")
+        let res = await axios({
+            method: "GET",
+            url: `${baseUrl}/team/searchUserInTeam/${key}/softwareCompnay/${uid}`,
+        });
+        await dispatch(setSearchUserInTeam(res?.data))
+        dispatch(setLoading(false));
+    } catch (err) {
+        Swal.fire({
+            customClass: {
+                container: `my-swal`,
+            },
+            icon: "error",
+            title: "Working Days",
+            html: `<strong><font color="black">Something went wrong while Searching for Users In Team </font></strong>`,
+        });
+        dispatch(setLoading(false));
+        dispatch(setError(err));
+        //   console.log(err,"getCurrentUser")
+    }
+};
