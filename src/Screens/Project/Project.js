@@ -5,7 +5,8 @@ import Typography from '@mui/material/Typography';
 import {
     Tooltip,
     Avatar,
-    CircularProgress
+    CircularProgress,
+    OutlinedInput
 } from "@mui/material";
 import { makeStyles, withStyles } from "@mui/styles";
 import { Link, useNavigate } from 'react-router-dom';
@@ -21,6 +22,7 @@ import { getProjectDetails, setProjectDetails, addEmployeeToproject } from "../.
 import { getSearchUsersInTeam } from '../../Redux/User/UserAction';
 import { useParams } from 'react-router-dom';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import AddIcon from '@mui/icons-material/Add';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -70,6 +72,12 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: '#E8EBEF'
         }
     },
+    productInput: {
+        marginTop: "3px",
+        maxWidth: "100%",
+        height: "auto",
+        borderRadius: "10px",
+    },
 }));
 
 
@@ -86,12 +94,18 @@ const AgileCntnr = styled(Box)(({ theme }) => ({
 }));
 
 
-function MiniDrawer({ getProjectDetails, projectDetails, setProjectDetails, getSearchUsersInTeam, reduxUserLoading, searchUser, addEmployeeToproject }) {
+function MiniDrawer({ getProjectDetails, projectDetails, setProjectDetails, getSearchUsersInTeam, reduxUserLoading, searchUser, addEmployeeToproject, currentUser }) {
     const theme = useTheme();
     const classes = useStyles();
     let navigate = useNavigate();
-    const [isDialogOpen, setisDialogOpen] = useState(false)
+    const [isAddMemberDialogOpen, setIsAddMemberDialogOpen] = useState(false)
+    const [isCreateIssueDialogOpen, setIsCreateIssueDialogOpen] = useState(false)
     const [searchQuery, setSearchQuery] = useState('')
+    const [createTaskCredentials, setCreateTaskCredentials] = useState({
+        name: "",
+        description: "",
+        agileCycle: ""
+    })
     const uid = localStorage.getItem('uid')
 
 
@@ -115,7 +129,7 @@ function MiniDrawer({ getProjectDetails, projectDetails, setProjectDetails, getS
             getSearchUsersInTeam(searchQuery, uid)
         }
     }
-
+    const agileCycle = ['Requirments', 'Design', 'Develop', 'Test', 'Deploy', 'Maintenance']
 
     return (
         <>
@@ -123,27 +137,93 @@ function MiniDrawer({ getProjectDetails, projectDetails, setProjectDetails, getS
                 <Typography> <Link to='/' style={{ textDecoration: 'none' }} >Projects / </Link> {projectDetails?.name} </Typography>
                 <Box className={classes.alignCntnr} >
                     <Typography variant='h5' className={classes.mainHead} >{projectDetails?.name}  Board</Typography>
-                    <IconButton style={{ marginLeft: '10px' }} color="primary" aria-label="upload picture" component="label"
-                        onClick={() => setisDialogOpen(true)}
+                    {currentUser?.role == "softwareCompany" && <IconButton style={{ marginLeft: '10px' }} color="primary" aria-label="upload picture" component="label"
+                        onClick={() => setIsAddMemberDialogOpen(true)}
                     >
                         <PersonAddAlt1Icon />
-                    </IconButton>
+                    </IconButton>}
+                    {currentUser?.role == "softwareCompany" &&
+                        <ContainedBtn sx={{ marginTop: '10px', marginLeft: '10px' }} title='Create Issue' endIcon={<AddIcon />}
+                            onClick={() => setIsCreateIssueDialogOpen(true)}
+                        />}
                 </Box>
                 <AgileCntnr  >
-                    <Model modelHeading='Requirments' />
-                    <Model modelHeading='Design' />
-                    <Model modelHeading='develop' />
-                    <Model modelHeading='test' />
-                    <Model modelHeading='deploy' />
-                    <Model modelHeading='maintenance' />
+                    {/* <Model modelHeading={agileCycle[0]} />
+                    <Model modelHeading={agileCycle[1]}  />
+                    <Model modelHeading={agileCycle[1]}  />
+                    <Model modelHeading={agileCycle[1]}  />
+                    <Model modelHeading={agileCycle[1]}  />
+                    <Model modelHeading={agileCycle[1]}  /> */}
+                    {
+                        agileCycle.map((phase,ind)=>{
+                            return(
+                                <Model modelHeading={phase} />
+                            )
+                        })
+                    }
                 </AgileCntnr>
             </Box>
-            <FullScreenDialog maxWidth='sm' fullWidth={true} open={isDialogOpen} hideDialogHandler={() => setisDialogOpen(false)} >
+            <FullScreenDialog maxWidth='sm' fullWidth={true} open={isCreateIssueDialogOpen} hideDialogHandler={() => setIsCreateIssueDialogOpen(false)} >
                 <Box p={2} >
                     <Box>
-
                         <Box className={classes.alignEnd} >
-                            <IconButton aria-label="Close" onClick={() => setisDialogOpen(false)} >
+                            <IconButton aria-label="Close" onClick={() => setIsCreateIssueDialogOpen(false)} >
+                                <CloseIcon />
+                            </IconButton>
+                        </Box>
+                        <Typography variant='h6' style={{ fontWeight: 'bold' }} >Create a Issue  </Typography>
+                    </Box>
+                    <Box>
+                        <Box my={2} style={{ width: "100%" }}>
+                            <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
+                                Task Name
+                            </Typography>
+                            <OutlinedInput
+                                fullwidth
+                                required={true}
+                                className={classes.productInput}
+                                style={{ width: "100%" }}
+                                placeholder="Task Name"
+                                type="text"
+                                value={createTaskCredentials.name}
+                                onChange={(e) => {
+                                    setCreateTaskCredentials({
+                                        ...createTaskCredentials,
+                                        name: e.target.value,
+                                    });
+                                }}
+                            />
+                        </Box>
+                        <Box my={2} style={{ width: "100%" }}>
+                            <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
+                                Task Description
+                            </Typography>
+                            <OutlinedInput
+                                fullwidth
+                                required={true}
+                                className={classes.productInput}
+                                style={{ width: "100%" }}
+                                placeholder="Task Description"
+                                type="text"
+                                rows={2}
+                                multiline={true}
+                                value={createTaskCredentials.description}
+                                onChange={(e) => {
+                                    setCreateTaskCredentials({
+                                        ...createTaskCredentials,
+                                        description: e.target.value,
+                                    });
+                                }}
+                            />
+                        </Box>
+                    </Box>
+                </Box>
+            </FullScreenDialog>
+            <FullScreenDialog maxWidth='sm' fullWidth={true} open={isAddMemberDialogOpen} hideDialogHandler={() => setIsAddMemberDialogOpen(false)} >
+                <Box p={2} >
+                    <Box>
+                        <Box className={classes.alignEnd} >
+                            <IconButton aria-label="Close" onClick={() => setIsAddMemberDialogOpen(false)} >
                                 <CloseIcon />
                             </IconButton>
                         </Box>
