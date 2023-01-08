@@ -49,7 +49,6 @@ export const getProjectsTasks = (id) => async (dispatch) => {
       });
       dispatch(setLoading(false));
       dispatch(setError(err));
-      //   console.log(err,"getCurrentUser")
     }
   };
   
