@@ -20,6 +20,7 @@ import ContainedBtn from '../../Components/ContainedBtn';
 import { connect } from "react-redux";
 import { getProjectDetails, setProjectDetails, addEmployeeToproject } from "../../Redux/Project/ProjectAction"
 import { getSearchUsersInTeam } from '../../Redux/User/UserAction';
+import { getProjectsTasks } from "../../Redux/Task/TaskAction"
 import { useParams } from 'react-router-dom';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import AddIcon from '@mui/icons-material/Add';
@@ -94,7 +95,21 @@ const AgileCntnr = styled(Box)(({ theme }) => ({
 }));
 
 
-function MiniDrawer({ getProjectDetails, projectDetails, setProjectDetails, getSearchUsersInTeam, reduxUserLoading, searchUser, addEmployeeToproject, currentUser }) {
+function MiniDrawer(
+    {
+        getProjectDetails,
+        getProjectsTasks,
+        projectDetails,
+        setProjectDetails,
+        getSearchUsersInTeam,
+        reduxUserLoading,
+        searchUser,
+        addEmployeeToproject,
+        currentUser,
+        projectTasks,
+        reduxTaskLoading
+    }
+) {
     const theme = useTheme();
     const classes = useStyles();
     let navigate = useNavigate();
@@ -113,6 +128,7 @@ function MiniDrawer({ getProjectDetails, projectDetails, setProjectDetails, getS
 
     useEffect(() => {
         getProjectDetails(id)
+        getProjectsTasks(id)
 
         // return () => {
         //     setProjectDetails({})
@@ -155,11 +171,13 @@ function MiniDrawer({ getProjectDetails, projectDetails, setProjectDetails, getS
                     <Model modelHeading={agileCycle[1]}  />
                     <Model modelHeading={agileCycle[1]}  /> */}
                     {
-                        agileCycle.map((phase,ind)=>{
-                            return(
-                                <Model modelHeading={phase} />
-                            )
-                        })
+                        (!reduxTaskLoading ||  projectTasks.lenght > 0 )?
+                            agileCycle.map((phase, ind) => {
+                                return (
+                                    <Model modelHeading={phase} tasks={projectTasks.filter(task => task?.agileCycle == phase)} />
+                                )
+                            }) :
+                            <CircularProgress />
                     }
                 </AgileCntnr>
             </Box>
@@ -291,7 +309,9 @@ const mapStateToProps = (store) => ({
     reduxUserLoading: store.project.loading,
     currentUser: store.user.user,
     searchUser: store.user.searchUserInTeam,
-    projectDetails: store.project.projectDetails
+    projectDetails: store.project.projectDetails,
+    projectTasks: store.task.tasks,
+    reduxTaskLoading: store.task.loading,
 });
 
 
@@ -299,7 +319,8 @@ const mapDispatchToProps = (dispatch) => ({
     getProjectDetails: (id) => dispatch(getProjectDetails(id)),
     setProjectDetails: () => dispatch(getProjectDetails({})),
     getSearchUsersInTeam: (key, uid) => dispatch(getSearchUsersInTeam(key, uid)),
-    addEmployeeToproject: (data) => dispatch(addEmployeeToproject(data))
+    addEmployeeToproject: (data) => dispatch(addEmployeeToproject(data)),
+    getProjectsTasks: (id) => dispatch(getProjectsTasks(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MiniDrawer);
