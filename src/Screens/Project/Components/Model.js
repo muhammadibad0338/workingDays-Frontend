@@ -7,7 +7,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { connect } from "react-redux";
-import { setTaskDelete } from '../../../Redux/Task/TaskAction';
+import { setTaskDelete, updateTaskAgileCycle } from '../../../Redux/Task/TaskAction';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -54,8 +54,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Model = ({ modelHeading, tasks, currentUser, setTaskDelete,projectId }) => {
+const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, updateTaskAgileCycle, index, uid }) => {
     const classes = useStyles();
+    const agileCycleArr = ['Requirments', 'Design', 'Develop', 'Test', 'Deploy', 'Maintenance']
+
 
 
     return (
@@ -80,15 +82,31 @@ const Model = ({ modelHeading, tasks, currentUser, setTaskDelete,projectId }) =>
                                     textTransform: 'capitalize', whiteSpace: 'break-spaces', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden'
                                 }} > {task?.employee?.name} </Typography> </p>}
                                 <Box>
-                                    { modelHeading !== "Requirments" && <IconButton color="primary" aria-label="move Forward" component="label">
-                                        <ArrowBackIcon />
-                                    </IconButton>}
-                                   { modelHeading !== "Maintenance" &&  <IconButton color="primary" aria-label="move Backward" component="label">
-                                        <ArrowForwardIcon />
-                                    </IconButton>}
+                                    {(task?.employee?._id == uid || currentUser.role === "softwareCompany" ) &&  <>
+                                        {modelHeading !== "Requirments" && <IconButton color="primary" aria-label="move Forward" component="label"
+                                            onClick={() => {
+                                                updateTaskAgileCycle({
+                                                    agileCycle: agileCycleArr[index - 1],
+                                                    employee: uid
+                                                }, task._id, projectId)
+                                            }}
+                                        >
+                                            <ArrowBackIcon />
+                                        </IconButton>}
+                                        {modelHeading !== "Maintenance" && <IconButton color="primary" aria-label="move Backward" component="label"
+                                            onClick={() => {
+                                                updateTaskAgileCycle({
+                                                    agileCycle: agileCycleArr[index + 1],
+                                                    employee: uid
+                                                }, task._id, projectId)
+                                            }}
+                                        >
+                                            <ArrowForwardIcon />
+                                        </IconButton>}
+                                    </>}
                                     {
                                         currentUser.role === "softwareCompany" && <IconButton color="error" aria-label="Delete Task" component="label"
-                                            onClick={() => setTaskDelete(task._id,projectId)}
+                                            onClick={() => setTaskDelete(task._id, projectId)}
                                         >
                                             <DeleteIcon />
                                         </IconButton>
@@ -112,6 +130,7 @@ const mapStateToProps = (store) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     setTaskDelete: (taskId, projectId) => dispatch(setTaskDelete(taskId, projectId)),
+    updateTaskAgileCycle: (data, taskId, projectId) => dispatch(updateTaskAgileCycle(data, taskId, projectId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Model);

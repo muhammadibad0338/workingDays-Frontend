@@ -34,7 +34,7 @@ export const getProjectsTasks = (id) => async (dispatch) => {
     dispatch(setLoading(true));
     let res = await axios({
       method: "GET",
-      url: `${baseUrl}/task/currentProjectTaks/${id}`,
+      url: `${baseUrl}/task/currentProjectTask/${id}`,
     });
     await dispatch(setTasks(res?.data?.tasks))
     dispatch(setLoading(false));
@@ -130,7 +130,7 @@ export const updateTaskAgileCycle = (data, taskId, projectId) => async (dispatch
   try {
     dispatch(setLoading(true))
     let res = await axios({
-      url: `${baseUrl}/task/currentProjectTaks/${taskId}`,
+      url: `${baseUrl}/task/updateTaskAgileCycle/${taskId}`,
       method: "PUT",
       data: data
     });

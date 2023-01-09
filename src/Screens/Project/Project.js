@@ -277,7 +277,7 @@ const Project = (
                         (!reduxTaskLoading || projectTasks.lenght > 0) ?
                             agileCycle.map((phase, ind) => {
                                 return (
-                                    <Model key={ind} modelHeading={phase} projectId={id} tasks={projectTasks.filter(task => task?.agileCycle == phase)} />
+                                    <Model key={ind} uid={uid} index={ind} modelHeading={phase} projectId={id} tasks={projectTasks.filter(task => task?.agileCycle == phase)} />
                                 )
                             }) :
                             <CircularProgress />
