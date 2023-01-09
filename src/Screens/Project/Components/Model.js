@@ -80,12 +80,12 @@ const Model = ({ modelHeading, tasks, currentUser, setTaskDelete,projectId }) =>
                                     textTransform: 'capitalize', whiteSpace: 'break-spaces', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden'
                                 }} > {task?.employee?.name} </Typography> </p>}
                                 <Box>
-                                    <IconButton color="primary" aria-label="move Forward" component="label">
+                                    { modelHeading !== "Requirments" && <IconButton color="primary" aria-label="move Forward" component="label">
                                         <ArrowBackIcon />
-                                    </IconButton>
-                                    <IconButton color="primary" aria-label="move Backward" component="label">
+                                    </IconButton>}
+                                   { modelHeading !== "Maintenance" &&  <IconButton color="primary" aria-label="move Backward" component="label">
                                         <ArrowForwardIcon />
-                                    </IconButton>
+                                    </IconButton>}
                                     {
                                         currentUser.role === "softwareCompany" && <IconButton color="error" aria-label="Delete Task" component="label"
                                             onClick={() => setTaskDelete(task._id,projectId)}
