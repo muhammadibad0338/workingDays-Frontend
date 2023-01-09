@@ -274,14 +274,14 @@ export const getUserRequest = (id) => async (dispatch) => {
         // console.log(res?.data, "getUserTeam")
         dispatch(setLoading(false));
     } catch (err) {
-        Swal.fire({
-            customClass: {
-                container: `my-swal`,
-            },
-            icon: "error",
-            title: "Working Days",
-            html: `<strong><font color="black">Something went wrong while Getting your Request </font></strong>`,
-        });
+        // Swal.fire({
+        //     customClass: {
+        //         container: `my-swal`,
+        //     },
+        //     icon: "error",
+        //     title: "Working Days",
+        //     html: `<strong><font color="black">Something went wrong while Getting your Request </font></strong>`,
+        // });
         dispatch(setLoading(false));
         dispatch(setError(err));
         //   console.log(err,"getCurrentUser")

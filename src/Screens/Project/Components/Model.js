@@ -113,6 +113,7 @@ const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, upd
                                     }
 
                                 </Box>
+                                {/* {currentUser.role === "softwareCompany" && <Box> </Box>} */}
                             </Box>
                         )
                     })
