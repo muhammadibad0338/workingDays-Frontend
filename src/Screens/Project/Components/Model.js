@@ -1,8 +1,14 @@
 import React from 'react';
 import { makeStyles, withStyles } from "@mui/styles";
 import {
-    Box, Typography,
+    Box, Typography, IconButton
 } from "@mui/material";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { connect } from "react-redux";
+import { setTaskDelete } from '../../../Redux/Task/TaskAction';
+
 
 const useStyles = makeStyles((theme) => ({
     projectIcon: {
@@ -48,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Model = ({ modelHeading, tasks }) => {
+const Model = ({ modelHeading, tasks, currentUser, setTaskDelete,projectId }) => {
     const classes = useStyles();
 
 
@@ -65,15 +71,30 @@ const Model = ({ modelHeading, tasks }) => {
                         return (
                             <Box p={1} mb={1} className={classes.task} key={ind} >
                                 <Typography sx={{ fontWeight: 'bold', letterSpacing: '2px', fontSize: '17px' }} >{task?.name}</Typography>
-                                <hr style={{ margin: '5px 0px',opacity:'0.5' }} />
+                                <hr style={{ margin: '5px 0px', opacity: '0.5' }} />
                                 <Typography sx={{
                                     textTransform: 'capitalize', whiteSpace: 'break-spaces', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden'
                                 }} >{task?.description}</Typography>
-                                <hr style={{ margin: '20px 0px 10px 0px',opacity:'0.5' }} />
-                                { task?.employee && <p style={{display:'flex'}} > Assign To : <Typography sx={{
+                                <hr style={{ margin: '20px 0px 10px 0px', opacity: '0.5' }} />
+                                {task?.employee && <p style={{ display: 'flex' }} > Assign To : <Typography sx={{
                                     textTransform: 'capitalize', whiteSpace: 'break-spaces', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden'
-                                }} > {task?.employee?.name} </Typography> </p> }
+                                }} > {task?.employee?.name} </Typography> </p>}
+                                <Box>
+                                    <IconButton color="primary" aria-label="move Forward" component="label">
+                                        <ArrowBackIcon />
+                                    </IconButton>
+                                    <IconButton color="primary" aria-label="move Backward" component="label">
+                                        <ArrowForwardIcon />
+                                    </IconButton>
+                                    {
+                                        currentUser.role === "softwareCompany" && <IconButton color="error" aria-label="Delete Task" component="label"
+                                            onClick={() => setTaskDelete(task._id,projectId)}
+                                        >
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    }
 
+                                </Box>
                             </Box>
                         )
                     })
@@ -83,4 +104,14 @@ const Model = ({ modelHeading, tasks }) => {
     )
 }
 
-export default Model
+//Redux Action
+const mapStateToProps = (store) => ({
+    currentUser: store.user.user,
+});
+
+
+const mapDispatchToProps = (dispatch) => ({
+    setTaskDelete: (taskId, projectId) => dispatch(setTaskDelete(taskId, projectId)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Model);

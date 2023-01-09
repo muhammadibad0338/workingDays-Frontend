@@ -97,26 +97,26 @@ export const createProject = (data, userId) => async (dispatch) => {
 
 export const getProjectDetails = (id) => async (dispatch) => {
   try {
-      dispatch(setLoading(true));
-      let res = await axios({
-          method: "GET",
-          url: `${baseUrl}/project/projectDetails/${id}`,
-      });
-      await dispatch(setProjectDetails(res?.data?.project))
-      // console.log(res?.data, "getUserTeam")
-      dispatch(setLoading(false));
+    dispatch(setLoading(true));
+    let res = await axios({
+      method: "GET",
+      url: `${baseUrl}/project/projectDetails/${id}`,
+    });
+    await dispatch(setProjectDetails(res?.data?.project))
+    // console.log(res?.data, "getUserTeam")
+    dispatch(setLoading(false));
   } catch (err) {
-      Swal.fire({
-          customClass: {
-              container: `my-swal`,
-          },
-          icon: "error",
-          title: "Working Days",
-          html: `<strong><font color="black">Something went wrong while Getting your Project </font></strong>`,
-      });
-      dispatch(setLoading(false));
-      dispatch(setError(err));
-      //   console.log(err,"getCurrentUser")
+    Swal.fire({
+      customClass: {
+        container: `my-swal`,
+      },
+      icon: "error",
+      title: "Working Days",
+      html: `<strong><font color="black">Something went wrong while Getting your Project </font></strong>`,
+    });
+    dispatch(setLoading(false));
+    dispatch(setError(err));
+    //   console.log(err,"getCurrentUser")
   }
 };
 
@@ -153,3 +153,4 @@ export const addEmployeeToproject = (data) => async (dispatch) => {
     dispatch(setLoading(false));
   }
 }
+

@@ -277,7 +277,7 @@ const Project = (
                         (!reduxTaskLoading || projectTasks.lenght > 0) ?
                             agileCycle.map((phase, ind) => {
                                 return (
-                                    <Model key={ind} modelHeading={phase} tasks={projectTasks.filter(task => task?.agileCycle == phase)} />
+                                    <Model key={ind} modelHeading={phase} projectId={id} tasks={projectTasks.filter(task => task?.agileCycle == phase)} />
                                 )
                             }) :
                             <CircularProgress />
@@ -364,7 +364,7 @@ const Project = (
                                 onChange={(e) => handleSelectEmployee(e)}
                             >
                                 <option>Select</option>
-                                {projectDetails?.projectTeam.map((val, i) => {
+                                {projectDetails?.projectTeam?.map((val, i) => {
                                     if (val.role !== "softwareCompany") {
                                         return (
                                             <option key={i} value={val?._id}>{val?.name}</option>
