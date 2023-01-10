@@ -114,12 +114,12 @@ const Profile = ({ currentUser }) => {
             </Box>
           </Grid>
           <Grid item xs={12} >
-            <Button
+            {/* <Button
               type="submit"
               style={{ backgroundColor: "#0095FF", color: "white" }}
             >
               save
-            </Button>
+            </Button> */}
           </Grid>
         </Grid>
 

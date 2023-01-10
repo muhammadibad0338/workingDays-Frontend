@@ -117,7 +117,7 @@ const ResponsiveAppbar = ({ currentUser }) => {
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
 
-                    <img src={Logo} className={classes.mdUpLogo} />
+                    <img src={Logo} className={classes.mdUpLogo}  />
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"

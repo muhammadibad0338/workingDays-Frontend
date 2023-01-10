@@ -117,7 +117,7 @@ const ListView = ({userProjects}) => {
                             <TableCell className={classes.tableCell}>Type</TableCell>
                             <TableCell className={classes.tableCell}>Lead</TableCell>
                             {/* <TableCell className={classes.tableCell}>date</TableCell> */}
-                            <TableCell className={classes.tableCell}>Action</TableCell>
+                            {/* <TableCell className={classes.tableCell}>Action</TableCell> */}
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -129,7 +129,7 @@ const ListView = ({userProjects}) => {
                                         <TableCell className={classes.tableCellBody}  > <img className={classes.iconImg} src={project?.icon} alt="Icon" /> {project?.name} </TableCell>
                                         <TableCell className={classes.tableCellBody} > {project?.description} </TableCell>
                                         <TableCell className={classes.tableCellBody} > Service management </TableCell>
-                                        <TableCell className={classes.tableCellBody} >
+                                        {/* <TableCell className={classes.tableCellBody} >
                                             <NativeSelect
                                                 key={ind}
                                                 fullWidth
@@ -140,7 +140,7 @@ const ListView = ({userProjects}) => {
                                                 <option value={"Accepted"}>Accept</option>
                                                 <option value={"Rejected"}>Reject</option>
                                             </NativeSelect>
-                                        </TableCell>
+                                        </TableCell> */}
                                     </TableRow>
                                 )
                             })
