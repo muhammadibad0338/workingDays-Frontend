@@ -1,6 +1,5 @@
 import React from 'react'
 import { Routes, Route, } from "react-router-dom";
-import PublicRoute from './PublicRoutes';
 import { withRouter } from './WithRouter'
 import ProtectedRoutes from './ProtectedRoutes';
 //screens
@@ -20,32 +19,32 @@ const routesArr = [
     {
         path: "/",
         Component: Dashboard,
-        projectDrawer : false
+        projectDrawer: false
     },
     {
         path: "/login",
         Component: Login,
-        projectDrawer : false
+        projectDrawer: false
     },
     {
         path: "/signup",
         Component: Signup,
-        projectDrawer : false
+        projectDrawer: false
     },
     {
         path: "/team",
         Component: Team,
-        projectDrawer : false
+        projectDrawer: false
     },
     {
         path: "/profile",
         Component: Profile,
-        projectDrawer : false
+        projectDrawer: false
     },
     {
         path: "/project/:id",
         Component: Project,
-        projectDrawer : true,
+        projectDrawer: true,
         nestedRoutes: [
             {
                 path: '/borad',
@@ -55,16 +54,9 @@ const routesArr = [
     },
     {
         path: "/project/:id/tree",
-        Component: ProjectTree ,
-        projectDrawer : true,
+        Component: ProjectTree,
+        projectDrawer: true,
     },
-]
-const AuthRoutesArr = [
-    {
-        path: "/",
-        Component: Dashboard,
-    },
-
 ]
 
 
@@ -74,30 +66,9 @@ const routes = () => {
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
             {
-                routesArr.map(({ path, Component, nestedRoutes,projectDrawer }) => {
+                routesArr.map(({ path, Component, nestedRoutes, projectDrawer }) => {
                     return (
                         <>
-
-
-                            {/* nestedRoutes ?
-                            <Route
-                                key={path}
-                                path={path}
-                                element={<ProtectedRoutes component={Component} />}
-                            >
-                            {
-                                nestedRoutes.map((nested) =>{
-                                    return(
-                                        <Route
-                                            key={nested.path}
-                                            path={nested.path}
-                                            element={<ProtectedRoutes component={nested.Component} />}
-                                        />
-                                    )
-                                })
-                            }
-                            </Route>
-                            : */}
                             <Route
                                 key={path}
                                 path={path}
