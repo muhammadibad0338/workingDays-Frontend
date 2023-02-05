@@ -1,5 +1,4 @@
 import React, {useEffect} from "react"
-import logo from './logo.svg';
 import './App.css';
 import Layout from './Layout/Layout';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
