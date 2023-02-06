@@ -89,7 +89,20 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
     minHeight: '100vh'
   }));
 
+  const ColorToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+    border: `1px solid ${theme.palette.headTypography.main}`
+  }));
 
+  const ColorToggleText = styled(ToggleButtonGroup)(({ theme }) => ({
+    color: theme.palette.headTypography.main
+  }));
+
+  const ColorToggleButton = styled(ToggleButton)(({ theme }) => ({
+    // backgroundColor: theme.palette.type == "light" ? '#E0E0E0' : '#2A435B',
+    // '&:hover': {
+    //   background:'none'
+    // }
+  }));
 
 
   return (
@@ -100,23 +113,26 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
             <HeadingOne title="Projects" />
             {currentUser.role === "softwareCompany" && <ContainedBtn title='Create Project' onClick={() => setisDialogOpen(true)} />}
           </Grid>
-          <Grid item xs={12} >
+          {/* <Grid item xs={12} >
             <SearchBar />
-          </Grid>
-          <Grid item xs={12} className={classes.alignEnd} >
-            <ToggleButtonGroup
+          </Grid> */}
+          <Grid item xs={12} className={classes.alignEnd} mt={10} >
+            <ColorToggleButtonGroup
               value={alignment}
               exclusive
               onChange={handleAlignment}
             >
-
-              <ToggleButton value="listView" aria-label="left aligned" >
-                <ListIcon />
-              </ToggleButton>
-              <ToggleButton value="gridView" aria-label="left aligned" >
-                <GridViewIcon />
-              </ToggleButton>
-            </ToggleButtonGroup>
+              <ColorToggleButton value="listView" aria-label="left aligned" sx={{opacity:alignment === "listView" ? 1 : 0.3 }} >
+                <ColorToggleText>
+                  <ListIcon />
+                </ColorToggleText>
+              </ColorToggleButton>
+              <ColorToggleButton value="gridView" aria-label="left aligned" sx={{opacity:alignment === "gridView" ? 1 : 0.3 }} >
+                <ColorToggleText>
+                  <GridViewIcon />
+                </ColorToggleText>
+              </ColorToggleButton>
+            </ColorToggleButtonGroup>
           </Grid>
           <Grid item xs={12} mt={4} >
             {
