@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import ProjectDrawer from '../Screens/Project/Components/ProjectDrawer'
 
 const ProtectedRoutes = ({ component: Component, currentUser, projectDrawer, toggleTheme, theme }) => {
-    console.log(localStorage.getItem('token'), "token check")
+    // console.log(localStorage.getItem('token'), "token check")
     if (localStorage.getItem('token')) {
         return (
             <>
