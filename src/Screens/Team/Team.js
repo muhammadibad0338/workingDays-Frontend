@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Box,
     Typography,
@@ -33,7 +33,8 @@ import { getUserTeam } from "../../Redux/User/UserAction"
 const useStyles = makeStyles((theme) => ({
     spaceBtwn: {
         display: 'flex',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+
     },
     alignEnd: {
         width: '570px !important',
@@ -48,22 +49,35 @@ const useStyles = makeStyles((theme) => ({
         borderTop: '1px solid gray',
         cursor: 'pointer',
         '&:hover': {
-            backgroundColor: '#E8EBEF'
+            // backgroundColor: '#E8EBEF'
         }
     },
-    // tableRow:{
-    //     padding:'0px 0px'
-    // },
-    stickyBox:{
-        position:'sticky',
-        top:'72px',
-        backgroundColor:'#FFFFFF',
-        zIndex:'99',
+    tableRow: {
+        cursor: 'pointer',
+        "&:hover": {
+            // color: "#09926E",
+            backgroundColor: theme.palette.type === "light" ? "#f5f5f5" : "#14273A",
+        },
+    },
+    stickyBox: {
+        position: 'sticky',
+        top: '72px',
+        // backgroundColor:'#FFFFFF',
+        backgroundColor: 'inherit',
+        zIndex: '99',
     }
 }));
 
+const ColorBox = styled(Box)(({ theme }) => ({
+    backgroundColor: theme.palette.primary.main,
+    minHeight: '100vh'
+}));
 
-const Team = ({currentUser,getUserTeam,userTeam}) => {
+const ColorText = styled(Typography)(({ theme }) => ({
+    color: theme.palette.headTypography.main
+}));
+
+const Team = ({ currentUser, getUserTeam, userTeam }) => {
     const classes = useStyles();
     const [isDialogOpen, setisDialogOpen] = useState(false)
     const uid = localStorage.getItem('uid')
@@ -71,28 +85,28 @@ const Team = ({currentUser,getUserTeam,userTeam}) => {
     useEffect(() => {
         getUserTeam(uid)
     }, [])
-    
+
 
     return (
-        <>
+        <ColorBox>
             <Container maxWidth='fl' >
                 <Grid container >
                     <Grid item xs={12} mt={4} className={classes.stickyBox} >
-                        <Box pt={1} className={classes.spaceBtwn} >
+                        <Box pt={1} className={classes.spaceBtwn}  >
                             <Box>
                                 <HeadingOne title="Team" />
-                                <Typography>{userTeam?.teamMembers?.length} Team Members</Typography>
+                                <ColorText>{userTeam?.teamMembers?.length} Team Members</ColorText>
                             </Box>
-                           {currentUser?.role == "softwareCompany" && <ContainedBtn title='ADD' startIcon={<AddIcon />} onClick={() => setisDialogOpen(true)} />}
+                            {currentUser?.role == "softwareCompany" && <ContainedBtn title='ADD' startIcon={<AddIcon />} onClick={() => setisDialogOpen(true)} />}
                         </Box>
-                        <SearchBar />
+                        {/* <SearchBar /> */}
                     </Grid>
                     {/* <Grid item xs={12} style={{ display: 'flex' }}  >
                     </Grid> */}
-                    <Grid item xs={12} >
-                        { Object.keys(userTeam).length == 0 ? <CircularProgress/> : <Box  >
-                            <Box px={2} py={0.5} style={{ backgroundColor: '#F1F5F9' }} >
-                                <Typography>{userTeam?.team?.name} </Typography>
+                    <Grid item xs={12} mt={5} >
+                        {Object.keys(userTeam).length == 0 ? <CircularProgress /> : <Box  >
+                            <Box px={2} py={0.5} style={{ backgroundColor: 'inherit' }} >
+                                <ColorText>{userTeam?.team?.name} </ColorText>
                             </Box>
                             <TableContainer className={classes.tableContainer}>
                                 <Table>
@@ -100,17 +114,17 @@ const Team = ({currentUser,getUserTeam,userTeam}) => {
                                         {
                                             userTeam?.team?.teamMembers?.map((person, i) => {
                                                 return (
-                                                    <TableRow key={i} className={classes.tableRow} >
+                                                    <Box key={i} className={classes.tableRow}  >
                                                         <Box p={2} className={classes.contactBox} >
-                                                            <Tooltip >
+                                                            <Tooltip sx={{ backgroundColor: 'inherit' }} >
                                                                 <Avatar src={person?.profilePicture} />
                                                             </Tooltip>
                                                             <Box ml={1} >
-                                                                <Typography style={{ fontSize: '13px' }} >{person?.name} </Typography>
-                                                                <Typography style={{ fontSize: '13px' }} >{person?.email} </Typography>
+                                                                <ColorText style={{ fontSize: '13px' }} >{person?.name} </ColorText>
+                                                                <ColorText style={{ fontSize: '13px' }} >{person?.email} </ColorText>
                                                             </Box>
                                                         </Box>
-                                                    </TableRow>
+                                                    </Box>
                                                 )
                                             })
                                         }
@@ -121,11 +135,11 @@ const Team = ({currentUser,getUserTeam,userTeam}) => {
                     </Grid>
                 </Grid>
             </Container>
-            <AddTeamMembers 
+            <AddTeamMembers
                 isDialogOpen={isDialogOpen}
                 hideDialogHandler={() => setisDialogOpen(false)}
             />
-        </>
+        </ColorBox>
     )
 }
 
