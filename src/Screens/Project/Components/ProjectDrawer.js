@@ -59,7 +59,9 @@ const openedMixin = (theme) => ({
         duration: theme.transitions.duration.enteringScreen,
     }),
     overflowX: 'hidden',
-    marginTop: "72px"
+    marginTop: "72px",
+    backgroundColor: theme.palette.primary.main,
+    borderRight: theme.palette.type == "light" ? '1px solid #BDBDBD' : '1px solid #0095FF'
 });
 
 const closedMixin = (theme) => ({
@@ -72,7 +74,8 @@ const closedMixin = (theme) => ({
     [theme.breakpoints.up('sm')]: {
         width: `calc(${theme.spacing(8)} + 1px)`,
     },
-    marginTop: "72px"
+    marginTop: "72px",
+    backgroundColor: theme.palette.primary.main,
 });
 
 
@@ -95,7 +98,23 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-function MiniDrawer({ Component,projectDetails }) {
+const ColorBox = styled(Box)(({ theme }) => ({
+    backgroundColor: theme.palette.primary.main,
+}))
+
+const ColorToggleListItemText = styled(ListItemText)(({ theme }) => ({
+    color: theme.palette.headTypography.main
+}));
+
+const ColorToggleText = styled(Typography)(({ theme }) => ({
+    color: theme.palette.headTypography.main
+}));
+
+const ProjectDetailBox = styled(Box)(({ theme }) => ({
+    borderBottom : theme.palette.type == "light" ? '1px solid #BDBDBD' : '1px solid #0095FF'
+}));
+
+function MiniDrawer({ Component, projectDetails }) {
     const theme = useTheme();
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
@@ -124,25 +143,27 @@ function MiniDrawer({ Component,projectDetails }) {
     ]
 
     return (
-        <Box
-         sx={{ display: '-webkit-box', }} 
-         >
+        <ColorBox
+            sx={{ display: '-webkit-box', }}
+        >
             {/* <CssBaseline /> */}
 
             <Drawer variant="permanent" open={!open}  >
                 {/* <Divider /> */}
                 <Box py={1} className={classes.iconButtonCntnr} >
                     <IconButton className={classes.iconButton} onClick={() => setOpen(!open)} >
-                        {open ? <KeyboardArrowRightIcon /> : <KeyboardArrowLeftIcon />}
+                        <ColorToggleText>
+                            {open ? <KeyboardArrowRightIcon /> : <KeyboardArrowLeftIcon />}
+                        </ColorToggleText>
                     </IconButton>
                 </Box>
-                <Box px={3} style={{ display: 'flex' }} >
+                <ProjectDetailBox px={3} pb={2} style={{ display: 'flex' }} >
                     <img src={projectDetails?.icon} className={classes.projectIcon} />
                     <div>
-                        <Typography>{projectDetails?.name} </Typography>
-                        <span style={{ fontSize: '12px' }} >Software project</span>
+                        <ColorToggleText>{projectDetails?.name} </ColorToggleText>
+                        <ColorToggleText style={{ fontSize: '12px' }} >Software project</ColorToggleText>
                     </div>
-                </Box>
+                </ProjectDetailBox>
                 <Divider />
                 <List>
                     {drawerRoutes.map(({ name, Icon }, index) => (
@@ -161,20 +182,22 @@ function MiniDrawer({ Component,projectDetails }) {
                                         justifyContent: 'center',
                                     }}
                                 >
-                                    <Icon />
+                                    <ColorToggleText>
+                                        <Icon />
+                                    </ColorToggleText>
                                 </ListItemIcon>
-                                <ListItemText primary={name} sx={{ opacity: !open ? 1 : 0 }} />
+                                <ColorToggleListItemText primary={name} sx={{ opacity: !open ? 1 : 0 }} />
                             </ListItemButton>
                         </ListItem>
                     ))}
                 </List>
             </Drawer>
-            <Box 
-            sx={{ flexGrow: 1, p: 1 }}
+            <Box
+                sx={{ flexGrow: 1, p: 1 }}
             >
                 <Component />
             </Box>
-        </Box>
+        </ColorBox>
     );
 }
 //Redux Action
