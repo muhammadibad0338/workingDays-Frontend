@@ -144,7 +144,7 @@ function MiniDrawer({ Component, projectDetails }) {
 
     return (
         <ColorBox
-            sx={{ display: '-webkit-box', }}
+            sx={{ display: '-webkit-box', minHeight:`calc(100vh - 72px)` }}
         >
             {/* <CssBaseline /> */}
 

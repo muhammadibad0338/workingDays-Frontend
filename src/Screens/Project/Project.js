@@ -102,9 +102,11 @@ const ColorText = styled(Typography)(({ theme }) => ({
     color: theme.palette.headTypography.main
 }));
 
+
 const ColorBox = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.primary.main,
-}));
+    // minHeight: '100vh',
+  }));
 
 
 const BootstrapInput = withStyles((theme) => ({
@@ -266,10 +268,10 @@ const Project = (
 
     return (
         <>
-            <Box p={3} >
-                <Typography> <Link to='/' style={{ textDecoration: 'none' }} >Projects / </Link> {projectDetails?.name} </Typography>
-                <Box className={classes.alignCntnr} >
-                    <Typography variant='h5' className={classes.mainHead} >{projectDetails?.name}  Board</Typography>
+            <ColorBox p={3} >
+                <ColorText> <Link to='/' style={{ textDecoration: 'none', color:'#5800FF' }} >Projects / </Link> {projectDetails?.name} </ColorText>
+                <Box className={classes.alignCntnr} my={4} >
+                    <ColorText variant='h5' className={classes.mainHead} >{projectDetails?.name}  Board</ColorText>
                     {currentUser?.role == "softwareCompany" && <IconButton style={{ marginLeft: '10px' }} color="primary" aria-label="upload picture" component="label"
                         onClick={() => setIsAddMemberDialogOpen(true)}
                     >
@@ -291,9 +293,9 @@ const Project = (
                             <CircularProgress />
                     }
                 </AgileCntnr>
-            </Box>
+            </ColorBox>
             <FullScreenDialog maxWidth='sm' fullWidth={true} open={isCreateIssueDialogOpen} hideDialogHandler={() => setIsCreateIssueDialogOpen(false)} >
-                <ColorBox p={2} >
+                <Box p={2} >
                     <Box>
                         <Box className={classes.alignEnd} >
                             <IconButton aria-label="Close" onClick={() => setIsCreateIssueDialogOpen(false)} >
@@ -384,10 +386,10 @@ const Project = (
                         <ContainedBtn title="create task" endIcon={<AddIcon />} onClick={projectCreateTask}
                         />
                     </Box>
-                </ColorBox>
+                </Box>
             </FullScreenDialog>
             <FullScreenDialog maxWidth='sm' fullWidth={true} open={isAddMemberDialogOpen} hideDialogHandler={() => setIsAddMemberDialogOpen(false)} >
-                <ColorBox p={2} >
+                <Box p={2} >
                     <Box>
                         <Box className={classes.alignEnd} >
                             <IconButton aria-label="Close" onClick={() => setIsAddMemberDialogOpen(false)} >
@@ -434,7 +436,7 @@ const Project = (
                             })
                         }
                     </Box>
-                </ColorBox>
+                </Box>
             </FullScreenDialog>
         </>
     );
