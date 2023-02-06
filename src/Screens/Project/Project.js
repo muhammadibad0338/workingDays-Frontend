@@ -98,6 +98,14 @@ const AgileCntnr = styled(Box)(({ theme }) => ({
     flex: '1 1 0%',
 }));
 
+const ColorText = styled(Typography)(({ theme }) => ({
+    color: theme.palette.headTypography.main
+}));
+
+const ColorBox = styled(Box)(({ theme }) => ({
+    backgroundColor: theme.palette.primary.main,
+}));
+
 
 const BootstrapInput = withStyles((theme) => ({
     root: {
@@ -285,7 +293,7 @@ const Project = (
                 </AgileCntnr>
             </Box>
             <FullScreenDialog maxWidth='sm' fullWidth={true} open={isCreateIssueDialogOpen} hideDialogHandler={() => setIsCreateIssueDialogOpen(false)} >
-                <Box p={2} >
+                <ColorBox p={2} >
                     <Box>
                         <Box className={classes.alignEnd} >
                             <IconButton aria-label="Close" onClick={() => setIsCreateIssueDialogOpen(false)} >
@@ -376,10 +384,10 @@ const Project = (
                         <ContainedBtn title="create task" endIcon={<AddIcon />} onClick={projectCreateTask}
                         />
                     </Box>
-                </Box>
+                </ColorBox>
             </FullScreenDialog>
             <FullScreenDialog maxWidth='sm' fullWidth={true} open={isAddMemberDialogOpen} hideDialogHandler={() => setIsAddMemberDialogOpen(false)} >
-                <Box p={2} >
+                <ColorBox p={2} >
                     <Box>
                         <Box className={classes.alignEnd} >
                             <IconButton aria-label="Close" onClick={() => setIsAddMemberDialogOpen(false)} >
@@ -426,7 +434,7 @@ const Project = (
                             })
                         }
                     </Box>
-                </Box>
+                </ColorBox>
             </FullScreenDialog>
         </>
     );

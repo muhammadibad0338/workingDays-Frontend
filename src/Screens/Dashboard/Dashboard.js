@@ -25,6 +25,8 @@ import FullScreenDialog from '../../Components/Dialog';
 import { getUserProjects, createProject } from '../../Redux/Project/ProjectAction';
 import { getUserRequest } from '../../Redux/User/UserAction';
 
+import Swal from "sweetalert2";
+
 const ProjectHead = styled(Typography)(({ theme }) => ({
   fontSize: '2rem',
 }));
@@ -48,7 +50,17 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "100%",
     height: "auto",
     borderRadius: "10px",
+    color: `${theme.palette.headTypography.main} !important `,
+    border: `1px solid ${theme.palette.headTypography.main}`,
+    outline: 'none',
+    '&:hover': {
+      outline: 'none',
+      border: `1px solid ${theme.palette.headTypography.main}`,
+    }
   },
+  colorBox: {
+    background: theme.palette.primary.main
+  }
 }));
 
 
@@ -66,6 +78,7 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
     }
   })
 
+
   //Toggle View
   const [alignment, setAlignment] = React.useState('listView');
   const handleAlignment = (event, newAlignment) => {
@@ -81,7 +94,19 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
 
   const createUserProject = () => {
     const uid = localStorage.getItem('uid')
-    createProject(credentials, uid)
+    if (credentials.name.trim().length == 0 || credentials.description.trim().length == 0) {
+      Swal.fire({
+        customClass: {
+          container: `my-swal`,
+        },
+        icon: "error",
+        title: "Working Days",
+        html: `<strong><font color="black">Please fill all Fields </font></strong>`,
+      });
+    }
+    else {
+      createProject(credentials, uid)
+    }
   }
 
   const ColorBox = styled(Box)(({ theme }) => ({
@@ -89,11 +114,17 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
     minHeight: '100vh'
   }));
 
+  const ColorBoxTwo = styled(Box)(({ theme }) => ({
+    backgroundColor: theme.palette.primary.main,
+    minHeight: '100vh'
+  }));
+
+
   const ColorToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
     border: `1px solid ${theme.palette.headTypography.main}`
   }));
 
-  const ColorToggleText = styled(ToggleButtonGroup)(({ theme }) => ({
+  const ColorToggleText = styled(Typography)(({ theme }) => ({
     color: theme.palette.headTypography.main
   }));
 
@@ -106,55 +137,59 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
 
 
   return (
-    <ColorBox>
-      <Container maxWidth='fl' >
-        <Grid container >
-          <Grid item xs={12} mt={4} className={classes.spaceBtwn} >
-            <HeadingOne title="Projects" />
-            {currentUser.role === "softwareCompany" && <ContainedBtn title='Create Project' onClick={() => setisDialogOpen(true)} />}
-          </Grid>
-          {/* <Grid item xs={12} >
+    <>
+      <ColorBox>
+        <Container maxWidth='fl' >
+          <Grid container >
+            <Grid item xs={12} mt={4} className={classes.spaceBtwn} >
+              <HeadingOne title="Projects" />
+              {currentUser.role === "softwareCompany" && <ContainedBtn title='Create Project' onClick={() => setisDialogOpen(true)} />}
+            </Grid>
+            {/* <Grid item xs={12} >
             <SearchBar />
           </Grid> */}
-          <Grid item xs={12} className={classes.alignEnd} mt={10} >
-            <ColorToggleButtonGroup
-              value={alignment}
-              exclusive
-              onChange={handleAlignment}
-            >
-              <ColorToggleButton value="listView" aria-label="left aligned" sx={{opacity:alignment === "listView" ? 1 : 0.3 }} >
-                <ColorToggleText>
-                  <ListIcon />
-                </ColorToggleText>
-              </ColorToggleButton>
-              <ColorToggleButton value="gridView" aria-label="left aligned" sx={{opacity:alignment === "gridView" ? 1 : 0.3 }} >
-                <ColorToggleText>
-                  <GridViewIcon />
-                </ColorToggleText>
-              </ColorToggleButton>
-            </ColorToggleButtonGroup>
+            <Grid item xs={12} className={classes.alignEnd} mt={10} >
+              <ColorToggleButtonGroup
+                value={alignment}
+                exclusive
+                onChange={handleAlignment}
+              >
+                <ColorToggleButton value="listView" aria-label="left aligned" sx={{ opacity: alignment === "listView" ? 1 : 0.3 }} >
+                  <ColorToggleText>
+                    <ListIcon />
+                  </ColorToggleText>
+                </ColorToggleButton>
+                <ColorToggleButton value="gridView" aria-label="left aligned" sx={{ opacity: alignment === "gridView" ? 1 : 0.3 }} >
+                  <ColorToggleText>
+                    <GridViewIcon />
+                  </ColorToggleText>
+                </ColorToggleButton>
+              </ColorToggleButtonGroup>
+            </Grid>
+            <Grid item xs={12} mt={4} >
+              {
+                alignment === "gridView" ? <GridView /> : <ListView />
+              }
+            </Grid>
           </Grid>
-          <Grid item xs={12} mt={4} >
-            {
-              alignment === "gridView" ? <GridView /> : <ListView />
-            }
-          </Grid>
-        </Grid>
-      </Container>
+        </Container>
+      </ColorBox>
       <FullScreenDialog maxWidth='sm' fullWidth={true} open={isDialogOpen} hideDialogHandler={() => setisDialogOpen(false)} >
-        <Box p={2} >
+        <Box p={2} className={classes.colorBox} >
           <Box className={classes.alignEnd} >
             <IconButton aria-label="Close" onClick={() => setisDialogOpen(false)} >
-              <CloseIcon />
+              <ColorToggleText sx={{ display: 'flex' }} >
+                <CloseIcon />
+              </ColorToggleText>
             </IconButton>
           </Box>
-          <Typography variant='h6' style={{ fontWeight: 'bold' }} >Create new project</Typography>
+          <ColorToggleText variant='h6' style={{ fontWeight: 'bold' }} >Create new project</ColorToggleText>
           <Box my={2} style={{}} >
             {/* <Typography style={{ marginBottom: '-20px' }} >Project Name</Typography> */}
             <Box my={3} style={{ width: "100%" }}>
-              <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
+              <ColorToggleText style={{ fontSize: "12px", marginLeft: "3px" }}>
                 Project Name
-              </Typography>
+              </ColorToggleText>
               <OutlinedInput
                 fullwidth
                 required={true}
@@ -162,7 +197,7 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
                 style={{ width: "100%" }}
                 placeholder="Project Name"
                 type="text"
-                // value={currentUser?.email}
+                value={credentials?.name}
                 onChange={(e) => {
                   setcredentials({
                     ...credentials,
@@ -172,9 +207,9 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
               />
             </Box>
             <Box my={3} style={{ width: "100%" }}>
-              <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
+              <ColorToggleText style={{ fontSize: "12px", marginLeft: "3px" }}>
                 Project Description
-              </Typography>
+              </ColorToggleText>
               <OutlinedInput
                 fullwidth
                 required={true}
@@ -184,7 +219,7 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
                 style={{ width: "100%" }}
                 placeholder="Description"
                 type="text"
-                // value={currentUser?.email}
+                value={credentials?.description}
                 onChange={(e) => {
                   setcredentials({
                     ...credentials,
@@ -197,10 +232,9 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
               <ContainedBtn title="Create" onClick={createUserProject} />
             </Box>
           </Box>
-
         </Box>
       </FullScreenDialog>
-    </ColorBox>
+    </>
   )
 }
 
