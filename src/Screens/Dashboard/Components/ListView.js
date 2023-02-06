@@ -13,28 +13,30 @@ import {
     CircularProgress,
     Chip,
     NativeSelect,
-    InputBase
+    InputBase,
+    Typography
 } from "@mui/material";
 import { styled } from '@mui/system';
 import { makeStyles, withStyles } from "@mui/styles";
 import { Link, useNavigate } from 'react-router-dom';
 import State from "../../../State/Project.json"
 import { connect } from "react-redux";
+import moment from 'moment/moment';
 
 const useStyles = makeStyles((theme) => ({
     iconImg: {
         height: '20px',
         width: '20px',
-        marginRight: '5px',
+        marginRight: '10px',
     },
     tableContainer: {
         fontFamily: "inherit",
     },
     tableRow: {
-        cursor:'pointer',
+        cursor: 'pointer',
         "&:hover": {
             color: "#09926E",
-            backgroundColor: "#f5f5f5",
+            backgroundColor: theme.palette.type === "light" ? "#f5f5f5" : "#14273A",
         },
     },
     tableCell: {
@@ -60,6 +62,9 @@ const useStyles = makeStyles((theme) => ({
             // boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
         },
     }
+}));
+const ToggleTypography = styled(Typography)(({ theme }) => ({
+    color: theme.palette.headTypography.main,
 }));
 
 const BootstrapInput = withStyles((theme) => ({
@@ -99,7 +104,7 @@ const BootstrapInput = withStyles((theme) => ({
     },
 }))(InputBase);
 
-const ListView = ({userProjects}) => {
+const ListView = ({ userProjects }) => {
     const classes = useStyles();
     let navigate = useNavigate();
 
@@ -114,10 +119,8 @@ const ListView = ({userProjects}) => {
                         <TableRow>
                             <TableCell className={classes.tableCell}>#</TableCell>
                             <TableCell className={classes.tableCell}>Name</TableCell>
-                            <TableCell className={classes.tableCell}>Type</TableCell>
-                            <TableCell className={classes.tableCell}>Lead</TableCell>
-                            {/* <TableCell className={classes.tableCell}>date</TableCell> */}
-                            {/* <TableCell className={classes.tableCell}>Action</TableCell> */}
+                            <TableCell className={classes.tableCell}>Project Member</TableCell>
+                            <TableCell className={classes.tableCell}>Created At</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -125,22 +128,14 @@ const ListView = ({userProjects}) => {
                             userProjects.map((project, ind) => {
                                 return (
                                     <TableRow key={ind} className={classes.tableRow} onClick={() => navigateToProjectBoard(project?._id)} >
-                                        <TableCell className={classes.tableCellBody} >{ind + 1}</TableCell>
-                                        <TableCell className={classes.tableCellBody}  > <img className={classes.iconImg} src={project?.icon} alt="Icon" /> {project?.name} </TableCell>
-                                        <TableCell className={classes.tableCellBody} > {project?.description} </TableCell>
-                                        <TableCell className={classes.tableCellBody} > Service management </TableCell>
-                                        {/* <TableCell className={classes.tableCellBody} >
-                                            <NativeSelect
-                                                key={ind}
-                                                fullWidth
-                                                input={<BootstrapInput />}
-                                                className={classes.select}
-                                            >
-                                                <option>options</option>
-                                                <option value={"Accepted"}>Accept</option>
-                                                <option value={"Rejected"}>Reject</option>
-                                            </NativeSelect>
-                                        </TableCell> */}
+                                        <TableCell className={classes.tableCellBody} ><ToggleTypography>{ind + 1}</ToggleTypography> </TableCell>
+                                        <TableCell className={classes.tableCellBody}  >
+                                            <Box sx={{ display: 'flex' }} >
+                                                <img className={classes.iconImg} src={project?.icon} alt="Icon" /> <ToggleTypography>{project?.name}</ToggleTypography>
+                                            </Box>
+                                        </TableCell>
+                                        <TableCell className={classes.tableCellBody} ><ToggleTypography>{project?.projectTeam?.length} Members</ToggleTypography>  </TableCell>
+                                        <TableCell className={classes.tableCellBody} ><ToggleTypography>{moment(project?.createdAt).format("DD/MM/YYYY")}</ToggleTypography>  </TableCell>
                                     </TableRow>
                                 )
                             })
@@ -157,10 +152,10 @@ const mapStateToProps = (store) => ({
     reduxLoading: store.user.loading,
     currentUser: store.user.user,
     userProjects: store.project.projects
-  });
-  
-  
-  const mapDispatchToProps = (dispatch) => ({
-  });
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(ListView);
+});
+
+
+const mapDispatchToProps = (dispatch) => ({
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListView);

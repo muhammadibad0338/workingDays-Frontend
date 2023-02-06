@@ -6,9 +6,19 @@ import {
     ListItemText,
     Box,
     Tooltip,
-    Avatar
+    Avatar,
+    Switch,
+    FormControlLabel,
+    ToggleButtonGroup,
+    ToggleButton
 } from "@mui/material";
 import { styled, alpha } from '@mui/system';
+
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+
+import lightIcon from "../Assets/Images/moon.png"
+import darkIcon from "../Assets/Images/sun-bright.png"
 
 // const StyleMenu = styled(Menu)(({ theme }) => ({
 //     marginTop:"45px"
@@ -30,12 +40,14 @@ const StyledMenu = styled((props) => (
 ))(({ theme }) => ({
     '& .MuiPaper-root': {
         borderRadius: 6,
+        backgroundColor: theme.palette.primary.main,
+        border: theme.palette.type == "light" ? '' : '2px solid #42A5F5',
+        // border:theme,
         marginTop: theme.spacing(1),
         // minWidth: 180,
         marginTop: '45px',
         width: '250px',
-        color:
-            theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+        color: theme.palette.headTypography.main,
         boxShadow:
             'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
         '& .MuiMenu-list': {
@@ -44,20 +56,22 @@ const StyledMenu = styled((props) => (
         '& .MuiMenuItem-root': {
             '& .MuiSvgIcon-root': {
                 fontSize: 18,
-                color: theme.palette.text.secondary,
+                color: theme.palette.headTypography.main,
                 marginRight: theme.spacing(1.5),
             },
             '&:active': {
                 backgroundColor: alpha(
                     theme.palette.primary.main,
-                    theme.palette.action.selectedOpacity,
+                    // theme.palette.action.selectedOpacity,
                 ),
             },
         },
     },
 }));
 
-const ProfileMenu = ({ anchorElUser, handleCloseUserMenu, options, currentUser }) => {
+
+
+const ProfileMenu = ({ anchorElUser, handleCloseUserMenu, options, currentUser, toggleTheme, theme }) => {
     return (
         <StyledMenu
             // sx={{ mt: '45px' }}
@@ -80,13 +94,13 @@ const ProfileMenu = ({ anchorElUser, handleCloseUserMenu, options, currentUser }
             <MenuItem  >
                 <Typography style={{ fontWeight: 'bold' }} >ACCOUNT</Typography>
             </MenuItem>
-            <Box p={2} style={{display:'flex'}} >
+            <Box p={2} style={{ display: 'flex' }} >
                 <Tooltip >
                     <Avatar alt={currentUser?.name} src="/static/images/avatar/2.jpg" />
                 </Tooltip>
                 <Box ml={1} >
-                    <Typography style={{fontSize:'13px'}} >{currentUser?.name} </Typography>
-                    <Typography style={{fontSize:'13px'}} >{currentUser?.email} </Typography>
+                    <Typography style={{ fontSize: '13px' }} >{currentUser?.name} </Typography>
+                    <Typography style={{ fontSize: '13px' }} >{currentUser?.email} </Typography>
                 </Box>
             </Box>
             {options.map((option) => (
@@ -97,6 +111,22 @@ const ProfileMenu = ({ anchorElUser, handleCloseUserMenu, options, currentUser }
                     <Typography textAlign="center" > {option?.name} </Typography>
                 </MenuItem>
             ))}
+            <MenuItem  >
+                {theme} Mode
+                <ToggleButtonGroup
+                    value={theme}
+                    exclusive
+                    onChange={toggleTheme}
+                    style={{ border: theme == "light" ? '1px solid gray' : '1px solid white', marginLeft: '5px' }}
+                >
+                    <ToggleButton value="light" aria-label="left aligned" style={{ background: theme == "light" ? "#E0EFFF" : 'inherit' }}  >
+                        <LightModeIcon style={{ color: theme == "light" ? "#0D86FF" : "#FFFFFF" }} />
+                    </ToggleButton>
+                    <ToggleButton value="dark" aria-label="left aligned" style={{ background: theme == "light" ? "inherit" : '#2A435B' }} >
+                        <DarkModeIcon style={{ color: theme == "light" ? "#5E5E5E" : "#FFFFFF" }} />
+                    </ToggleButton>
+                </ToggleButtonGroup>
+            </MenuItem>
         </StyledMenu>
     )
 }

@@ -7,7 +7,8 @@ import { styled } from '@mui/system';
 
 const TypographyHead = styled(Typography)(({ theme }) => ({
     fontSize: '2rem',
-    fontWeight:'bold'
+    fontWeight:'bold',
+    color: theme.palette.headTypography.main,
 }));
 
 const HeadingOne = ({ title, ...props }) => {

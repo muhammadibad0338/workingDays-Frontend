@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject,getUserRequest }) => {
+const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, getUserRequest }) => {
   const classes = useStyles();
   const uid = localStorage.getItem('uid')
   const [isDialogOpen, setisDialogOpen] = useState(false)
@@ -75,7 +75,7 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject,g
   useEffect(() => {
     const uid = localStorage.getItem('uid')
     getUserProjects(uid)
-    
+
   }, [])
 
 
@@ -84,10 +84,16 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject,g
     createProject(credentials, uid)
   }
 
+  const ColorBox = styled(Box)(({ theme }) => ({
+    backgroundColor: theme.palette.primary.main,
+    minHeight: '100vh'
+  }));
+
+
+
+
   return (
-    <>
-      {/* <ResponsiveAppbar currentUser={currentUser} /> */}
-      {/* <div>Welcome {currentUser?.name}</div> */}
+    <ColorBox>
       <Container maxWidth='fl' >
         <Grid container >
           <Grid item xs={12} mt={4} className={classes.spaceBtwn} >
@@ -178,7 +184,7 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject,g
 
         </Box>
       </FullScreenDialog>
-    </>
+    </ColorBox>
   )
 }
 

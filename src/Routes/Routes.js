@@ -60,7 +60,7 @@ const routesArr = [
 ]
 
 
-const routes = () => {
+const routes = ({toggleTheme,theme}) => {
     return (
         <Routes>
             <Route path='/login' element={<Login />} />
@@ -72,7 +72,7 @@ const routes = () => {
                             <Route
                                 key={path}
                                 path={path}
-                                element={<ProtectedRoutes component={Component} projectDrawer={projectDrawer} />}
+                                element={<ProtectedRoutes component={Component} projectDrawer={projectDrawer} toggleTheme={toggleTheme} theme={theme} />}
                             />
                         </>
                     )
