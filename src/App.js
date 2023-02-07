@@ -16,6 +16,9 @@ const lightTheme = createTheme({
     },
     headTypography: {
       main: '#0A1929'
+    },
+    ticketBox: {
+      main: '#EBECF0'
     }
   },
   breakpoints: {
@@ -42,6 +45,9 @@ const darkTheme = createTheme({
     },
     headTypography: {
       main: '#F3F6F9'
+    },
+    ticketBox: {
+      main: '#001E3C'
     }
   },
   breakpoints: {
@@ -59,7 +65,7 @@ const darkTheme = createTheme({
 
 function App({ getCurrentUser }) {
   let uid = localStorage.getItem('uid');
-  const [mode, setMode] = React.useState('dark');
+  const [mode, setMode] = React.useState('light');
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {

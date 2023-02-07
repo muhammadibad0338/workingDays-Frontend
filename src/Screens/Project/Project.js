@@ -29,6 +29,8 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import AddIcon from '@mui/icons-material/Add';
 import Swal from "sweetalert2";
 
+import './Components/Model.css'
+
 
 const useStyles = makeStyles((theme) => ({
     projectIcon: {
@@ -106,7 +108,7 @@ const ColorText = styled(Typography)(({ theme }) => ({
 const ColorBox = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.primary.main,
     // minHeight: '100vh',
-  }));
+}));
 
 
 const BootstrapInput = withStyles((theme) => ({
@@ -269,20 +271,22 @@ const Project = (
     return (
         <>
             <ColorBox p={3} >
-                <ColorText> <Link to='/' style={{ textDecoration: 'none', color:'#5800FF' }} >Projects / </Link> {projectDetails?.name} </ColorText>
+                <ColorText> <Link to='/' style={{ textDecoration: 'none', color: '#5800FF' }} >Projects / </Link> {projectDetails?.name} </ColorText>
                 <Box className={classes.alignCntnr} my={4} >
                     <ColorText variant='h5' className={classes.mainHead} >{projectDetails?.name}  Board</ColorText>
                     {currentUser?.role == "softwareCompany" && <IconButton style={{ marginLeft: '10px' }} color="primary" aria-label="upload picture" component="label"
                         onClick={() => setIsAddMemberDialogOpen(true)}
                     >
-                        <PersonAddAlt1Icon />
+                        <ColorText>
+                            <PersonAddAlt1Icon />
+                        </ColorText>
                     </IconButton>}
                     {currentUser?.role == "softwareCompany" &&
                         <ContainedBtn sx={{ marginTop: '10px', marginLeft: '10px' }} title='Create Issue' endIcon={<AddIcon />}
                             onClick={() => setIsCreateIssueDialogOpen(true)}
                         />}
                 </Box>
-                <AgileCntnr  >
+                <AgileCntnr className='agileCycle' pb={2} >
                     {
                         (!reduxTaskLoading || projectTasks.lenght > 0) ?
                             agileCycle.map((phase, ind) => {
