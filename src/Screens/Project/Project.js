@@ -75,8 +75,13 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-between',
         borderTop: '1px solid gray',
         cursor: 'pointer',
+        // '&:hover': {
+        //     backgroundColor: '#E8EBEF'
+        // },
+        backgroundColor: theme.palette.primary.main,
         '&:hover': {
-            backgroundColor: '#E8EBEF'
+            // backgroundColor: '#E8EBEF'
+            backgroundColor: theme.palette.type === "light" ? "#f5f5f5" : "#14273A",
         }
     },
     productInput: {
@@ -418,16 +423,18 @@ const Project = (
                 </ColorBox>
             </FullScreenDialog>
             <FullScreenDialog maxWidth='sm' fullWidth={true} open={isAddMemberDialogOpen} hideDialogHandler={() => setIsAddMemberDialogOpen(false)} >
-                <Box p={2} >
+                <ColorBox p={2} >
                     <Box>
                         <Box className={classes.alignEnd} >
                             <IconButton aria-label="Close" onClick={() => setIsAddMemberDialogOpen(false)} >
-                                <CloseIcon />
+                                <ColorText>
+                                    <CloseIcon />
+                                </ColorText>
                             </IconButton>
                         </Box>
-                        <Typography variant='h6' style={{ fontWeight: 'bold' }} >Add Team Member to {projectDetails?.name}  </Typography>
+                        <ColorText variant='h6' style={{ fontWeight: 'bold' }} >Add Team Member to {projectDetails?.name}  </ColorText>
                         <Box my={2} style={{ maxWidth: '300px' }} >
-                            <Typography style={{ marginBottom: '-20px' }} >Name or emails</Typography>
+                            <ColorText style={{ marginBottom: '-20px' }} >Name or emails</ColorText>
                             <SearchBar
                                 onChange={(e) => handelSearch(e)}
                                 value={searchQuery}
@@ -447,8 +454,8 @@ const Project = (
                                                     <Avatar src={user?.profilePicture} />
                                                 </Tooltip>
                                                 <Box ml={1} >
-                                                    <Typography style={{ fontSize: '13px' }} >{user?.name} </Typography>
-                                                    <Typography style={{ fontSize: '13px' }} >{user?.email} </Typography>
+                                                    <ColorText style={{ fontSize: '13px' }} >{user?.name} </ColorText>
+                                                    <ColorText style={{ fontSize: '13px' }} >{user?.email} </ColorText>
                                                 </Box>
                                             </Box>
                                             <ContainedBtn title="add Employee" endIcon={<PersonAddAltIcon />} onClick={() => {
@@ -465,7 +472,7 @@ const Project = (
                             })
                         }
                     </Box>
-                </Box>
+                </ColorBox>
             </FullScreenDialog>
         </>
     );
