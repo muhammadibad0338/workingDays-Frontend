@@ -294,6 +294,17 @@ const Project = (
 
     const agileCycle = ['Requirments', 'Design', 'Develop', 'Test', 'Deploy', 'Maintenance']
 
+
+    const checkIsAlreadyProjectMember = (uid, projectTeam) => {
+        for (let index = 0; index < projectTeam.length; index++) {
+            const element = projectTeam[index];
+            if (element._id == uid) {
+                return false
+            }
+        }
+        return true
+    }
+
     return (
         <>
             <ColorBox p={3} >
@@ -458,14 +469,25 @@ const Project = (
                                                     <ColorText style={{ fontSize: '13px' }} >{user?.email} </ColorText>
                                                 </Box>
                                             </Box>
-                                            <ContainedBtn title="add Employee" endIcon={<PersonAddAltIcon />} onClick={() => {
+                                            {/* <ContainedBtn title="add Employee" endIcon={<PersonAddAltIcon />} onClick={() => {
                                                 addEmployeeToproject({
                                                     projectId: id,
                                                     softwareCompany: uid,
                                                     id: user._id
                                                 })
                                             }}
-                                            />
+                                            /> */}
+                                            {
+                                                checkIsAlreadyProjectMember(user?._id, projectDetails?.projectTeam) ?
+                                                    <ContainedBtn title="add Employee" endIcon={<PersonAddAltIcon />} onClick={() => {
+                                                        addEmployeeToproject({
+                                                            projectId: id,
+                                                            softwareCompany: uid,
+                                                            id: user._id
+                                                        })
+                                                    }}
+                                                    /> : <ColorText>Already in Project Team</ColorText>
+                                            }
                                         </Box>
                                     )
                                 }
