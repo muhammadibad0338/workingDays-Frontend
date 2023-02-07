@@ -81,10 +81,31 @@ const useStyles = makeStyles((theme) => ({
     },
     productInput: {
         marginTop: "3px",
+        // maxWidth: "100%",
+        // height: "auto",
+        // borderRadius: "10px",
+        // marginTop: "10px",
         maxWidth: "100%",
         height: "auto",
         borderRadius: "10px",
+        color: `${theme.palette.headTypography.main} !important `,
+        border: `1px solid ${theme.palette.headTypography.main}`,
+        outline: 'none',
+        '&:hover': {
+            outline: 'none',
+            border: `1px solid ${theme.palette.headTypography.main} !important`,
+        },
+        '&:focus': {
+            outline: 'none',
+            border: `1px solid ${theme.palette.headTypography.main} !important`,
+        }
     },
+    nativeSelect: {
+        width: "100%",
+        border: '1px solid gray',
+        // color: `${theme.palette.headTypography.main} !important `,
+        // backgroundColor: `${theme.palette.primary.main} !important `,
+    }
 }));
 
 
@@ -299,20 +320,22 @@ const Project = (
                 </AgileCntnr>
             </ColorBox>
             <FullScreenDialog maxWidth='sm' fullWidth={true} open={isCreateIssueDialogOpen} hideDialogHandler={() => setIsCreateIssueDialogOpen(false)} >
-                <Box p={2} >
+                <ColorBox p={2} >
                     <Box>
                         <Box className={classes.alignEnd} >
                             <IconButton aria-label="Close" onClick={() => setIsCreateIssueDialogOpen(false)} >
-                                <CloseIcon />
+                                <ColorText>
+                                    <CloseIcon />
+                                </ColorText>
                             </IconButton>
                         </Box>
-                        <Typography variant='h6' style={{ fontWeight: 'bold' }} >Create a Issue  </Typography>
+                        <ColorText variant='h6' style={{ fontWeight: 'bold' }} >Create a Issue  </ColorText>
                     </Box>
                     <Box>
                         <Box my={2} style={{ width: "100%" }}>
-                            <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
+                            <ColorText style={{ fontSize: "12px", marginLeft: "3px" }}>
                                 Task Name
-                            </Typography>
+                            </ColorText>
                             <OutlinedInput
                                 fullwidth
                                 required={true}
@@ -330,9 +353,9 @@ const Project = (
                             />
                         </Box>
                         <Box my={2} style={{ width: "100%" }}>
-                            <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
+                            <ColorText style={{ fontSize: "12px", marginLeft: "3px" }}>
                                 Task Description
-                            </Typography>
+                            </ColorText>
                             <OutlinedInput
                                 fullwidth
                                 required={true}
@@ -352,12 +375,13 @@ const Project = (
                             />
                         </Box>
                         <Box m={2} style={{ width: "50%", }} >
-                            <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
+                            <ColorText style={{ fontSize: "12px", marginLeft: "3px" }}>
                                 Agile Cycle
-                            </Typography>
+                            </ColorText>
                             <NativeSelect
                                 id="demo-customized-select-native"
-                                style={{ width: "100%", border: '1px solid gray' }}
+                                // style={{ width: "100%", border: '1px solid gray' }}
+                                className={classes.nativeSelect}
                                 input={<BootstrapInput />}
                                 onChange={(e) => handleSelectAgileCycle(e)}
                             >
@@ -368,16 +392,17 @@ const Project = (
                             </NativeSelect>
                         </Box>
                         <Box m={2} style={{ width: "50%", }} >
-                            <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
+                            <ColorText style={{ fontSize: "12px", marginLeft: "3px" }}>
                                 Employee (optional)
-                            </Typography>
+                            </ColorText>
                             <NativeSelect
                                 id="demo-customized-select-native"
-                                style={{ width: "100%", border: '1px solid gray' }}
+                                // style={{ width: "100%", border: '1px solid gray' }}
+                                className={classes.nativeSelect}
                                 input={<BootstrapInput />}
                                 onChange={(e) => handleSelectEmployee(e)}
                             >
-                                <option>Select</option>
+                                <option> Select</option>
                                 {projectDetails?.projectTeam?.map((val, i) => {
                                     if (val.role !== "softwareCompany") {
                                         return (
@@ -390,7 +415,7 @@ const Project = (
                         <ContainedBtn title="create task" endIcon={<AddIcon />} onClick={projectCreateTask}
                         />
                     </Box>
-                </Box>
+                </ColorBox>
             </FullScreenDialog>
             <FullScreenDialog maxWidth='sm' fullWidth={true} open={isAddMemberDialogOpen} hideDialogHandler={() => setIsAddMemberDialogOpen(false)} >
                 <Box p={2} >
