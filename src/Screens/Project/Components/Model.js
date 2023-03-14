@@ -90,6 +90,9 @@ const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, upd
                                 {task?.employee && <ColorText style={{ display: 'flex' }} > Assign To : <ColorText sx={{
                                     textTransform: 'capitalize', whiteSpace: 'break-spaces', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden'
                                 }} > {task?.employee?.name} </ColorText> </ColorText>}
+                                {task?.softwareCompany && <ColorText style={{ display: 'flex' }} > Assign By : <ColorText sx={{
+                                    textTransform: 'capitalize', whiteSpace: 'break-spaces', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden'
+                                }} > {task?.softwareCompany?.name} </ColorText> </ColorText>}
                                 <Box>
                                     {(task?.employee?._id == uid || currentUser.role === "softwareCompany") && <>
                                         {modelHeading !== "Requirments" && <IconButton sx={{ color: '#0096FF' }} aria-label="move Forward" component="label"

@@ -55,6 +55,7 @@ const Profile = ({ currentUser }) => {
                 required={true}
                 className={classes.productInput}
                 style={{ width: "100%" }}
+                readOnly={true}
                 // placeholder="e.g Pizza"
                 // type="number"
                 value={currentUser?.phoneNumber}
@@ -79,6 +80,7 @@ const Profile = ({ currentUser }) => {
                 style={{ width: "100%" }}
                 // placeholder="e.g Pizza"
                 type="email"
+                readOnly={true}
                 value={currentUser?.email}
               // onChange={(e) => {
               //   setcredentials({
@@ -102,6 +104,7 @@ const Profile = ({ currentUser }) => {
                 className={classes.productInput}
                 style={{ width: "100%" }}
                 // placeholder="e.g Pizza"
+                readOnly={true}
                 type="text"
                 value={currentUser?.description}
               // onChange={(e) => {
