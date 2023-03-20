@@ -160,3 +160,41 @@ export const updateTaskAgileCycle = (data, taskId, projectId) => async (dispatch
     dispatch(setLoading(false));
   }
 }
+
+
+export const updateTaskDescription = (data, taskId, projectId) => async (dispatch) => {
+  try {
+    dispatch(setLoading(true))
+    let res = await axios({
+      url: `${baseUrl}/task/updateTaskDetails/${taskId}`,
+      method: "PUT",
+      data: data
+    });
+    Swal.fire({
+      customClass: {
+        container: `my-swal`,
+      },
+      icon: "success",
+      title: "Working Days",
+      html: `<strong><font color="black">Task updated Sucessfully</font></strong>`
+    }).then(() => {
+
+      dispatch(setLoading(false))
+      dispatch(getProjectsTasks(projectId))
+    })
+    return res
+  }
+  catch (err) {
+    Swal.fire({
+      customClass: {
+        container: `my-swal`,
+      },
+      icon: "error",
+      title: "Working Days",
+      html: `<strong><font color="black">${err?.response?.data?.message || err?.response?.data}</font></strong>`,
+    });
+    dispatch(setError(err?.message));
+    dispatch(setLoading(false));
+    return null
+  }
+}

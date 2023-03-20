@@ -8,7 +8,8 @@ import {
     CircularProgress,
     OutlinedInput,
     NativeSelect,
-    InputBase
+    InputBase,
+    Button
 } from "@mui/material";
 import { makeStyles, withStyles } from "@mui/styles";
 import { Link, useNavigate } from 'react-router-dom';
@@ -23,13 +24,24 @@ import { connect } from "react-redux";
 import { getProjectDetails, setProjectDetails, addEmployeeToproject } from "../../Redux/Project/ProjectAction"
 import { getSearchUsersInTeam } from '../../Redux/User/UserAction';
 import { getProjectsTasks } from "../../Redux/Task/TaskAction"
-import { setTasks, createTask } from "../../Redux/Task/TaskAction"
+import { setTasks, createTask, updateTaskDescription } from "../../Redux/Task/TaskAction"
 import { useParams } from 'react-router-dom';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
 import Swal from "sweetalert2";
+import dayjs from 'dayjs';
+
 
 import './Components/Model.css'
+
+
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { StaticDateTimePicker } from '@mui/x-date-pickers/StaticDateTimePicker';
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -186,7 +198,8 @@ const Project = (
         projectTasks,
         reduxTaskLoading,
         setTasks,
-        createTask
+        createTask,
+        updateTaskDescription
     }
 ) => {
     const theme = useTheme();
@@ -194,13 +207,23 @@ const Project = (
     let navigate = useNavigate();
     const [isAddMemberDialogOpen, setIsAddMemberDialogOpen] = useState(false)
     const [isCreateIssueDialogOpen, setIsCreateIssueDialogOpen] = useState(false)
+    
     const [searchQuery, setSearchQuery] = useState('')
     const [employee, setEmployee] = useState('')
     const [createTaskCredentials, setCreateTaskCredentials] = useState({
         name: "",
         description: "",
-        agileCycle: ""
+        agileCycle: "",
+        deadlineStart: "",
+        deadlineEnd: ""
     })
+    
+    const [createIssueContinue, setCreateIssueContinue] = useState(false)
+
+    const [taskCreateLoading, settaskCreateLoading] = useState(false)
+    
+
+
     const uid = localStorage.getItem('uid')
 
 
@@ -240,7 +263,13 @@ const Project = (
 
     const projectCreateTask = () => {
         console.log('chala projectCreateTask')
-        if (createTaskCredentials.agileCycle.trim().length == 0 || createTaskCredentials.description.trim().length == 0 || createTaskCredentials.name.trim().length == 0) {
+        settaskCreateLoading(true)
+        if (createTaskCredentials.agileCycle.trim().length == 0 ||
+            createTaskCredentials.description.trim().length == 0 ||
+            createTaskCredentials.name.trim().length == 0 ||
+            createTaskCredentials.deadlineStart.trim().length == 0 ||
+            createTaskCredentials.deadlineEnd.trim().length == 0
+        ) {
             Swal.fire({
                 customClass: {
                     container: `my-swal`,
@@ -249,6 +278,9 @@ const Project = (
                 title: "Working Days",
                 html: `<strong><font color="black">Please fill all Fields </font></strong>`,
             });
+            setCreateIssueContinue(false)
+            settaskCreateLoading(false)
+
         }
         else {
             // console.log({...createTaskCredentials,employee})
@@ -258,15 +290,21 @@ const Project = (
                     description: createTaskCredentials.description,
                     agileCycle: createTaskCredentials.agileCycle,
                     project: id,
-                    softwareCompany: uid
+                    softwareCompany: uid,
+                    deadlineStart: createTaskCredentials.deadlineStart,
+                    deadlineEnd: createTaskCredentials.deadlineEnd
                 }).then((res) => {
                     setCreateTaskCredentials({
                         name: "",
                         description: "",
-                        agileCycle: ""
+                        agileCycle: "",
+                        deadlineStart: "",
+                        deadlineEnd: ""
                     })
                     setEmployee('')
                     setIsCreateIssueDialogOpen(false)
+                    setCreateIssueContinue(false)
+                    settaskCreateLoading(false)
                 })
             }
             else {
@@ -276,20 +314,28 @@ const Project = (
                     agileCycle: createTaskCredentials.agileCycle,
                     project: id,
                     softwareCompany: uid,
-                    employee: employee
+                    employee: employee,
+                    deadlineStart: createTaskCredentials.deadlineStart,
+                    deadlineEnd: createTaskCredentials.deadlineEnd
                 }).then((res) => {
                     setCreateTaskCredentials({
                         name: "",
                         description: "",
-                        agileCycle: ""
+                        agileCycle: "",
+                        deadlineStart: "",
+                        deadlineEnd: ""
                     })
                     setEmployee('')
                     setIsCreateIssueDialogOpen(false)
+                    setCreateIssueContinue(false)
+                    settaskCreateLoading(false)
 
                 })
             }
         }
     }
+
+    
 
 
     const agileCycle = ['Requirments', 'Design', 'Develop', 'Test', 'Deploy', 'Maintenance']
@@ -304,6 +350,9 @@ const Project = (
         }
         return true
     }
+
+    const today = dayjs();
+    const tomorrow = dayjs().add(1, 'day');
 
     return (
         <>
@@ -347,90 +396,122 @@ const Project = (
                         </Box>
                         <ColorText variant='h6' style={{ fontWeight: 'bold' }} >Create a Issue  </ColorText>
                     </Box>
-                    <Box>
-                        <Box my={2} style={{ width: "100%" }}>
-                            <ColorText style={{ fontSize: "12px", marginLeft: "3px" }}>
-                                Task Name
-                            </ColorText>
-                            <OutlinedInput
-                                fullwidth
-                                required={true}
-                                className={classes.productInput}
-                                style={{ width: "100%" }}
-                                placeholder="Task Name"
-                                type="text"
-                                value={createTaskCredentials.name}
-                                onChange={(e) => {
-                                    setCreateTaskCredentials({
-                                        ...createTaskCredentials,
-                                        name: e.target.value,
-                                    });
-                                }}
-                            />
-                        </Box>
-                        <Box my={2} style={{ width: "100%" }}>
-                            <ColorText style={{ fontSize: "12px", marginLeft: "3px" }}>
-                                Task Description
-                            </ColorText>
-                            <OutlinedInput
-                                fullwidth
-                                required={true}
-                                className={classes.productInput}
-                                style={{ width: "100%" }}
-                                placeholder="Task Description"
-                                type="text"
-                                rows={2}
-                                multiline={true}
-                                value={createTaskCredentials.description}
-                                onChange={(e) => {
-                                    setCreateTaskCredentials({
-                                        ...createTaskCredentials,
-                                        description: e.target.value,
-                                    });
-                                }}
-                            />
-                        </Box>
-                        <Box m={2} style={{ width: "50%", }} >
-                            <ColorText style={{ fontSize: "12px", marginLeft: "3px" }}>
-                                Agile Cycle
-                            </ColorText>
-                            <NativeSelect
-                                id="demo-customized-select-native"
-                                // style={{ width: "100%", border: '1px solid gray' }}
-                                className={classes.nativeSelect}
-                                input={<BootstrapInput />}
-                                onChange={(e) => handleSelectAgileCycle(e)}
-                            >
-                                <option>Select</option>
-                                {agileCycle.map((val, i) => (
-                                    <option key={i} value={val}>{val}</option>
-                                ))}
-                            </NativeSelect>
-                        </Box>
-                        <Box m={2} style={{ width: "50%", }} >
-                            <ColorText style={{ fontSize: "12px", marginLeft: "3px" }}>
-                                Employee (optional)
-                            </ColorText>
-                            <NativeSelect
-                                id="demo-customized-select-native"
-                                // style={{ width: "100%", border: '1px solid gray' }}
-                                className={classes.nativeSelect}
-                                input={<BootstrapInput />}
-                                onChange={(e) => handleSelectEmployee(e)}
-                            >
-                                <option> Select</option>
-                                {projectDetails?.projectTeam?.map((val, i) => {
-                                    if (val.role !== "softwareCompany") {
-                                        return (
-                                            <option key={i} value={val?._id}>{val?.name}</option>
-                                        )
-                                    }
-                                })}
-                            </NativeSelect>
-                        </Box>
-                        <ContainedBtn title="create task" endIcon={<AddIcon />} onClick={projectCreateTask}
-                        />
-                    </Box>
+                    {createIssueContinue ?
+                        <Box my={2} >
+                            <LocalizationProvider dateAdapter={AdapterDayjs}   >
+                                <DemoContainer
+                                    components={['DatePicker', 'DateTimePicker', 'DateRangePicker']}
+                                >
+                                    <DemoItem label="Select Task  Starting Date and Ending Date" component="DateRangePicker">
+                                        <DateRangePicker defaultValue={[today, tomorrow]} minDate={tomorrow}
+                                            onChange={(e) => {
+                                                console.log(e[0].$d, "date picker", e[1].$d)
+                                                setCreateTaskCredentials({
+                                                    ...createTaskCredentials,
+                                                    deadlineStart: e[0].$d ? `${e[0].$d}` : '',
+                                                    deadlineEnd: e[1]?.$d ? `${e[1].$d}` : ''
+                                                })
+                                            }}
+                                        />
+                                    </DemoItem>
+                                </DemoContainer>
+                            </LocalizationProvider>
+                            <Box mt={3} >
+                                {/* <ContainedBtn title="create task" endIcon={<AddIcon />} onClick={projectCreateTask} disabled={taskCreateLoading} /> */}
+                                <Button type='submit' disabled={taskCreateLoading} variant="contained"
+                                    style={{ margin: '5px 0px', backgroundColor: '#0096FF' }}
+                                    endIcon={<AddIcon />}
+                                    onClick={projectCreateTask}
+                                >
+                                    {taskCreateLoading ? <CircularProgress /> : 'Create task'}
+                                </Button>
+                            </Box>
+                        </Box> :
+                        <Box>
+                            <Box my={2} style={{ width: "100%" }}>
+                                <ColorText style={{ fontSize: "12px", marginLeft: "3px" }}>
+                                    Task Name
+                                </ColorText>
+                                <OutlinedInput
+                                    fullwidth
+                                    required={true}
+                                    className={classes.productInput}
+                                    style={{ width: "100%" }}
+                                    placeholder="Task Name"
+                                    type="text"
+                                    value={createTaskCredentials.name}
+                                    onChange={(e) => {
+                                        setCreateTaskCredentials({
+                                            ...createTaskCredentials,
+                                            name: e.target.value,
+                                        });
+                                    }}
+                                />
+                            </Box>
+                            <Box my={2} style={{ width: "100%" }}>
+                                <ColorText style={{ fontSize: "12px", marginLeft: "3px" }}>
+                                    Task Description
+                                </ColorText>
+                                <OutlinedInput
+                                    fullwidth
+                                    required={true}
+                                    className={classes.productInput}
+                                    style={{ width: "100%" }}
+                                    placeholder="Task Description"
+                                    type="text"
+                                    rows={2}
+                                    multiline={true}
+                                    value={createTaskCredentials.description}
+                                    onChange={(e) => {
+                                        setCreateTaskCredentials({
+                                            ...createTaskCredentials,
+                                            description: e.target.value,
+                                        });
+                                    }}
+                                />
+                            </Box>
+                            <Box m={2} style={{ width: "50%", }} >
+                                <ColorText style={{ fontSize: "12px", marginLeft: "3px" }}>
+                                    Agile Cycle
+                                </ColorText>
+                                <NativeSelect
+                                    id="demo-customized-select-native"
+                                    // style={{ width: "100%", border: '1px solid gray' }}
+                                    className={classes.nativeSelect}
+                                    input={<BootstrapInput />}
+                                    onChange={(e) => handleSelectAgileCycle(e)}
+                                >
+                                    <option>Select</option>
+                                    {agileCycle.map((val, i) => (
+                                        <option key={i} value={val}>{val}</option>
+                                    ))}
+                                </NativeSelect>
+                            </Box>
+                            <Box m={2} style={{ width: "50%", }} >
+                                <ColorText style={{ fontSize: "12px", marginLeft: "3px" }}>
+                                    Employee (optional)
+                                </ColorText>
+                                <NativeSelect
+                                    id="demo-customized-select-native"
+                                    // style={{ width: "100%", border: '1px solid gray' }}
+                                    className={classes.nativeSelect}
+                                    input={<BootstrapInput />}
+                                    onChange={(e) => handleSelectEmployee(e)}
+                                >
+                                    <option> Select</option>
+                                    {projectDetails?.projectTeam?.map((val, i) => {
+                                        if (val.role !== "softwareCompany") {
+                                            return (
+                                                <option key={i} value={val?._id}>{val?.name}</option>
+                                            )
+                                        }
+                                    })}
+                                </NativeSelect>
+                            </Box>
+                            {/* <ContainedBtn title="create task" endIcon={<AddIcon />} onClick={projectCreateTask}
+                            /> */}
+                            <ContainedBtn title="Continue" onClick={() => setCreateIssueContinue(true)} />
+                        </Box>}
                 </ColorBox>
             </FullScreenDialog>
             <FullScreenDialog maxWidth='sm' fullWidth={true} open={isAddMemberDialogOpen} hideDialogHandler={() => setIsAddMemberDialogOpen(false)} >
@@ -496,6 +577,10 @@ const Project = (
                     </Box>
                 </ColorBox>
             </FullScreenDialog>
+            
+            {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <StaticDateTimePicker orientation="landscape" />
+            </LocalizationProvider> */}
         </>
     );
 }
@@ -519,7 +604,8 @@ const mapDispatchToProps = (dispatch) => ({
     addEmployeeToproject: (data) => dispatch(addEmployeeToproject(data)),
     getProjectsTasks: (id) => dispatch(getProjectsTasks(id)),
     setTasks: (task) => dispatch(setTasks(task)),
-    createTask: (data) => dispatch(createTask(data))
+    createTask: (data) => dispatch(createTask(data)),
+    updateTaskDescription: (data, taskId, projectId) => dispatch(updateTaskDescription(data, taskId, projectId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Project);
