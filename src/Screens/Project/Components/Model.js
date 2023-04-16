@@ -162,6 +162,9 @@ const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, upd
                                     {task?.deadlineEnd && <ColorText style={{ display: 'flex' }} > Deadline End : <ColorText sx={{
                                         textTransform: 'capitalize', whiteSpace: 'break-spaces', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden'
                                     }} > {moment(task?.deadlineEnd).format("DD/MM/YYYY")} </ColorText> </ColorText>}
+                                    {task?.createdAt && <ColorText style={{ display: 'flex' }} > Assign At : <ColorText sx={{
+                                        textTransform: 'capitalize', whiteSpace: 'break-spaces', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden'
+                                    }} > {moment(task?.createdAt).format("DD/MM/YYYY")} </ColorText> </ColorText>}
                                     <Box>
                                         {(task?.employee?._id == uid || currentUser.role === "softwareCompany") && <>
                                             {modelHeading !== "Requirments" && <IconButton sx={{ color: '#0096FF' }} aria-label="move Forward" component="label"

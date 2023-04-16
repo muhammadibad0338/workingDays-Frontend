@@ -325,10 +325,10 @@ export const updateRequestStatus = (id, data, role) => async (dispatch) => {
     }
 }
 
-export const getSearchUsersInTeam = (key,uid) => async (dispatch) => {
+export const getSearchUsersInTeam = (key, uid) => async (dispatch) => {
     try {
         dispatch(setLoading(true));
-        console.log(uid,"uid in redux")
+        console.log(uid, "uid in redux")
         let res = await axios({
             method: "GET",
             url: `${baseUrl}/team/searchUserInTeam/${key}/softwareCompnay/${uid}`,
@@ -349,3 +349,53 @@ export const getSearchUsersInTeam = (key,uid) => async (dispatch) => {
         //   console.log(err,"getCurrentUser")
     }
 };
+
+
+export const updateUserDesignation = (data) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true))
+        const uid = localStorage.getItem('uid')
+        let res = await axios({
+            url: `${baseUrl}/auth/changeDesignation`,
+            method: "PUT",
+            data: data
+        });
+        if (!res.data.success) {
+
+            Swal.fire({
+                customClass: {
+                    container: `my-swal`,
+                },
+                icon: "success",
+                title: "Working Days",
+                html: `<strong><font color="black">${res?.data?.message}</font></strong>`
+            });
+        }
+        else {
+            Swal.fire({
+                customClass: {
+                    container: `my-swal`,
+                },
+                icon: "error",
+                title: "Working Days",
+                html: `<strong><font color="black">${res?.data?.message}</font></strong>`
+            });
+        }
+        dispatch(getUserTeam(uid))
+        dispatch(setLoading(false))
+        return res
+    }
+    catch (err) {
+        Swal.fire({
+            customClass: {
+                container: `my-swal`,
+            },
+            icon: "error",
+            title: "Working Days",
+            html: `<strong><font color="black">${err?.response?.data?.message || err?.response?.data}</font></strong>`,
+        });
+        dispatch(setError(err?.message));
+        dispatch(setLoading(false));
+        return null
+    }
+}
