@@ -22,6 +22,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import State from "../../../State/Project.json"
 import { connect } from "react-redux";
 import moment from 'moment/moment';
+import Pagination from '../../../Components/Pagination';
 
 const useStyles = makeStyles((theme) => ({
     iconImg: {
@@ -143,6 +144,8 @@ const ListView = ({ userProjects }) => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Pagination
+                totalEntries={userProjects.length} />
         </>
     )
 }
