@@ -225,6 +225,7 @@ const Project = (
 
 
     const uid = localStorage.getItem('uid')
+    const joinedSoftwareCompany = localStorage.getItem('joinedSoftwareCompany')
 
 
     let { id } = useParams();
@@ -246,7 +247,7 @@ const Project = (
     }
     const btnClickHandler = () => {
         if (!reduxUserLoading) {
-            getSearchUsersInTeam(searchQuery, uid)
+            getSearchUsersInTeam(searchQuery, joinedSoftwareCompany)
         }
     }
 
@@ -262,7 +263,7 @@ const Project = (
     }
 
     const projectCreateTask = () => {
-        console.log('chala projectCreateTask')
+        // console.log('chala projectCreateTask')
         settaskCreateLoading(true)
         if (createTaskCredentials.agileCycle.trim().length == 0 ||
             createTaskCredentials.description.trim().length == 0 ||
@@ -290,7 +291,8 @@ const Project = (
                     description: createTaskCredentials.description,
                     agileCycle: createTaskCredentials.agileCycle,
                     project: id,
-                    softwareCompany: uid,
+                    softwareCompany: joinedSoftwareCompany,
+                    createdBy: uid,
                     deadlineStart: createTaskCredentials.deadlineStart,
                     deadlineEnd: createTaskCredentials.deadlineEnd
                 }).then((res) => {
@@ -313,7 +315,8 @@ const Project = (
                     description: createTaskCredentials.description,
                     agileCycle: createTaskCredentials.agileCycle,
                     project: id,
-                    softwareCompany: uid,
+                    softwareCompany: joinedSoftwareCompany,
+                    createdBy: uid,
                     employee: employee,
                     deadlineStart: createTaskCredentials.deadlineStart,
                     deadlineEnd: createTaskCredentials.deadlineEnd
@@ -360,14 +363,14 @@ const Project = (
                 <ColorText> <Link to='/' style={{ textDecoration: 'none', color: '#5800FF' }} >Projects / </Link> {projectDetails?.name} </ColorText>
                 <Box className={classes.alignCntnr} my={4} >
                     <ColorText variant='h5' className={classes.mainHead} >{projectDetails?.name}  Board</ColorText>
-                    {currentUser?.role == "softwareCompany" && <IconButton style={{ marginLeft: '10px' }} color="primary" aria-label="upload picture" component="label"
+                    { [0,1,2].includes(currentUser?.level) && <IconButton style={{ marginLeft: '10px' }} color="primary" aria-label="upload picture" component="label"
                         onClick={() => setIsAddMemberDialogOpen(true)}
                     >
                         <ColorText>
                             <PersonAddAlt1Icon />
                         </ColorText>
                     </IconButton>}
-                    {currentUser?.role == "softwareCompany" &&
+                    {  [0, 1, 2, 3].includes(currentUser?.level) &&
                         <ContainedBtn sx={{ marginTop: '10px', marginLeft: '10px' }} title='Create Issue' endIcon={<AddIcon />}
                             onClick={() => setIsCreateIssueDialogOpen(true)}
                         />}
@@ -563,7 +566,7 @@ const Project = (
                                                     <ContainedBtn title="add Employee" endIcon={<PersonAddAltIcon />} onClick={() => {
                                                         addEmployeeToproject({
                                                             projectId: id,
-                                                            softwareCompany: uid,
+                                                            softwareCompany: joinedSoftwareCompany,
                                                             id: user._id
                                                         })
                                                     }}

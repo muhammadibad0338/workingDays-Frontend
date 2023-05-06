@@ -143,12 +143,12 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
           <Grid container >
             <Grid item xs={12} mt={4} className={classes.spaceBtwn} >
               <HeadingOne title="Projects" />
-              {currentUser.role === "softwareCompany" && <ContainedBtn title='Create Project' onClick={() => setisDialogOpen(true)} />}
+              { [0,1,2].includes(currentUser.level) && <ContainedBtn title='Create Project' onClick={() => setisDialogOpen(true)} />}
             </Grid>
             {/* <Grid item xs={12} >
             <SearchBar />
           </Grid> */}
-            <Grid item xs={12} className={classes.alignEnd} mt={10} >
+            {/* <Grid item xs={12} className={classes.alignEnd} mt={10} >
               <ColorToggleButtonGroup
                 value={alignment}
                 exclusive
@@ -165,11 +165,12 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
                   </ColorToggleText>
                 </ColorToggleButton>
               </ColorToggleButtonGroup>
-            </Grid>
-            <Grid item xs={12} mt={4} >
-              {
+            </Grid> */}
+            <Grid item xs={12} mt={10} >
+              {/* {
                 alignment === "gridView" ? <GridView /> : <ListView />
-              }
+              } */}
+              <ListView />
             </Grid>
           </Grid>
         </Container>

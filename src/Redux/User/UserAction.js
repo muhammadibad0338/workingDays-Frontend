@@ -134,6 +134,11 @@ export const loginUser = (data) => async (dispatch) => {
         });
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("uid", res.data?.user?._id);
+        if (res.data?.user?.role === "softwareCompany") {
+            localStorage.setItem("joinedSoftwareCompany", res.data?.user?._id);
+          } else {
+            localStorage.setItem("joinedSoftwareCompany", res.data?.user?.joinedSoftwareCompany);
+          }
         dispatch(setUser(res?.data?.user))
         console.log("login res", res)
         dispatch(setLoading(false));
@@ -229,6 +234,7 @@ export const getUserTeam = (id) => async (dispatch) => {
 
 
 export const sentRequest = (data) => async (dispatch) => {
+    // console.log("sentRequest data",data)
     try {
         dispatch(setLoading(true))
         let res = await axios({
