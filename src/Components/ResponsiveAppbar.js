@@ -74,10 +74,6 @@ const pages = [
         title: 'Team',
         path: "/team"
     },
-    {
-        title: 'Pricing',
-        path: "/"
-    },
 ];
 
 
