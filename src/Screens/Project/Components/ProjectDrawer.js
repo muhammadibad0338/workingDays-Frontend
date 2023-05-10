@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -27,6 +27,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { connect } from "react-redux";
+import { useParams, useNavigate } from 'react-router-dom';
 
 
 
@@ -111,13 +112,17 @@ const ColorToggleText = styled(Typography)(({ theme }) => ({
 }));
 
 const ProjectDetailBox = styled(Box)(({ theme }) => ({
-    borderBottom : theme.palette.type == "light" ? '1px solid #BDBDBD' : '1px solid #0095FF'
+    borderBottom: theme.palette.type == "light" ? '1px solid #BDBDBD' : '1px solid #0095FF'
 }));
 
 function MiniDrawer({ Component, projectDetails }) {
     const theme = useTheme();
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
+    const [drawerIndex, setDrawerIndex] = useState(0)
+
+    let { id } = useParams();
+    const navigate = useNavigate()
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -131,20 +136,22 @@ function MiniDrawer({ Component, projectDetails }) {
         {
             name: 'Board',
             Icon: LeaderboardIcon,
+            path: `/project/${id}`
         },
         {
             name: 'Project Tree',
-            Icon: AccountTreeIcon
+            Icon: AccountTreeIcon,
+            path: `/project/${id}/tree`
         },
-        {
-            name: 'Project Setting',
-            Icon: SettingsIcon
-        }
+        // {
+        //     name: 'Project Setting',
+        //     Icon: SettingsIcon
+        // }
     ]
 
     return (
         <ColorBox
-            sx={{ display: '-webkit-box', minHeight:`calc(100vh - 72px)` }}
+            sx={{ display: '-webkit-box', minHeight: `calc(100vh - 72px)` }}
         >
             {/* <CssBaseline /> */}
 
@@ -166,13 +173,18 @@ function MiniDrawer({ Component, projectDetails }) {
                 </ProjectDetailBox>
                 <Divider />
                 <List>
-                    {drawerRoutes.map(({ name, Icon }, index) => (
+                    {drawerRoutes.map(({ name, Icon, path }, index) => (
                         <ListItem key={name} disablePadding sx={{ display: 'block' }}>
                             <ListItemButton
                                 sx={{
                                     minHeight: 48,
                                     justifyContent: open ? 'initial' : 'center',
                                     px: 2.5,
+                                    borderLeft: `${drawerIndex === index ? '5px solid #0096FF' : "none"}`
+                                }}
+                                onClick={() => {
+                                    navigate(path)
+                                    setDrawerIndex(index)
                                 }}
                             >
                                 <ListItemIcon
@@ -197,7 +209,7 @@ function MiniDrawer({ Component, projectDetails }) {
             >
                 <Component />
             </Box>
-        </ColorBox>
+        </ColorBox >
     );
 }
 //Redux Action
