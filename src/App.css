@@ -8,3 +8,23 @@
 .swal2-container {
   z-index: 1301 !important;
 }
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #5800FF;
+  border-width: 1px;
+  border-style: solid;
+  background-color: #5800FF;
+  border-radius: 3px; 
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(23, 29, 41);
+  border-width: 1px;
+  border-style: none;
+  background-color: rgb(23, 29, 41);
+  border-radius: 3px;
+}

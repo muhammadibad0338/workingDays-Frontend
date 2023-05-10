@@ -9,7 +9,8 @@ import {
   ToggleButtonGroup,
   ToggleButton,
   IconButton,
-  OutlinedInput
+  OutlinedInput,
+  Divider
 } from "@mui/material";
 import { styled } from '@mui/system';
 import ContainedBtn from '../../Components/ContainedBtn';
@@ -143,7 +144,7 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
           <Grid container >
             <Grid item xs={12} mt={4} className={classes.spaceBtwn} >
               <HeadingOne title="Projects" />
-              { [0,1,2].includes(currentUser.level) && <ContainedBtn title='Create Project' onClick={() => setisDialogOpen(true)} />}
+              {[0, 1, 2].includes(currentUser.level) && <ContainedBtn title='Create Project' onClick={() => setisDialogOpen(true)} />}
             </Grid>
             {/* <Grid item xs={12} >
             <SearchBar />
@@ -176,15 +177,18 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
         </Container>
       </ColorBox>
       <FullScreenDialog maxWidth='sm' fullWidth={true} open={isDialogOpen} hideDialogHandler={() => setisDialogOpen(false)} >
+        <Box className={[classes.alignEnd, classes.colorBox]} px={2} pt={1} >
+          <IconButton aria-label="Close" onClick={() => setisDialogOpen(false)} >
+            <ColorToggleText sx={{ display: 'flex' }} >
+              <CloseIcon />
+            </ColorToggleText>
+          </IconButton>
+        </Box>
+        <Box px={2} className={classes.colorBox} >
+          <ColorToggleText variant='h6' style={{ fontWeight: 'bold', }} >Create new project</ColorToggleText>
+        </Box>
+        <Divider sx={{ height: '1px', backgroundColor: 'black', mt: 2 }} />
         <Box p={2} className={classes.colorBox} >
-          <Box className={classes.alignEnd} >
-            <IconButton aria-label="Close" onClick={() => setisDialogOpen(false)} >
-              <ColorToggleText sx={{ display: 'flex' }} >
-                <CloseIcon />
-              </ColorToggleText>
-            </IconButton>
-          </Box>
-          <ColorToggleText variant='h6' style={{ fontWeight: 'bold' }} >Create new project</ColorToggleText>
           <Box my={2} style={{}} >
             {/* <Typography style={{ marginBottom: '-20px' }} >Project Name</Typography> */}
             <Box my={3} style={{ width: "100%" }}>

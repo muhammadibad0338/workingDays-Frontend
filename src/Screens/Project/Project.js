@@ -207,7 +207,7 @@ const Project = (
     let navigate = useNavigate();
     const [isAddMemberDialogOpen, setIsAddMemberDialogOpen] = useState(false)
     const [isCreateIssueDialogOpen, setIsCreateIssueDialogOpen] = useState(false)
-    
+
     const [searchQuery, setSearchQuery] = useState('')
     const [employee, setEmployee] = useState('')
     const [createTaskCredentials, setCreateTaskCredentials] = useState({
@@ -217,11 +217,11 @@ const Project = (
         deadlineStart: "",
         deadlineEnd: ""
     })
-    
+
     const [createIssueContinue, setCreateIssueContinue] = useState(false)
 
     const [taskCreateLoading, settaskCreateLoading] = useState(false)
-    
+
 
 
     const uid = localStorage.getItem('uid')
@@ -338,7 +338,7 @@ const Project = (
         }
     }
 
-    
+
 
 
     const agileCycle = ['Requirments', 'Design', 'Develop', 'Test', 'Deploy', 'Maintenance']
@@ -361,20 +361,22 @@ const Project = (
         <>
             <ColorBox p={3} >
                 <ColorText> <Link to='/' style={{ textDecoration: 'none', color: '#5800FF' }} >Projects / </Link> {projectDetails?.name} </ColorText>
+                {/* Dialog controller Buttons */}
                 <Box className={classes.alignCntnr} my={4} >
                     <ColorText variant='h5' className={classes.mainHead} >{projectDetails?.name}  Board</ColorText>
-                    { [0,1,2].includes(currentUser?.level) && <IconButton style={{ marginLeft: '10px' }} color="primary" aria-label="upload picture" component="label"
+                    {[0, 1, 2].includes(currentUser?.level) && <IconButton style={{ marginLeft: '10px' }} color="primary" aria-label="upload picture" component="label"
                         onClick={() => setIsAddMemberDialogOpen(true)}
                     >
                         <ColorText>
                             <PersonAddAlt1Icon />
                         </ColorText>
                     </IconButton>}
-                    {  [0, 1, 2, 3].includes(currentUser?.level) &&
+                    {[0, 1, 2, 3].includes(currentUser?.level) &&
                         <ContainedBtn sx={{ marginTop: '10px', marginLeft: '10px' }} title='Create Issue' endIcon={<AddIcon />}
                             onClick={() => setIsCreateIssueDialogOpen(true)}
                         />}
                 </Box>
+                {/* Agile Cycle */}
                 <AgileCntnr className='agileCycle' pb={2} >
                     {
                         (!reduxTaskLoading || projectTasks.lenght > 0) ?
@@ -387,6 +389,7 @@ const Project = (
                     }
                 </AgileCntnr>
             </ColorBox>
+            {/* Create Issue Dialog */}
             <FullScreenDialog maxWidth='sm' fullWidth={true} open={isCreateIssueDialogOpen} hideDialogHandler={() => setIsCreateIssueDialogOpen(false)} >
                 <ColorBox p={2} >
                     <Box>
@@ -406,7 +409,7 @@ const Project = (
                                     components={['DatePicker', 'DateTimePicker', 'DateRangePicker']}
                                 >
                                     <DemoItem label="Select Task  Starting Date and Ending Date" component="DateRangePicker">
-                                        <DateRangePicker defaultValue={[today, tomorrow]} minDate={tomorrow}
+                                        <DateRangePicker defaultValue={[today, tomorrow]} minDate={today}
                                             onChange={(e) => {
                                                 console.log(e[0].$d, "date picker", e[1].$d)
                                                 setCreateTaskCredentials({
@@ -517,6 +520,7 @@ const Project = (
                         </Box>}
                 </ColorBox>
             </FullScreenDialog>
+            {/* Add Team Member To project Dialog */}
             <FullScreenDialog maxWidth='sm' fullWidth={true} open={isAddMemberDialogOpen} hideDialogHandler={() => setIsAddMemberDialogOpen(false)} >
                 <ColorBox p={2} >
                     <Box>
@@ -580,7 +584,7 @@ const Project = (
                     </Box>
                 </ColorBox>
             </FullScreenDialog>
-            
+
             {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <StaticDateTimePicker orientation="landscape" />
             </LocalizationProvider> */}
