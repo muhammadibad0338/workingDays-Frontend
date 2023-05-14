@@ -20,6 +20,7 @@ import { connect } from "react-redux";
 import { makeStyles, withStyles } from "@mui/styles"
 import { Link,useNavigate } from 'react-router-dom';
 import { loginUser } from '../../../Redux/User/UserAction';
+import { textAlign } from '@mui/system';
 
 
 
@@ -98,16 +99,17 @@ const LoginForm = ({ loginUser, reduxLoading }) => {
     //component
     return (
         <form onSubmit={formik.handleSubmit}>
-            <Grid container  >
-                <Grid item xs={12} >
+            <Grid container style={{margin:'auto 25%'}} >
+                <Grid item xs={12}  >
                     <Box my={1} mx={2} style={{ width: "auto" }}>
-                        <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
+                        <Typography style={{ fontSize: "12px", marginLeft: "3px" , color:'#A9A9A9'} }>
                             Email
                         </Typography>
                         <OutlinedInput
                             fullwidth="true"
+                            
                             // className={classes.productInput}
-                            style={{ width: "100%" }}
+                            style={{ width: "50%"  }}
                             type="text"
                             placeholder='user@gmail.com'
                             name='email'
@@ -123,13 +125,13 @@ const LoginForm = ({ loginUser, reduxLoading }) => {
                 </Grid>
                 <Grid item xs={12} >
                     <Box my={1} mx={2} style={{ width: "auto" }}>
-                        <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
+                        <Typography style={{ fontSize: "12px", marginLeft: "3px" , color:'#A9A9A9' }}>
                             Password
                         </Typography>
                         <OutlinedInput
                             fullwidth="true"
                             // className={classes.productInput}
-                            style={{ width: "100%" }}
+                            style={{ width: "50%" }}
                             type="password"
                             placeholder='Password'
                             name='password'
@@ -144,10 +146,10 @@ const LoginForm = ({ loginUser, reduxLoading }) => {
                 </Grid>
                 <Grid item xs={12} >
                     <Box className={classes.AlignBtwn} m={2} >
-                        <Button type='submit' disabled={reduxLoading} variant="contained" style={{ margin: '5px 0px', backgroundColor: '#0096FF' }} >
+                        <Button type='submit' disabled={reduxLoading} variant="contained" style={{ margin: '5px 0px', backgroundColor: '#0096FF' , width:'50%' }} >
                             {reduxLoading ? <CircularProgress /> : 'Login'}
                         </Button>
-                        <Typography style={{ textAlign: 'center', marginTop: '5px', color: '#0096FF' }} >
+                        <Typography style={{ textAlign: 'center', marginTop: '5px', color: '#0096FF', width:'50%' }} >
                             <Link to='/signup' style={{ textDecoration: 'none', color: '#0096FF' }}>
                                 Don't Have an Account? Signup
                             </Link>
@@ -170,5 +172,7 @@ const mapDispatchToProps = (dispatch) => ({
     // loginUser: (email, password) => dispatch(loginUser(email, password))
     loginUser: (data) => dispatch(loginUser(data))
 });
+
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
