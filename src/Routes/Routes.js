@@ -11,6 +11,8 @@ import Project from '../Screens/Project/Project';
 import Board from '../Screens/Project/Components/Board';
 import ProjectTree from '../Screens/ProjectTree/ProjectTree';
 import Profile from '../Screens/Profile/Profile';
+import TaskDependency from '../Screens/TaskDependency/TaskDependency';
+import AddTaskDependency from '../Screens/TaskDependency/AddTaskDependency/AddTaskDependency';
 
 
 
@@ -55,6 +57,16 @@ const routesArr = [
     {
         path: "/project/:id/tree",
         Component: ProjectTree,
+        projectDrawer: true,
+    },
+    {
+        path: "/project/:id/taskDependency",
+        Component: TaskDependency,
+        projectDrawer: true,
+    },
+    {
+        path: "/project/:id/taskDependency/addTaskDependency",
+        Component: AddTaskDependency,
         projectDrawer: true,
     },
 ]
