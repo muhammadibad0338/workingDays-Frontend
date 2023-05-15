@@ -17,6 +17,7 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import logo from '../../Assets/Images/Logo.png'
 
+
 const useStyles = makeStyles((theme) => ({
     mainHead: {
         color: '#000000',
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
             fontSize: '2.4rem !important',
         },
         [theme.breakpoints.down("ms")]: {
-            lineHeight: '30px !important',
+            lineHeight: '40px !important',
             fontSize: '2rem !important',
         }
     },
@@ -47,35 +48,39 @@ const useStyles = makeStyles((theme) => ({
             fontSize: '1rem !important',
         },
         [theme.breakpoints.down("ms")]: {
-            lineHeight: '5px !important',
+            lineHeight: '20px !important',
             fontSize: '1rem !important',
         }
     },
    
     loginsideImg: {
         width: '100%',
-        height: '100vh'
-
+        height: '100vh !important',
+        [theme.breakpoints.down("1085")]: {
+            display:'none',
+        },
+        overflow:'hidden'
 
     },
     ContainerBorder: {
         // border:'3px solid #3D84E5',
-        borderRadius: "10px",
+        // borderRadius: "10px",
         // padding: '20px',
         // boxShadow: "0 0.5rem 1rem rgb(0 0 0 / 15%)",
         // minHeight:'95vh'
-        height: 'auto'
+        height: 'auto',
+        
+        
     },
     alignCnter: {
         display: 'flex',
         flexDirection: 'column !important',
         justifyContent: 'center',
         alignItems: 'baseline',
-
         [theme.breakpoints.down("md")]: {
             alignItems: 'center',
         }
-    }
+    },
     // , backImg:
     // {
     //     width: '100%',
@@ -85,6 +90,8 @@ const useStyles = makeStyles((theme) => ({
     //     backgroundSize: 'cover',
     //     backgroundPosition: 'center',
     // }
+
+    
 
 }));
 
@@ -103,6 +110,8 @@ const Login = () => {
 
         color: theme.palette.text.secondary,
     }));
+
+    
     return (
         
 
@@ -143,7 +152,7 @@ const Login = () => {
             <Grid container columnSpacing={{ xs: 1, sm: 2, md: 4 }} className={classes.ContainerBorder}>
                 <Grid item xs={12} md={6} className={classes.alignCnter}  >
                     
-                    <Typography className={classes.mainHead}  ><img src={logo}  /></Typography>
+                    <Typography className={classes.mainHead}  ><img src={logo} className={classes.imageHide}  /></Typography>
                     <Typography className={classes.mainHead}  >Sign In</Typography>
                     <Typography className={classes.mainHead1}  >Sign in to stay connected.</Typography>
 

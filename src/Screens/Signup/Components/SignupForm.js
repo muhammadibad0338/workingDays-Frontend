@@ -108,13 +108,13 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
             <Grid container >
                 <Grid item xs={12} md={6} >
                     <Box my={1} mx={2} style={{ width: "auto" }}>
-                        <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
+                        <Typography style={{ fontSize: "12px", marginLeft: "3px" , color:'#A9A9A9' }}>
                             Name
                         </Typography>
                         <OutlinedInput
                             fullwidth="true"
                             // className={classes.productInput}
-                            style={{ width: "100%" }}
+                            style={{ width: "90%" }}
                             type="text"
                             placeholder='working days'
                             name='name'
@@ -130,12 +130,12 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
                 </Grid>
                 <Grid item xs={12} md={6} >
                     <Box my={1} mx={2} style={{ width: "auto" }}>
-                        <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
+                        <Typography style={{ fontSize: "12px", marginLeft: "3px" , color:'#A9A9A9' }}>
                             Email
                         </Typography>
                         <OutlinedInput
                             fullwidth="true"
-                            style={{ width: "100%" }}
+                            style={{ width: "90%" }}
                             type="text"
                             placeholder='user@gmail.com'
                             name='email'
@@ -148,15 +148,15 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
                         }
                     </Box>
                 </Grid>
-                <Grid item xs={12} >
+                <Grid item xs={12} md={6} >
                     <Box my={1} mx={2} style={{ width: "auto" }}>
-                        <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
+                        <Typography style={{ fontSize: "12px", marginLeft: "3px", color:'#A9A9A9' }}>
                             Password
                         </Typography>
                         <OutlinedInput
                             fullwidth="true"
                             // className={classes.productInput}
-                            style={{ width: "100%" }}
+                            style={{ width: "90%" }}
                             type="password"
                             placeholder='Password'
                             name='password'
@@ -169,9 +169,9 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
                         }
                     </Box>
                 </Grid>
-                <Grid item xs={12} >
+                <Grid item xs={12}md={6} >
                     <Box my={1} mx={2} style={{ width: "auto" }}>
-                        <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
+                        <Typography style={{ fontSize: "12px", marginLeft: "3px", color:'#A9A9A9' }}>
                             Description
                         </Typography>
                         <OutlinedInput
@@ -179,7 +179,7 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
                             multiline
                             rows={3}
                             // className={classes.productInput}
-                            style={{ width: "100%" }}
+                            style={{ width: "90%" }}
                             type="text"
                             placeholder='Description'
                             name='description'
@@ -192,15 +192,15 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
                         }
                     </Box>
                 </Grid>
-                <Grid item xs={12} >
+                <Grid item xs={12} md={6} >
                     <Box my={1} mx={2} style={{ width: "auto" }}>
-                        <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
+                        <Typography style={{ fontSize: "12px", marginLeft: "3px", color:'#A9A9A9' }}>
                             Number
                         </Typography>
                         <OutlinedInput
                             fullwidth="true"
                             // className={classes.productInput}
-                            style={{ width: "100%" }}
+                            style={{ width: "90%" }}
                             type="number"
                             placeholder='03XXXXXXXX'
                             name='phoneNumber'
@@ -213,10 +213,10 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
                         }
                     </Box>
                 </Grid>
-                <Grid item xs={12} >
+                <Grid item xs={12} md={6} >
                     <FormControl>
-                        <Box my={1} mx={2} style={{ width: "auto" }}>
-                            <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
+                        <Box my={1} mx={2} style={{ width: "auto" ,marginTop:'20px' }}>
+                            <Typography style={{ fontSize: "12px", marginLeft: "3px", color:'#A9A9A9' }}>
                                 Continue As
                             </Typography>
                             <RadioGroup
@@ -227,8 +227,8 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
                             // onChange={handleChange}
                             >
 
-                                <FormControlLabel value='Employee' control={<Radio />} label="Employee" name='role' onChange={formik.handleChange} />
-                                <FormControlLabel value='softwareCompany' control={<Radio />} label="Software Company" name='role' onChange={formik.handleChange} />
+                                <FormControlLabel value='Employee' control={<Radio />} label="Employee" name='role' onChange={formik.handleChange} style={{color:'#A9A9A9'}} />
+                                <FormControlLabel value='softwareCompany' control={<Radio />} label="Software Company" name='role' onChange={formik.handleChange} style={{color:'#A9A9A9'}} />
                             </RadioGroup>
                             {formik.errors.role && formik.touched.role ? (
                                 <p style={valStyle}>{formik.errors.role}</p>
@@ -243,7 +243,7 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
                             {reduxLoading ? <CircularProgress /> : 'Signup'}
                         </Button>
                         <Typography style={{ textAlign: 'center', marginTop: '5px', color: '#0096FF' }} >
-                            <Link to='/login' style={{ textDecoration: 'none', color: '0096FF' }} >
+                            <Link to='/login' style={{ textDecoration: 'none', color: '#0096FF'}} >
                                 Already Have an Account? Login
                             </Link>
                         </Typography>

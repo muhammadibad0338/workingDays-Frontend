@@ -107,7 +107,6 @@ const LoginForm = ({ loginUser, reduxLoading }) => {
                         </Typography>
                         <OutlinedInput
                             fullwidth="true"
-                            
                             // className={classes.productInput}
                             style={{ width: "50%"  }}
                             type="text"
