@@ -114,7 +114,7 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
                         <OutlinedInput
                             fullwidth="true"
                             // className={classes.productInput}
-                            style={{ width: "90%" }}
+                            style={{ width: "100%" }}
                             type="text"
                             placeholder='working days'
                             name='name'
@@ -135,7 +135,7 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
                         </Typography>
                         <OutlinedInput
                             fullwidth="true"
-                            style={{ width: "90%" }}
+                            style={{ width: "100%" }}
                             type="text"
                             placeholder='user@gmail.com'
                             name='email'
@@ -156,7 +156,7 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
                         <OutlinedInput
                             fullwidth="true"
                             // className={classes.productInput}
-                            style={{ width: "90%" }}
+                            style={{ width: "100%" }}
                             type="password"
                             placeholder='Password'
                             name='password'
@@ -179,7 +179,7 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
                             multiline
                             rows={3}
                             // className={classes.productInput}
-                            style={{ width: "90%" }}
+                            style={{ width: "100%" }}
                             type="text"
                             placeholder='Description'
                             name='description'
@@ -200,7 +200,7 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
                         <OutlinedInput
                             fullwidth="true"
                             // className={classes.productInput}
-                            style={{ width: "90%" }}
+                            style={{ width: "100%" }}
                             type="number"
                             placeholder='03XXXXXXXX'
                             name='phoneNumber'
@@ -239,7 +239,7 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
                 </Grid>
                 <Grid item xs={12} >
                     <Box mx={2} className={classes.AlignBtwn}  >
-                        <Button type='submit' disabled={reduxLoading} variant="contained" style={{ margin: '5px 0px', backgroundColor: '#0096FF' }} >
+                        <Button type='submit' disabled={reduxLoading} variant="contained" style={{ margin: '5px 160px', backgroundColor: '#0096FF'  }} >
                             {reduxLoading ? <CircularProgress /> : 'Signup'}
                         </Button>
                         <Typography style={{ textAlign: 'center', marginTop: '5px', color: '#0096FF' }} >

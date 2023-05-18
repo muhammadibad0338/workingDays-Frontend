@@ -23,8 +23,6 @@ import { loginUser } from '../../../Redux/User/UserAction';
 import { textAlign } from '@mui/system';
 
 
-
-
 const useStyles = makeStyles((theme) => ({
     AlignBtwn: {
         display: 'flex',
@@ -77,7 +75,6 @@ const LoginForm = ({ loginUser, reduxLoading }) => {
             email: '',
             password: ''
         },
-
         validationSchema: Yup.object({
             email: Yup.string().email().required('Please Enter Your Email'),
             password: Yup.string().min(6).max(20).required('Please Enter Your Password')
@@ -160,18 +157,14 @@ const LoginForm = ({ loginUser, reduxLoading }) => {
     )
 }
 
-
 //Redux Action
 const mapStateToProps = (store) => ({
     reduxLoading: store.user.loading
 });
 
-
 const mapDispatchToProps = (dispatch) => ({
     // loginUser: (email, password) => dispatch(loginUser(email, password))
     loginUser: (data) => dispatch(loginUser(data))
 });
-
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
