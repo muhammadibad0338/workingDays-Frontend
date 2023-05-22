@@ -96,7 +96,7 @@ const LoginForm = ({ loginUser, reduxLoading }) => {
     //component
     return (
         <form onSubmit={formik.handleSubmit}>
-            <Grid container style={{margin:'auto 25%'}} >
+            <Grid container  >
                 <Grid item xs={12}  >
                     <Box my={1} mx={2} style={{ width: "auto" }}>
                         <Typography style={{ fontSize: "12px", marginLeft: "3px" , color:'#A9A9A9'} }>
@@ -105,7 +105,7 @@ const LoginForm = ({ loginUser, reduxLoading }) => {
                         <OutlinedInput
                             fullwidth="true"
                             // className={classes.productInput}
-                            style={{ width: "50%"  }}
+                            style={{ width: "100%"  }}
                             type="text"
                             placeholder='user@gmail.com'
                             name='email'
@@ -127,7 +127,7 @@ const LoginForm = ({ loginUser, reduxLoading }) => {
                         <OutlinedInput
                             fullwidth="true"
                             // className={classes.productInput}
-                            style={{ width: "50%" }}
+                            style={{ width: "100%" }}
                             type="password"
                             placeholder='Password'
                             name='password'
@@ -142,10 +142,10 @@ const LoginForm = ({ loginUser, reduxLoading }) => {
                 </Grid>
                 <Grid item xs={12} >
                     <Box className={classes.AlignBtwn} m={2} >
-                        <Button type='submit' disabled={reduxLoading} variant="contained" style={{ margin: '5px 0px', backgroundColor: '#0096FF' , width:'50%' }} >
+                        <Button type='submit' disabled={reduxLoading} variant="contained" style={{ margin: '5px 130px', backgroundColor: '#0096FF' , }} >
                             {reduxLoading ? <CircularProgress /> : 'Login'}
                         </Button>
-                        <Typography style={{ textAlign: 'center', marginTop: '5px', color: '#0096FF', width:'50%' }} >
+                        <Typography style={{ textAlign: 'center', marginTop: '5px', color: '#0096FF', width:'100%' }} >
                             <Link to='/signup' style={{ textDecoration: 'none', color: '#0096FF' }}>
                                 Don't Have an Account? Signup
                             </Link>

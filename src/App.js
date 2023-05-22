@@ -26,6 +26,7 @@ const lightTheme = createTheme({
       xs: 0,
       ms: 479,
       sm: 600,
+      nineS:900,
       md: 1090,
       lg: 1200,
       fl: 1350,

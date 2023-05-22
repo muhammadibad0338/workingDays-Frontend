@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import bg from "../../Assets/Images/wave2.jpg"
 import { makeStyles } from "@mui/styles"
-import loginside from "../../Assets/Images/loginSide.jpeg"
+import GraphicSide from "../../Assets/Images/signupSide.jpeg"
 import LoginForm from './Components/LoginForm';
 import { Navigate } from "react-router-dom"
 import { height } from '@mui/system';
@@ -18,12 +18,12 @@ import logo from '../../Assets/Images/Logo.png'
 
 const useStyles = makeStyles((theme) => ({
     mainHead: {
-        color: '#000000',
+        color: '#000000 !important',
         fontWeight: 'bold !important',
         textTransform: 'uppercase !important',
         textAlign: 'center',
         width: '100%',
-        lineHeight: '60px !important',
+        lineHeight: '40px !important',
         fontSize: '2.5rem !important',
         [theme.breakpoints.down("sm")]: {
             lineHeight: '50px !important',
@@ -38,46 +38,82 @@ const useStyles = makeStyles((theme) => ({
         color: '#A9A9A9', 
         textAlign: 'center',
         width: '100%',
-        lineHeight: '30px !important',
+        lineHeight: '25px !important',
         fontSize: '1rem !important',
         [theme.breakpoints.down("sm")]: {
             lineHeight: '50px !important',
             fontSize: '1rem !important',
         },
+        
         [theme.breakpoints.down("ms")]: {
             lineHeight: '40px !important',
             fontSize: '1rem !important',
         }
     },
-    loginsideImg: {
+    bannerImg: {
         width: '100%',
-        height: '100vh !important',
-        [theme.breakpoints.down("1090")]: {
-            display:'none',
-            overflow:'hidden'
-        },
+        height: 'auto'
     },
+
     ContainerBorder: {
-        height: 'auto',         
+        // border:'3px solid #3D84E5',
+        borderRadius: "10px",
+        padding: '20px',
+        height: 'auto'
+        // boxShadow: "0 0.5rem 1rem rgb(0 0 0 / 15%)",
     },
-    alignCnter: {
-        display: 'flex',
-        flexDirection: 'column !important',
-        justifyContent: 'center',
-        alignItems: 'baseline',
-        
-        [theme.breakpoints.down("md")]: {
-            alignItems: 'center',
-            marginTop: '10% !important',
-            overflow:'hidden'
+
+    sideBanner: {
+        [theme.breakpoints.down('nineS')]: {
+            display: 'none',
+            
         },
-        [theme.breakpoints.down("sm")]: {
-            alignItems: 'center',
-            marginTop: '15% !important',
-            margin:'10% 1% 1% 1% !important',
-            overflow:'hidden'
-        }, 
+        transform: 'rotate(180deg)',
+        maxHeight: '100vh'
     },
+
+    graphicSide: {
+        width: '100%',
+        height: '100vh',
+        // paddingLeft: theme.spacing(),
+    },
+
+
+    sideForm:{
+        marginTop :'10% !important'
+    }
+    
+    // loginsideImg: {
+    //     width: '100%',
+    //     height: '100vh !important',
+    //     [theme.breakpoints.down("1090")]: {
+    //         display: 'none',
+    //         overflow: 'hidden'
+    //     },
+    // },
+
+    // ContainerBorder: {
+    //     height: 'auto',
+    // },
+    // alignCnter: {
+    //     display: 'flex',
+    //     flexDirection: 'column !important',
+    //     justifyContent: 'center',
+    //     alignItems: 'baseline',
+
+    //     [theme.breakpoints.down("md")]: {
+    //         alignItems: 'center',
+    //         marginTop: '10% !important',
+    //         overflow: 'hidden'
+    //     },
+    //     [theme.breakpoints.down("sm")]: {
+    //         alignItems: 'center',
+    //         marginTop: '15% !important',
+    //         width: '80% !important',
+    //         // margin:'10% 1% 1% 1% !important',
+    //         overflow: 'hidden'
+    //     },
+    // },
 }));
 
 const Login = () => {
@@ -95,7 +131,7 @@ const Login = () => {
 
     return (
         <>
-            <Grid container columnSpacing={{ xs: 1, sm: 2, md: 4 }} className={classes.ContainerBorder}>
+            {/* <Grid container columnSpacing={{ xs: 1, sm: 2, md: 4 }} className={classes.ContainerBorder}>
                 <Grid item xs={12} md={6} className={classes.alignCnter}  >
                     
                     <Typography className={classes.mainHead}  ><img src={logo} className={classes.logoImage}  /></Typography>
@@ -108,6 +144,19 @@ const Login = () => {
 
                 <Grid item xs={12} md={6} >
                     <Item><img src={loginside} className={classes.loginsideImg}></img></Item>
+                </Grid>
+            </Grid> */}
+
+            <Grid container >
+                
+                <Grid item xs={12} nineS={6} className={classes.sideForm}  >
+                    <Typography className={classes.mainHead}  ><img src={logo} className={classes.logoImage} /></Typography>
+                    <Typography className={classes.mainHead}  >Sign In</Typography>
+                    <Typography className={classes.mainHead1}  >Sign in to stay connected.</Typography>
+                    <LoginForm />
+                </Grid>
+                <Grid item xs={0} nineS={6} className={classes.sideBanner} >
+                    <img src={GraphicSide} alt="GraphicSide Banner" className={classes.graphicSide} />
                 </Grid>
             </Grid>
         </>

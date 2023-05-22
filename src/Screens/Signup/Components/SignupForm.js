@@ -1,3 +1,5 @@
+
+
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
@@ -104,11 +106,11 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
 
     const classes = useStyles();
     return (
-        <form onSubmit={formik.handleSubmit}>
-            <Grid container >
+        <form onSubmit={formik.handleSubmit} >
+            <Grid container  >
                 <Grid item xs={12} md={6} >
                     <Box my={1} mx={2} style={{ width: "auto" }}>
-                        <Typography style={{ fontSize: "12px", marginLeft: "3px" , color:'#A9A9A9' }}>
+                        <Typography style={{ fontSize: "12px", marginLeft: "3px" ,color:'#A9A9A9' }}>
                             Name
                         </Typography>
                         <OutlinedInput
@@ -128,9 +130,10 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
                         }
                     </Box>
                 </Grid>
+
                 <Grid item xs={12} md={6} >
                     <Box my={1} mx={2} style={{ width: "auto" }}>
-                        <Typography style={{ fontSize: "12px", marginLeft: "3px" , color:'#A9A9A9' }}>
+                        <Typography style={{ fontSize: "12px", marginLeft: "3px",color:'#A9A9A9' }}>
                             Email
                         </Typography>
                         <OutlinedInput
@@ -148,9 +151,10 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
                         }
                     </Box>
                 </Grid>
-                <Grid item xs={12} md={6} >
+
+                <Grid item xs={12} >
                     <Box my={1} mx={2} style={{ width: "auto" }}>
-                        <Typography style={{ fontSize: "12px", marginLeft: "3px", color:'#A9A9A9' }}>
+                        <Typography style={{ fontSize: "12px", marginLeft: "3px",color:'#A9A9A9' }}>
                             Password
                         </Typography>
                         <OutlinedInput
@@ -169,17 +173,18 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
                         }
                     </Box>
                 </Grid>
-                <Grid item xs={12}md={6} >
+
+                <Grid item xs={12} >
                     <Box my={1} mx={2} style={{ width: "auto" }}>
-                        <Typography style={{ fontSize: "12px", marginLeft: "3px", color:'#A9A9A9' }}>
+                        <Typography style={{ fontSize: "12px", marginLeft: "3px",color:'#A9A9A9' }}>
                             Description
                         </Typography>
                         <OutlinedInput
                             fullwidth="true"
-                            multiline
+                            // multiline
                             rows={3}
                             // className={classes.productInput}
-                            style={{ width: "100%" }}
+                            style={{ width: "100%", color:'black' }}
                             type="text"
                             placeholder='Description'
                             name='description'
@@ -192,9 +197,9 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
                         }
                     </Box>
                 </Grid>
-                <Grid item xs={12} md={6} >
+                <Grid item xs={12} >
                     <Box my={1} mx={2} style={{ width: "auto" }}>
-                        <Typography style={{ fontSize: "12px", marginLeft: "3px", color:'#A9A9A9' }}>
+                        <Typography style={{ fontSize: "12px", marginLeft: "3px",color:'#A9A9A9' }}>
                             Number
                         </Typography>
                         <OutlinedInput
@@ -213,10 +218,10 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
                         }
                     </Box>
                 </Grid>
-                <Grid item xs={12} md={6} >
+                <Grid item xs={12} >
                     <FormControl>
-                        <Box my={1} mx={2} style={{ width: "auto" ,marginTop:'20px' }}>
-                            <Typography style={{ fontSize: "12px", marginLeft: "3px", color:'#A9A9A9' }}>
+                        <Box my={1} mx={2} style={{ width: "auto" }}>
+                            <Typography style={{ fontSize: "12px", marginLeft: "3px",color:'#A9A9A9' }}>
                                 Continue As
                             </Typography>
                             <RadioGroup
@@ -239,11 +244,11 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
                 </Grid>
                 <Grid item xs={12} >
                     <Box mx={2} className={classes.AlignBtwn}  >
-                        <Button type='submit' disabled={reduxLoading} variant="contained" style={{ margin: '5px 160px', backgroundColor: '#0096FF'  }} >
+                        <Button type='submit' disabled={reduxLoading} variant="contained" style={{ margin: '5px 130px', backgroundColor: '#0096FF' }} >
                             {reduxLoading ? <CircularProgress /> : 'Signup'}
                         </Button>
                         <Typography style={{ textAlign: 'center', marginTop: '5px', color: '#0096FF' }} >
-                            <Link to='/login' style={{ textDecoration: 'none', color: '#0096FF'}} >
+                            <Link to='/login' style={{ textDecoration: 'none', color: '#0096FF' }} >
                                 Already Have an Account? Login
                             </Link>
                         </Typography>
@@ -253,7 +258,6 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
         </form>
     )
 }
-
 //Redux Action
 const mapStateToProps = (store) => ({
     reduxLoading: store.user.loading
