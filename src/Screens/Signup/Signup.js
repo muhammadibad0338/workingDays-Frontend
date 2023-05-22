@@ -91,8 +91,8 @@ const useStyles = makeStyles((theme) => ({
         },
         [theme.breakpoints.down("sm")]: {   
             alignItems: 'center',
-            marginTop: '10% !important',
-            margin:'15% 4% 3% 4.5% !important'
+            // marginTop: '10% !important',
+            margin:'10% 8% 3% 8% !important'
         }
     }
 }));

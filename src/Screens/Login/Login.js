@@ -74,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down("sm")]: {
             alignItems: 'center',
             marginTop: '15% !important',
+            margin:'10% 1% 1% 1% !important',
             overflow:'hidden'
         }, 
     },
