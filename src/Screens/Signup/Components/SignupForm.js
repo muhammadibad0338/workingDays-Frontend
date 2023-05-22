@@ -93,7 +93,7 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
             role: Yup.string().required("Please Select Your Role"),
         }),
         onSubmit: values => {
-            console.log(values, "values")
+            // console.log(values, "values")
             registerUser(values).then((res) => {
                 if (res) {
                     navigate('/')

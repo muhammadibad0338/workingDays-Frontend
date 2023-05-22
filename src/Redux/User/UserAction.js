@@ -134,6 +134,11 @@ export const loginUser = (data) => async (dispatch) => {
         });
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("uid", res.data?.user?._id);
+        if (res.data?.user?.role === "softwareCompany") {
+            localStorage.setItem("joinedSoftwareCompany", res.data?.user?._id);
+          } else {
+            localStorage.setItem("joinedSoftwareCompany", res.data?.user?.joinedSoftwareCompany);
+          }
         dispatch(setUser(res?.data?.user))
         console.log("login res", res)
         dispatch(setLoading(false));
@@ -229,6 +234,7 @@ export const getUserTeam = (id) => async (dispatch) => {
 
 
 export const sentRequest = (data) => async (dispatch) => {
+    // console.log("sentRequest data",data)
     try {
         dispatch(setLoading(true))
         let res = await axios({
@@ -274,14 +280,14 @@ export const getUserRequest = (id) => async (dispatch) => {
         // console.log(res?.data, "getUserTeam")
         dispatch(setLoading(false));
     } catch (err) {
-        Swal.fire({
-            customClass: {
-                container: `my-swal`,
-            },
-            icon: "error",
-            title: "Working Days",
-            html: `<strong><font color="black">Something went wrong while Getting your Request </font></strong>`,
-        });
+        // Swal.fire({
+        //     customClass: {
+        //         container: `my-swal`,
+        //     },
+        //     icon: "error",
+        //     title: "Working Days",
+        //     html: `<strong><font color="black">Something went wrong while Getting your Request </font></strong>`,
+        // });
         dispatch(setLoading(false));
         dispatch(setError(err));
         //   console.log(err,"getCurrentUser")
@@ -325,10 +331,10 @@ export const updateRequestStatus = (id, data, role) => async (dispatch) => {
     }
 }
 
-export const getSearchUsersInTeam = (key,uid) => async (dispatch) => {
+export const getSearchUsersInTeam = (key, uid) => async (dispatch) => {
     try {
         dispatch(setLoading(true));
-        console.log(uid,"uid in redux")
+        console.log(uid, "uid in redux")
         let res = await axios({
             method: "GET",
             url: `${baseUrl}/team/searchUserInTeam/${key}/softwareCompnay/${uid}`,
@@ -349,3 +355,53 @@ export const getSearchUsersInTeam = (key,uid) => async (dispatch) => {
         //   console.log(err,"getCurrentUser")
     }
 };
+
+
+export const updateUserDesignation = (data) => async (dispatch) => {
+    try {
+        dispatch(setLoading(true))
+        const uid = localStorage.getItem('uid')
+        let res = await axios({
+            url: `${baseUrl}/auth/changeDesignation`,
+            method: "PUT",
+            data: data
+        });
+        if (!res.data.success) {
+
+            Swal.fire({
+                customClass: {
+                    container: `my-swal`,
+                },
+                icon: "success",
+                title: "Working Days",
+                html: `<strong><font color="black">${res?.data?.message}</font></strong>`
+            });
+        }
+        else {
+            Swal.fire({
+                customClass: {
+                    container: `my-swal`,
+                },
+                icon: "error",
+                title: "Working Days",
+                html: `<strong><font color="black">${res?.data?.message}</font></strong>`
+            });
+        }
+        dispatch(getUserTeam(uid))
+        dispatch(setLoading(false))
+        return res
+    }
+    catch (err) {
+        Swal.fire({
+            customClass: {
+                container: `my-swal`,
+            },
+            icon: "error",
+            title: "Working Days",
+            html: `<strong><font color="black">${err?.response?.data?.message || err?.response?.data}</font></strong>`,
+        });
+        dispatch(setError(err?.message));
+        dispatch(setLoading(false));
+        return null
+    }
+}

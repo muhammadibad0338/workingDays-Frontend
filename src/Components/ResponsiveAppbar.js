@@ -37,6 +37,9 @@ import ProfileMenu from './ProfileMenu';
 import CustomDrawer from './CustomDrawer';
 import Notification from '../Screens/Notification/Notification';
 
+import lightIcon from "../Assets/Images/moon.png"
+import darkIcon from "../Assets/Images/sun-bright.png"
+
 // styling
 const useStyles = makeStyles((theme) => ({
     mdUpLogo: {
@@ -52,7 +55,13 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up("md")]: {
             display: 'none'
         }
-    }
+    },
+    modeToggleBtn: {
+        backgroundColor: 'inherit',
+        border: 'none',
+        outline: 'none',
+        cursor: 'pointer'
+    },
 }));
 
 
@@ -65,14 +74,10 @@ const pages = [
         title: 'Team',
         path: "/team"
     },
-    {
-        title: 'Pricing',
-        path: "/"
-    },
 ];
 
 
-const ResponsiveAppbar = ({ currentUser }) => {
+const ResponsiveAppbar = ({ currentUser, toggleTheme, theme }) => {
     //calling css classes
     const classes = useStyles();
     //state
@@ -86,10 +91,10 @@ const ResponsiveAppbar = ({ currentUser }) => {
         localStorage.clear();
         navigate('/login')
     }
-    const gotoProfile = () =>{
+    const gotoProfile = () => {
         navigate('/profile')
     }
-    const settings = [{ name: 'Profile',fncn:gotoProfile }, { name: 'Logout', fncn: logout }];
+    const settings = [{ name: 'Profile', fncn: gotoProfile }, { name: 'Logout', fncn: logout }];
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -182,7 +187,7 @@ const ResponsiveAppbar = ({ currentUser }) => {
                             </IconButton>
                         </Tooltip>
                         <CustomDrawer isDrawerOpen={isDrawerOpen} toggleDrawer={toggleNotificationDrawer} drawerAnchor='right'   >
-                           <Notification toggleNotificationDrawer={toggleNotificationDrawer} />
+                            <Notification toggleNotificationDrawer={toggleNotificationDrawer} />
                         </CustomDrawer>
                         <Tooltip title="Profile Menu">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -194,8 +199,14 @@ const ResponsiveAppbar = ({ currentUser }) => {
                             handleCloseUserMenu={handleCloseUserMenu}
                             options={settings}
                             currentUser={currentUser}
+                            toggleTheme={toggleTheme}
+                            theme={theme}
                         />
+                        {/* <button className={classes.modeToggleBtn} onClick={toggleTheme} >
+                            <img src={theme === "light" ? lightIcon : darkIcon} alt="toggle Theme" style={{ height: '40px', width: '40px',marginLeft:'10px' }} />
+                        </button> */}
                     </Box>
+
                 </Toolbar>
             </Container>
         </AppBar>

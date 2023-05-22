@@ -1,0 +1,45 @@
+.example::-webkit-scrollbar {
+    width: 7px;
+}
+
+.example::-webkit-scrollbar-thumb {
+    background: #0096FF;
+    /* border-width: 1px; */
+    /* border-style: solid; */
+    background-color: #0096FF;
+    border-radius: 3px;
+}
+
+.example::-webkit-scrollbar-track {
+    /* background: rgb(23, 29, 41); */
+    background: inherit;
+    border-width: 1px;
+    border-style: none;
+    /* background-color: rgb(23, 29, 41); */
+    background-color: inherit;
+    border-radius: 3px;
+}
+
+
+.agileCycle::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+.agileCycle::-webkit-scrollbar-thumb {
+    background: #0096FF;
+    /* border-width: 1px; */
+    /* border-style: solid; */
+    background-color: #0096FF;
+    border-radius: 3px;
+}
+
+.agileCycle::-webkit-scrollbar-track {
+    /* background: rgb(23, 29, 41); */
+    background: inherit;
+    border-width: 1px;
+    border-style: none;
+    /* background-color: rgb(23, 29, 41); */
+    background-color: inherit;
+    border-radius: 3px;
+}

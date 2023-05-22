@@ -38,7 +38,7 @@ export const orgChart = {
         },
         children: [
           {
-            name: 'Login',
+            name: 'Task 1',
             attributes: {
               department: 'Frontend',
             },

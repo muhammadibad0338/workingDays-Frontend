@@ -26,18 +26,25 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const NotificationDrawer = styled(Box)(({ }) => ({
+const NotificationDrawer = styled(Box)(({ theme }) => ({
     width: '250px',
     minHeight: '100vh',
-    backgroundColor: '#F1F5F9'
+    backgroundColor: theme.palette.primary.main,
+    // backgroundColor: '#F1F5F9'
+
 }))
-const NotificationBox = styled(Box)(({ }) => ({
+const NotificationBox = styled(Box)(({ theme }) => ({
     maxWidth: '100%',
     maxHeight: '100px',
-    backgroundColor: '#FFFFFF',
+    // backgroundColor: '#FFFFFF',
     borderRadius: '10px',
-    display: 'flex'
+    display: 'flex',
+    border: theme.palette.type == "light" ? 'none' : '1px solid #0095FF'
 }))
+
+const ColorToggleText = styled(Typography)(({ theme }) => ({
+    color: theme.palette.headTypography.main
+}));
 
 const Notification = ({ toggleNotificationDrawer, userRequest, getUserRequest, currentUser, updateRequestStatus }) => {
     const classes = useStyles();
@@ -51,10 +58,12 @@ const Notification = ({ toggleNotificationDrawer, userRequest, getUserRequest, c
         <NotificationDrawer px={2} >
             <Box className={classes.alignEnd} mb={4} >
                 <IconButton aria-label="Close" onClick={toggleNotificationDrawer} >
-                    <CloseIcon style={{ color: 'black' }} fontSize='large' />
+                    <ColorToggleText  >
+                        <CloseIcon fontSize='large' />
+                    </ColorToggleText>
                 </IconButton>
             </Box>
-            <Typography variant='h4' style={{ fontWeight: '600', marginBottom: '32px' }} >Notifications</Typography>
+            <ColorToggleText variant='h4' style={{ fontWeight: '600', marginBottom: '32px' }} >Notifications</ColorToggleText>
 
             {
                 userRequest.length === 0 ? <CircularProgress /> : <>
@@ -63,14 +72,14 @@ const Notification = ({ toggleNotificationDrawer, userRequest, getUserRequest, c
                             if (currentUser?.role === "softwareCompany") {
                                 return (
                                     <NotificationBox my={2} p={2} key={ind} >
-                                        <Tooltip >
+                                        <Tooltip sx={{ background: 'inherit' }} >
                                             <Avatar src={request?.employee?.profilePicture} />
                                         </Tooltip>
                                         <Box ml={2} >
-                                            <Typography style={{ fontSize: '15px', fontWeight: 'bold' }} >Joining Request </Typography>
-                                            {request?.status === "Pending" && <Typography style={{ fontSize: '13px' }} >you sent you a joining Request to {request?.employee?.name} </Typography>}
-                                            {request?.status === "Rejected" && <Typography style={{ fontSize: '13px' }} > {request?.employee?.name}  REJECT your  joining request </Typography>}
-                                            {request?.status === "Accepted" && <Typography style={{ fontSize: '13px' }} >{request?.employee?.name}  ACCEPTED  your joining Request   </Typography>}
+                                            <ColorToggleText style={{ fontSize: '15px', fontWeight: 'bold' }} >Joining Request </ColorToggleText>
+                                            {request?.status === "Pending" && <ColorToggleText style={{ fontSize: '13px' }} >you sent you a joining Request to {request?.employee?.name} </ColorToggleText>}
+                                            {request?.status === "Rejected" && <ColorToggleText style={{ fontSize: '13px' }} > {request?.employee?.name}  REJECT your  joining request </ColorToggleText>}
+                                            {request?.status === "Accepted" && <ColorToggleText style={{ fontSize: '13px' }} >{request?.employee?.name}  ACCEPTED  your joining Request   </ColorToggleText>}
                                         </Box>
                                     </NotificationBox>
                                 )
