@@ -60,15 +60,6 @@ const useStyles = makeStyles((theme) => ({
         height: 'auto'
         // boxShadow: "0 0.5rem 1rem rgb(0 0 0 / 15%)",
     },
-    // backImg:
-    // {
-    //     width: '100%',
-    //     minHeight: '100vh !important',
-    //     // backgroundImage: `url(${bg})`,
-    //     backgroundRepeat: 'no-repeat',
-    //     backgroundSize: 'cover',
-    //     backgroundPosition: 'center',
-    // },
     sideBanner: {
         [theme.breakpoints.down('nineS')]: {
             display: 'none',
@@ -108,6 +99,3 @@ const Signup = () => {
 }
 
 export default Signup
-
-// start work 
-

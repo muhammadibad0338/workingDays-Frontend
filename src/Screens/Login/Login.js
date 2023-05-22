@@ -8,10 +8,9 @@ import {
 } from "@mui/material";
 import bg from "../../Assets/Images/wave2.jpg"
 import { makeStyles } from "@mui/styles"
-import GraphicSide from "../../Assets/Images/signupSide.jpeg"
+import GraphicSide from "../../Assets/Images/signupside.jpeg"
 import LoginForm from './Components/LoginForm';
 import { Navigate } from "react-router-dom"
-import { height } from '@mui/system';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import logo from '../../Assets/Images/Logo.png'
@@ -35,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     mainHead1: {
-        color: '#A9A9A9', 
+        color: '#A9A9A9',
         textAlign: 'center',
         width: '100%',
         lineHeight: '25px !important',
@@ -44,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
             lineHeight: '50px !important',
             fontSize: '1rem !important',
         },
-        
+
         [theme.breakpoints.down("ms")]: {
             lineHeight: '40px !important',
             fontSize: '1rem !important',
@@ -66,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
     sideBanner: {
         [theme.breakpoints.down('nineS')]: {
             display: 'none',
-            
+
         },
         transform: 'rotate(180deg)',
         maxHeight: '100vh'
@@ -77,43 +76,10 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
         // paddingLeft: theme.spacing(),
     },
-
-
-    sideForm:{
-        marginTop :'10% !important'
+    sideForm: {
+        marginTop: '10% !important'
     }
-    
-    // loginsideImg: {
-    //     width: '100%',
-    //     height: '100vh !important',
-    //     [theme.breakpoints.down("1090")]: {
-    //         display: 'none',
-    //         overflow: 'hidden'
-    //     },
-    // },
 
-    // ContainerBorder: {
-    //     height: 'auto',
-    // },
-    // alignCnter: {
-    //     display: 'flex',
-    //     flexDirection: 'column !important',
-    //     justifyContent: 'center',
-    //     alignItems: 'baseline',
-
-    //     [theme.breakpoints.down("md")]: {
-    //         alignItems: 'center',
-    //         marginTop: '10% !important',
-    //         overflow: 'hidden'
-    //     },
-    //     [theme.breakpoints.down("sm")]: {
-    //         alignItems: 'center',
-    //         marginTop: '15% !important',
-    //         width: '80% !important',
-    //         // margin:'10% 1% 1% 1% !important',
-    //         overflow: 'hidden'
-    //     },
-    // },
 }));
 
 const Login = () => {
@@ -131,24 +97,8 @@ const Login = () => {
 
     return (
         <>
-            {/* <Grid container columnSpacing={{ xs: 1, sm: 2, md: 4 }} className={classes.ContainerBorder}>
-                <Grid item xs={12} md={6} className={classes.alignCnter}  >
-                    
-                    <Typography className={classes.mainHead}  ><img src={logo} className={classes.logoImage}  /></Typography>
-                    <Typography className={classes.mainHead}  >Sign In</Typography>
-                    <Typography className={classes.mainHead1}  >Sign in to stay connected.</Typography>
-
-                    <LoginForm />
-
-                </Grid>
-
-                <Grid item xs={12} md={6} >
-                    <Item><img src={loginside} className={classes.loginsideImg}></img></Item>
-                </Grid>
-            </Grid> */}
-
             <Grid container >
-                
+
                 <Grid item xs={12} nineS={6} className={classes.sideForm}  >
                     <Typography className={classes.mainHead}  ><img src={logo} className={classes.logoImage} /></Typography>
                     <Typography className={classes.mainHead}  >Sign In</Typography>
