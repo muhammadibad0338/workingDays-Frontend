@@ -118,9 +118,9 @@ const ResponsiveAppbar = ({ currentUser, toggleTheme, theme }) => {
     }
 
     return (
-        <AppBar position="sticky" style={{ backgroundColor: '#5800FF' }} >
+        <AppBar position="sticky" style={{  }} >
             <Container maxWidth="xl">
-                <Toolbar disableGutters>
+                <Toolbar >
 
                     <img src={Logo} className={classes.mdUpLogo} />
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -173,7 +173,7 @@ const ResponsiveAppbar = ({ currentUser, toggleTheme, theme }) => {
                                     navigate(`${page.path}`)
                                     handleCloseNavMenu()
                                 }}
-                                sx={{ my: 2, mx: 1, color: 'white', display: 'block', fontWeight: 'bold', fontSize: 'inherit' }}
+                                sx={{ my: 2, mx: 1, color: 'black', display: 'block', fontWeight: 'bold', fontSize: 'inherit' }}
                             >
                                 {page.title}
                             </Button>
