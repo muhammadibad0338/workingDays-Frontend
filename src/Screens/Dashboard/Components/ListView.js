@@ -26,8 +26,9 @@ import Pagination from '../../../Components/Pagination';
 
 const useStyles = makeStyles((theme) => ({
     iconImg: {
-        height: '20px',
-        width: '20px',
+        height: '36px',
+        width: '36px',
+        borderRadius:'50%',
         marginRight: '10px',
     },
     tableContainer: {
@@ -42,10 +43,11 @@ const useStyles = makeStyles((theme) => ({
     },
     tableCell: {
         fontFamily: "inherit",
-        backgroundColor: "#0095FF",
-        color: "#ffff",
+        // backgroundColor: "#0095FF",
+        color: "white !important",
         textAlign: "left",
-        fontWeight: "bold",
+        fontWeight: "bold !important",
+        fontSize: '15px !important',
         textTransform: "upperCase",
     },
     tableCellBody: {
@@ -62,10 +64,23 @@ const useStyles = makeStyles((theme) => ({
             borderColor: '#80bdff',
             // boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
         },
+    },
+    tableHead: {
+        backgroundImage: 'linear-gradient(rgba(76, 207, 248, 1), rgba(74, 75, 227, 1),rgba(35, 52, 156, 1))',
+        borderTopLeftRadius: "10px !important"
     }
 }));
 const ToggleTypography = styled(Typography)(({ theme }) => ({
     color: theme.palette.headTypography.main,
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: '#E1E1E1',
+    },
+    '&:nth-of-type(even)': {
+        backgroundColor: '#F3F3F3',
+    },
 }));
 
 const BootstrapInput = withStyles((theme) => ({
@@ -115,29 +130,34 @@ const ListView = ({ userProjects }) => {
     return (
         <>
             <TableContainer className={classes.tableContainer}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell className={classes.tableCell}>#</TableCell>
+                <Table  >
+                    <TableHead className={classes.tableHead} >
+                        <TableRow >
+                            <TableCell className={classes.tableCell} sx={{ borderTopLeftRadius: '10px' }}  >#</TableCell>
+                            <TableCell className={classes.tableCell}></TableCell>
                             <TableCell className={classes.tableCell}>Name</TableCell>
                             <TableCell className={classes.tableCell}>Project Member</TableCell>
-                            <TableCell className={classes.tableCell}>Created At</TableCell>
+                            <TableCell className={classes.tableCell} sx={{ borderTopRightRadius: '10px' }}  >Created At</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {
                             userProjects.map((project, ind) => {
                                 return (
-                                    <TableRow key={ind} className={classes.tableRow} onClick={() => navigateToProjectBoard(project?._id)} >
+                                    <StyledTableRow key={ind} className={classes.tableRow} onClick={() => navigateToProjectBoard(project?._id)} >
                                         <TableCell className={classes.tableCellBody} ><ToggleTypography>{ind + 1}</ToggleTypography> </TableCell>
+                                        <TableCell className={classes.tableCellBody} >
+                                            <img className={classes.iconImg} src={project?.icon} alt="Icon" />
+                                        </TableCell>
                                         <TableCell className={classes.tableCellBody}  >
                                             <Box sx={{ display: 'flex' }} >
-                                                <img className={classes.iconImg} src={project?.icon} alt="Icon" /> <ToggleTypography>{project?.name}</ToggleTypography>
+                                                {/* <img className={classes.iconImg} src={project?.icon} alt="Icon" /> */}
+                                                <ToggleTypography>{project?.name}</ToggleTypography>
                                             </Box>
                                         </TableCell>
                                         <TableCell className={classes.tableCellBody} ><ToggleTypography>{project?.projectTeam?.length} Members</ToggleTypography>  </TableCell>
                                         <TableCell className={classes.tableCellBody} ><ToggleTypography>{moment(project?.createdAt).format("DD/MM/YYYY")}</ToggleTypography>  </TableCell>
-                                    </TableRow>
+                                    </StyledTableRow>
                                 )
                             })
                         }
