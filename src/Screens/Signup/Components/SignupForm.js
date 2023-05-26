@@ -244,7 +244,13 @@ const SignupForm = ({ reduxLoading, registerUser }) => {
                 </Grid>
                 <Grid item xs={12} >
                     <Box mx={2} className={classes.AlignBtwn}  >
-                        <Button type='submit' disabled={reduxLoading} variant="contained" style={{ margin: '5px 130px', backgroundColor: '#0096FF' }} >
+                        <Button type='submit' disabled={reduxLoading} variant="contained"
+                         style={{ 
+                            margin: '5px 130px',
+                            backgroundImage: 'linear-gradient(rgba(76, 207, 248, 1), rgba(74, 75, 227, 1),rgba(35, 52, 156, 1))', 
+                            color:'white',
+                            fontWeight:'bold'
+                            }} >
                             {reduxLoading ? <CircularProgress /> : 'Signup'}
                         </Button>
                         <Typography style={{ textAlign: 'center', marginTop: '5px', color: '#0096FF' }} >
