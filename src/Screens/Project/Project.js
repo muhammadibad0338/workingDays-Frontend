@@ -24,7 +24,7 @@ import { connect } from "react-redux";
 import { getProjectDetails, setProjectDetails, addEmployeeToproject } from "../../Redux/Project/ProjectAction"
 import { getSearchUsersInTeam } from '../../Redux/User/UserAction';
 import { getProjectsTasks } from "../../Redux/Task/TaskAction"
-import { setTasks, createTask, updateTaskDescription } from "../../Redux/Task/TaskAction"
+import { setTasks, createTask, updateTaskDescription,getProjectsTaskTree } from "../../Redux/Task/TaskAction"
 import { useParams } from 'react-router-dom';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import AddIcon from '@mui/icons-material/Add';
@@ -199,6 +199,7 @@ const Project = (
         reduxTaskLoading,
         setTasks,
         createTask,
+        getProjectsTaskTree,
         updateTaskDescription
     }
 ) => {
@@ -233,6 +234,7 @@ const Project = (
     useEffect(() => {
         getProjectDetails(id)
         getProjectsTasks(id)
+        getProjectsTaskTree(id)
         console.log("chala")
         return () => {
             // setProjectDetails({})
@@ -612,7 +614,8 @@ const mapDispatchToProps = (dispatch) => ({
     getProjectsTasks: (id) => dispatch(getProjectsTasks(id)),
     setTasks: (task) => dispatch(setTasks(task)),
     createTask: (data) => dispatch(createTask(data)),
-    updateTaskDescription: (data, taskId, projectId) => dispatch(updateTaskDescription(data, taskId, projectId))
+    updateTaskDescription: (data, taskId, projectId) => dispatch(updateTaskDescription(data, taskId, projectId)),
+    getProjectsTaskTree: (id) => dispatch(getProjectsTaskTree(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Project);

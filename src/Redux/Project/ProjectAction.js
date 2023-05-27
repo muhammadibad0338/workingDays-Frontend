@@ -4,7 +4,7 @@ import {
   SET_ERROR,
   SET_LOADING,
   GET_ALL_PROJECTS,
-  GET_PROJECT_DETAILS
+  GET_PROJECT_DETAILS,
 } from "./ProjectTypes";
 import Swal from "sweetalert2";
 
@@ -35,6 +35,7 @@ export const setProjectDetails = (projectDetails) => {
     payload: projectDetails
   }
 }
+
 
 
 export const getUserProjects = (id) => async (dispatch) => {

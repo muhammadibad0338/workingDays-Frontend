@@ -4,6 +4,7 @@ import {
   SET_ERROR,
   SET_LOADING,
   GET_ALL_TASKS,
+  GET_PROJECT_TASKS_TREE
 } from "./TaskTypes";
 import Swal from "sweetalert2";
 
@@ -28,6 +29,12 @@ export const setTasks = (tasks) => {
   }
 }
 
+export const setProjectTaskTree = (taskTree) => {
+  return {
+    type: GET_PROJECT_TASKS_TREE,
+    payload: taskTree
+  }
+}
 
 export const getProjectsTasks = (id) => async (dispatch) => {
   try {
@@ -49,6 +56,31 @@ export const getProjectsTasks = (id) => async (dispatch) => {
     });
     dispatch(setLoading(false));
     dispatch(setError(err));
+  }
+};
+
+export const getProjectsTaskTree = (id) => async (dispatch) => {
+  try {
+    // dispatch(setLoading(true));
+    let res = await axios({
+      method: "GET",
+      url: `${baseUrl}/task/projectTaskTree/${id}`,
+    });
+    await dispatch(setProjectTaskTree(res?.data))
+    // dispatch(setLoading(false));
+    return res
+  } catch (err) {
+    Swal.fire({
+      customClass: {
+        container: `my-swal`,
+      },
+      icon: "error",
+      title: "Working Days",
+      html: `<strong><font color="black">Something went wrong while getting your Tasks</font></strong>`,
+    });
+    // dispatch(setLoading(false));
+    dispatch(setError(err));
+    return false
   }
 };
 

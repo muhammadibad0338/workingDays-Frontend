@@ -2,6 +2,7 @@ import {
     SET_ERROR,
     SET_LOADING,
     GET_ALL_TASKS,
+    GET_PROJECT_TASKS_TREE
 } from "./TaskTypes";
 
 
@@ -10,6 +11,7 @@ const initialState = {
     loading: false,
     updating: false,
     error: null,
+    projectTaskTree: {}
 };
 
 
@@ -21,6 +23,11 @@ const taskReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 tasks: payload
+            };
+        case GET_PROJECT_TASKS_TREE:
+            return {
+                ...state,
+                projectTaskTree: payload
             };
         case SET_ERROR:
             return {

@@ -1,3 +1,4 @@
 export const GET_ALL_TASKS = "GET_ALL_TASKS";
+export const GET_PROJECT_TASKS_TREE = "GET_PROJECT_TASKS_TREE";
 export const SET_LOADING = "SET_LOADING";
 export const SET_ERROR = "SET_ERROR";
