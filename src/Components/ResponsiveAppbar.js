@@ -183,7 +183,7 @@ const ResponsiveAppbar = ({ currentUser, toggleTheme, theme }) => {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Profile Menu">
                             <IconButton onClick={toggleNotificationDrawer} sx={{ pr: 2 }}>
-                                <NotificationsIcon style={{ color: 'white' }} fontSize='medium' />
+                                <NotificationsIcon style={{ color: '#8A92A6' }} fontSize='medium' />
                             </IconButton>
                         </Tooltip>
                         <CustomDrawer isDrawerOpen={isDrawerOpen} toggleDrawer={toggleNotificationDrawer} drawerAnchor='right'   >

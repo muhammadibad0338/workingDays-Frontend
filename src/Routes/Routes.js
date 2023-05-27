@@ -47,12 +47,7 @@ const routesArr = [
         path: "/project/:id",
         Component: Project,
         projectDrawer: true,
-        nestedRoutes: [
-            {
-                path: '/borad',
-                Component: Board
-            }
-        ]
+
     },
     {
         path: "/project/:id/tree",
@@ -72,21 +67,19 @@ const routesArr = [
 ]
 
 
-const routes = ({toggleTheme,theme}) => {
+const routes = ({ toggleTheme, theme }) => {
     return (
         <Routes>
-            <Route path='/login' element={<Login />} />
-            <Route path='/signup' element={<Signup />} />
+            {/* <Route   path='/login' element={<Login />} />
+            <Route path='/signup' element={<Signup />} /> */}
             {
-                routesArr.map(({ path, Component, nestedRoutes, projectDrawer }) => {
+                routesArr.map(({ path, Component, projectDrawer }, ind) => {
                     return (
-                        <>
-                            <Route
-                                key={path}
-                                path={path}
-                                element={<ProtectedRoutes component={Component} projectDrawer={projectDrawer} toggleTheme={toggleTheme} theme={theme} />}
-                            />
-                        </>
+                        <Route
+                            key={path}
+                            path={path}
+                            element={<ProtectedRoutes component={Component} projectDrawer={projectDrawer} toggleTheme={toggleTheme} theme={theme} />}
+                        />
                     )
                 })
             }
@@ -94,4 +87,4 @@ const routes = ({toggleTheme,theme}) => {
     )
 }
 
-export default withRouter(routes)
+export default routes

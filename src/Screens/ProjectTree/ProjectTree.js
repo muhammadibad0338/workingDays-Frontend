@@ -1,31 +1,18 @@
-import React from 'react';
-import Tree from 'react-d3-tree';
-import { orgChart } from "../../State/ProjectData"
+import React, { useEffect, useState } from 'react';
+import { connect } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom';
 
-import { Box } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import Graph from "vis-react";
-// import { getObjects } from '../../../Utils';;
 
-const graph = {
-    nodes: [
-        { id: 1, label: "Node 1" },
-        { id: 2, label: "Node 2" },
-        { id: 3, label: "Node 3" },
-        { id: 4, label: "Node 4" },
-        { id: 5, label: "Node 5" },
-        { id: 6, label: "Node 6" }
-    ],
-    edges: [
-        { from: 1, to: 2 },
-        { from: 1, to: 3 },
-        { from: 2, to: 4 },
-        { from: 2, to: 5 }
-    ]
-};
+import { getProjectsTaskTree, setProjectTaskTree, } from '../../Redux/Task/TaskAction';
+import { getProjectDetails } from '../../Redux/Project/ProjectAction';
+
 
 const options = {
     layout: {
-        hierarchical: true
+        hierarchical:true
     },
     edges: {
         color: "#000000"
@@ -44,30 +31,66 @@ const getNetwork = (network) => {
     console.log(network);
 };
 
-const getNodes = () => {
-    return graph.nodes;
-};
+// const getNodes = () => {
+//     return graph.nodes;
+// };
 
-const getEdges = () => {
-    return graph.edges;
-};
+// const getEdges = () => {
+//     return graph.edges;
+// };
 
 
-const ProjectTree = () => {
+
+const ProjectTree = ({ }) => {
     // console.log(orgChart,"orgChart")
-    return (
-        <Box sx={{width:'90vw',height:'90vh',}} >
-            <Graph
-                graph={graph}
-                options={options}
-                events={events}
-                style={{ width: "100%", height: "100%" ,cursor:'crosshair'}}
-                getNetwork={getNetwork}
-                getNodes={getNodes}
-                getEdges={getEdges}
-            />
-        </Box>
-    )
+
+    const [graphLoading, setGraphLoading] = useState(true)
+
+    const dispatch = useDispatch()
+    const projectTaskTree = useSelector((state) => state.task.projectTaskTree)
+
+    let { id } = useParams();
+
+    useEffect(() => {
+
+        dispatch(getProjectDetails(id))
+        dispatch(getProjectsTaskTree(id)).then((res) => {
+            if (res) {
+
+                setGraphLoading(false)
+                // console.log(res?.data, "projectTaskTree")
+            }
+        })
+
+
+    }, [])
+
+    if (graphLoading || Object.keys(projectTaskTree).length == 0) {
+        return (
+            <Box sx={{ width: '90vw', height: '90vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
+                <CircularProgress sx={{ color: "#0096FF" }} />
+            </Box>
+        )
+    }
+    else {
+
+        return (
+            <Box sx={{ width: '90vw', height: '90vh', }} >
+                <Graph
+                    graph={projectTaskTree}
+                    options={options}
+                    events={events}
+                    style={{ width: "100%", height: "100%", cursor: 'crosshair' }}
+                // getNetwork={() => console.log("network") }
+                // getNodes={() => projectTaskTree.nodes}
+                // getEdges={() => projectTaskTree.edges}
+                // getNetwork={getNetwork}
+                // getNodes={getNodes}
+                // getEdges={getEdges}
+                />
+            </Box>
+        )
+    }
 }
 
 export default ProjectTree

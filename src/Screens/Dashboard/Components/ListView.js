@@ -25,6 +25,8 @@ import { connect } from "react-redux";
 import moment from 'moment/moment';
 import Pagination from '../../../Components/Pagination';
 
+import { getProjectDetails } from '../../../Redux/Project/ProjectAction';
+
 const useStyles = makeStyles((theme) => ({
     iconImg: {
         height: '36px',
@@ -121,7 +123,7 @@ const BootstrapInput = withStyles((theme) => ({
     },
 }))(InputBase);
 
-const ListView = ({ userProjects }) => {
+const ListView = ({ userProjects,getProjectDetails }) => {
     const classes = useStyles();
     let navigate = useNavigate();
 
@@ -180,6 +182,7 @@ const mapStateToProps = (store) => ({
 
 
 const mapDispatchToProps = (dispatch) => ({
+    getProjectDetails: (id) => dispatch(getProjectDetails(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListView);

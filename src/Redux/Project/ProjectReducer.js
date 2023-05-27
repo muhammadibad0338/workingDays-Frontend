@@ -4,7 +4,7 @@ import {
     SET_ERROR,
     SET_LOADING,
     GET_ALL_PROJECTS,
-    GET_PROJECT_DETAILS
+    GET_PROJECT_DETAILS,
 } from "./ProjectTypes";
 
 const initialState = {
@@ -12,7 +12,8 @@ const initialState = {
     loading: false,
     updating: false,
     error: null,
-    projectDetails: {}
+    projectDetails: {},
+   
 };
 
 
