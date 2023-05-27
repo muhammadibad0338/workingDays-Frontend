@@ -11,7 +11,7 @@ import { makeStyles } from "@mui/styles"
 // import Banner from "../../Assets/Images/SignupBanner.png"
 import SignupForm from './Components/SignupForm';
 // import bg from "../../Assets/Images/wave.png"
-import GraphicSide from "../../Assets/Images/loginSide.jpeg"
+import GraphicSide from "../../Assets/Images/signupSide.jpeg"
 import { Navigate } from "react-router-dom"
 import logo from '../../Assets/Images/Logo.png'
 

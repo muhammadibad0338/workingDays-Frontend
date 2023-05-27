@@ -25,8 +25,13 @@ import HeadingOne from '../../Components/HeadingOne';
 import FullScreenDialog from '../../Components/Dialog';
 import { getUserProjects, createProject } from '../../Redux/Project/ProjectAction';
 import { getUserRequest } from '../../Redux/User/UserAction';
+// import currentUser from '../../Components/ProfileMenu'
 
 import Swal from "sweetalert2";
+
+import dashboardBg from "../../Assets/Images/dashboardBg.jpg"
+
+
 
 const ProjectHead = styled(Typography)(({ theme }) => ({
   fontSize: '2rem',
@@ -37,6 +42,11 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between'
   },
+  spaceBtwn1: {
+    display: 'flex',
+    alignItems:'flex-start'
+  },
+
   alignEnd: {
     display: 'flex',
     justifyContent: 'end'
@@ -61,6 +71,18 @@ const useStyles = makeStyles((theme) => ({
   },
   colorBox: {
     background: theme.palette.primary.main
+  }
+
+  , dashboardImg:
+  {
+    width: '100%',
+    // minHeight: '100vh !important',
+    height: '240px !important',
+    backgroundImage: `url(${dashboardBg})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    borderRadius: '0px 10px 10px 10px !important'
   }
 }));
 
@@ -137,19 +159,32 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
   }));
 
 
+  console.log(currentUser.name)
+
   return (
     <>
       <ColorBox>
-        <Container maxWidth='fl' >
-          <Grid container >
-            <Grid item xs={12} mt={4} className={classes.spaceBtwn} >
-              <HeadingOne title="Projects" />
-              {[0, 1, 2].includes(currentUser.level) && <ContainedBtn title='Create Project' onClick={() => setisDialogOpen(true)} />}
-            </Grid>
-            {/* <Grid item xs={12} >
+        <div className={classes.dashboardImg}>
+          <Container maxWidth='fl' >
+            <Grid container >
+
+              <Grid item xs={12} mt={4} className={classes.spaceBtwn} >
+
+                <HeadingOne title={`Hello ${currentUser.name}!`} />
+
+                {[0, 1, 2].includes(currentUser.level) && <ContainedBtn title='Create Project' onClick={() => setisDialogOpen(true)} />}
+              </Grid>
+
+              <Grid item xs={12} mt={2} className={classes.spaceBtwn1} >
+                <HeadingOne btmText="Manage Your Project Load with ease using the powerful Working Days Project manager App" />
+              </Grid>
+
+
+
+              {/* <Grid item xs={12} >
             <SearchBar />
           </Grid> */}
-            {/* <Grid item xs={12} className={classes.alignEnd} mt={10} >
+              {/* <Grid item xs={12} className={classes.alignEnd} mt={10} >
               <ColorToggleButtonGroup
                 value={alignment}
                 exclusive
@@ -167,14 +202,15 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
                 </ColorToggleButton>
               </ColorToggleButtonGroup>
             </Grid> */}
-            <Grid item xs={12} mt={10} >
-              {/* {
+              <Grid item xs={12} mt={10} >
+                {/* {
                 alignment === "gridView" ? <GridView /> : <ListView />
               } */}
-              <ListView />
+                <ListView />
+              </Grid>
             </Grid>
-          </Grid>
-        </Container>
+          </Container>
+        </div>
       </ColorBox>
       <FullScreenDialog maxWidth='sm' fullWidth={true} open={isDialogOpen} hideDialogHandler={() => setisDialogOpen(false)} >
         <Box className={[classes.alignEnd, classes.colorBox]} px={2} pt={1} >

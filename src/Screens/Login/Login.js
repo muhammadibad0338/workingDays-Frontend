@@ -6,9 +6,9 @@ import {
     Container,
     Hidden
 } from "@mui/material";
-import bg from "../../Assets/Images/wave2.jpg"
+// import bg from "../../Assets/Images/wave2.jpg"
 import { makeStyles } from "@mui/styles"
-import GraphicSide from "../../Assets/Images/signupside.jpeg"
+import GraphicSide from "../../Assets/Images/loginSide.jpeg"
 import LoginForm from './Components/LoginForm';
 import { Navigate } from "react-router-dom"
 import { styled } from '@mui/material/styles';
@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
             display: 'none',
 
         },
-        transform: 'rotate(180deg)',
+        // transform: 'rotate(180deg)',
         maxHeight: '100vh'
     },
 
