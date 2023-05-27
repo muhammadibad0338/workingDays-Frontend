@@ -172,7 +172,7 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
 
                 <HeadingOne title={`Hello ${currentUser.name}!`} />
 
-                {[0, 1, 2].includes(currentUser.level) && <ContainedBtn title='Create Project' onClick={() => setisDialogOpen(true)} />}
+                {[0, 1, 2].includes(currentUser.level) && <ContainedBtn sx={{border:'3px solid white'}} title='Create Project' onClick={() => setisDialogOpen(true)} />}
               </Grid>
 
               <Grid item xs={12} mt={2} className={classes.spaceBtwn1} >

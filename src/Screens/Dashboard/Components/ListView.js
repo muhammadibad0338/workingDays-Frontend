@@ -14,7 +14,8 @@ import {
     Chip,
     NativeSelect,
     InputBase,
-    Typography
+    Typography,
+    TableFooter
 } from "@mui/material";
 import { styled } from '@mui/system';
 import { makeStyles, withStyles } from "@mui/styles";
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     iconImg: {
         height: '36px',
         width: '36px',
-        borderRadius:'50%',
+        borderRadius: '50%',
         marginRight: '10px',
     },
     tableContainer: {
@@ -163,9 +164,9 @@ const ListView = ({ userProjects }) => {
                         }
                     </TableBody>
                 </Table>
+                        {/* <Pagination
+                            totalEntries={userProjects.length} /> */}
             </TableContainer>
-            <Pagination
-                totalEntries={userProjects.length} />
         </>
     )
 }
