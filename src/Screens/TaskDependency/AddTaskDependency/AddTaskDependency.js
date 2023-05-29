@@ -17,12 +17,15 @@ import DoneIcon from '@mui/icons-material/Done';
 import { getProjectsTasks, addTaskDependency } from '../../../Redux/Task/TaskAction';
 import { getProjectDetails } from "../../../Redux/Project/ProjectAction"
 import ContainedBtn from '../../../Components/ContainedBtn';
+import dashboardBg from "../../../Assets/Images/dashboardBg.jpg"
+import HeadingOne from '../../../Components/HeadingOne';
 
 const useStyles = makeStyles((theme) => ({
     TaskContainer: {
         display: 'flex',
         justifyContent: 'space-between',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        // marginTop : '100px !important'
     },
     alignEnd: {
         display: 'flex',
@@ -31,7 +34,19 @@ const useStyles = makeStyles((theme) => ({
     alignBetween: {
         display: 'flex',
         justifyContent: 'space-between'
+    }, 
+    dashboardImg:
+    {
+        width: '100%',
+        // minHeight: '100vh !important',
+        height: '180px !important',
+        backgroundImage: `url(${dashboardBg})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        borderRadius: '10px 10px 10px 10px !important'
     }
+    
 }));
 
 const ColorText = styled(Typography)(({ theme }) => ({
@@ -46,6 +61,7 @@ const TaskBox = styled(Box)(({ theme, isSelected }) => ({
     border: '1px solid #0095FF',
     cursor: 'pointer',
     boxShadow: isSelected ? 'rgb(114, 255, 255) 0px 7px 29px 0px' : '',
+    
 
 }));
 
@@ -69,100 +85,106 @@ const AddTaskDependency = ({ projectTasks, getProjectsTasks, reduxTaskLoading, g
 
     return (
         <>
-            {!isContinue ?
-                <Grid container >
-                    <Grid item xs={12} my={2} >
-                        <ColorText variant='h4' sx={{ textAlign: 'center' }} >Select a Task which you want to make DEPENDENT</ColorText>
-                    </Grid>
-                    <Grid item xs={12} className={classes.TaskContainer} >
-                        {
-                            (!reduxTaskLoading || projectTasks?.lenght > 0) ?
-                                projectTasks?.map((task, ind) => {
-                                    return (
-                                        <TaskBox key={ind} m={2}
-                                            onClick={() => setSelectedTask(task._id)}
-                                            isSelected={selectedTask === task._id ? true : false}
-                                        >
-                                            <Box p={1} >
-                                                <ColorText sx={{ textAlign: 'center' }} >{task?._id}</ColorText>
-                                            </Box>
-                                            <Divider />
-                                            <Box p={1} >
-                                                <ColorText>{task?.name}</ColorText>
-                                            </Box>
-                                        </TaskBox>
-                                    )
-                                }) :
-                                <CircularProgress />
-                        }
-                    </Grid>
-                    <Grid item xs={12} className={classes.alignEnd} m={2} >
-                        <ContainedBtn
-                            endIcon={<ArrowForwardIcon />}
-                            disabled={selectedTask.trim().length === 24 ? false : true}
-                            title="Continue"
-                            onClick={() => setIsContinue(true)}
-                        />
-                    </Grid>
-                </Grid>
-                :
-                <Grid container >
-                    <Grid item xs={12} my={2} >
-                        <ColorText variant='h4' sx={{ textAlign: 'center' }} >Now Selects  Parent Tasks</ColorText>
-                    </Grid>
-                    <Grid item xs={12} className={classes.TaskContainer} >
-                        {
-                            (!reduxTaskLoading || projectTasks?.lenght > 0) ?
-                                projectTasks?.map((task, ind) => {
-                                    if (selectedTask !== task._id) {
+            <div className={classes.dashboardImg}>
+                {!isContinue ?
+                    <Grid container  >
+                        <Grid item xs={12} my={2} ml={3} >
+                            {/* <ColorText variant='h4' sx={{ textAlign: 'center' }} >Select a Task which you want to make DEPENDENT</ColorText> */}
+                            <HeadingOne title="Add Task Dependency"  />
+                            <HeadingOne btmText="Select a task which you want to make DEPENDENT"  />
+                        </Grid>
+                        <Grid item xs={12} className={classes.TaskContainer} mt={10} >
+                            {
+                                (!reduxTaskLoading || projectTasks?.lenght > 0) ?
+                                    projectTasks?.map((task, ind) => {
                                         return (
                                             <TaskBox key={ind} m={2}
-                                                onClick={() => setParentTask([...parentTask, task._id])}
-                                                isSelected={parentTask.includes(task._id)}
+                                                onClick={() => setSelectedTask(task._id)}
+                                                isSelected={selectedTask === task._id ? true : false}
                                             >
                                                 <Box p={1} >
-                                                    <ColorText sx={{ textAlign: 'center' }} >{task?._id}</ColorText>
+                                                    <ColorText sx={{ textAlign: 'center',}} style={{fontWeight:'bold'}} >{task?._id}</ColorText>
                                                 </Box>
                                                 <Divider />
                                                 <Box p={1} >
-                                                    <ColorText>{task?.name}</ColorText>
+                                                    <ColorText sx={{ textAlign: 'center',}}>{task?.name}</ColorText>
                                                 </Box>
                                             </TaskBox>
                                         )
-                                    }
-                                }) :
-                                <CircularProgress />
-                        }
+                                    }) :
+                                    <CircularProgress />
+                            }
+                        </Grid>
+                        <Grid item xs={12} className={classes.alignEnd} m={2} >
+                            <ContainedBtn
+                                endIcon={<ArrowForwardIcon />}
+                                disabled={selectedTask.trim().length === 24 ? false : true}
+                                title="Continue"
+                                onClick={() => setIsContinue(true)}
+                            />
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12} className={classes.alignBetween} m={2} mt={5} >
-                        <ContainedBtn
-                            endIcon={<ArrowBackIcon />}
-                            title="Back"
-                            disabled={addTaskDependencyLoading}
-                            onClick={() => setIsContinue(false)}
-                        />
-                        <ContainedBtn
-                            endIcon={!addTaskDependencyLoading && <DoneIcon />}
-                            title={addTaskDependencyLoading ? <CircularProgress /> : "Add Dependency"}
-                            disabled={addTaskDependencyLoading || !(parentTask.length > 0 && selectedTask.trim().length === 24)  }
-                            onClick={() => {
-                                if (parentTask.length > 0 && selectedTask.trim().length === 24) {
-                                    setAddTaskDependencyLoading(true)
-                                    addTaskDependency(selectedTask, parentTask).then(res => {
-                                        if (res) {
-                                            setSelectedTask('')
-                                            setParentTask([])
-                                            navigate(`/project/${id}/taskDependency`)
-                                            setAddTaskDependencyLoading(false)
+                    :
+                    <Grid container >
+                        <Grid item xs={12} my={2} >
+                            {/* <ColorText variant='h4' sx={{ textAlign: 'center' }} >Now Selects  Parent Tasks</ColorText> */}
+                            <HeadingOne title="Parent Tasks" ml={2} />
+                            <HeadingOne btmText="Now Selects  Parent Tasks" ml={2} />
+                        </Grid>
+                        <Grid item xs={12} className={classes.TaskContainer} mt={10} >
+                            {
+                                (!reduxTaskLoading || projectTasks?.lenght > 0) ?
+                                    projectTasks?.map((task, ind) => {
+                                        if (selectedTask !== task._id) {
+                                            return (
+                                                <TaskBox key={ind} m={2}
+                                                    onClick={() => setParentTask([...parentTask, task._id])}
+                                                    isSelected={parentTask.includes(task._id)}
+                                                >
+                                                    <Box p={1} >
+                                                        <ColorText sx={{ textAlign: 'center' }} >{task?._id}</ColorText>
+                                                    </Box>
+                                                    <Divider />
+                                                    <Box p={1} >
+                                                        <ColorText>{task?.name}</ColorText>
+                                                    </Box>
+                                                </TaskBox>
+                                            )
                                         }
-                                        setAddTaskDependencyLoading(false)
-                                    })
-                                }
-                            }}
-                        />
+                                    }) :
+                                    <CircularProgress />
+                            }
+                        </Grid>
+                        <Grid item xs={12} className={classes.alignBetween} m={2} mt={5} >
+                            <ContainedBtn
+                                endIcon={<ArrowBackIcon />}
+                                title="Back"
+                                disabled={addTaskDependencyLoading}
+                                onClick={() => setIsContinue(false)}
+                            />
+                            <ContainedBtn
+                                endIcon={!addTaskDependencyLoading && <DoneIcon />}
+                                title={addTaskDependencyLoading ? <CircularProgress /> : "Add Dependency"}
+                                disabled={addTaskDependencyLoading || !(parentTask.length > 0 && selectedTask.trim().length === 24)}
+                                onClick={() => {
+                                    if (parentTask.length > 0 && selectedTask.trim().length === 24) {
+                                        setAddTaskDependencyLoading(true)
+                                        addTaskDependency(selectedTask, parentTask).then(res => {
+                                            if (res) {
+                                                setSelectedTask('')
+                                                setParentTask([])
+                                                navigate(`/project/${id}/taskDependency`)
+                                                setAddTaskDependencyLoading(false)
+                                            }
+                                            setAddTaskDependencyLoading(false)
+                                        })
+                                    }
+                                }}
+                            />
+                        </Grid>
                     </Grid>
-                </Grid>
-            }
+                }
+            </div>
         </>
     )
 }

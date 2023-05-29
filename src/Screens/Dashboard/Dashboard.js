@@ -25,12 +25,8 @@ import HeadingOne from '../../Components/HeadingOne';
 import FullScreenDialog from '../../Components/Dialog';
 import { getUserProjects, createProject } from '../../Redux/Project/ProjectAction';
 import { getUserRequest } from '../../Redux/User/UserAction';
-// import currentUser from '../../Components/ProfileMenu'
-
 import Swal from "sweetalert2";
-
 import dashboardBg from "../../Assets/Images/dashboardBg.jpg"
-
 
 
 const ProjectHead = styled(Typography)(({ theme }) => ({
@@ -158,9 +154,6 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
     // }
   }));
 
-
-  console.log(currentUser.name)
-
   return (
     <>
       <ColorBox>
@@ -178,8 +171,6 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
               <Grid item xs={12} mt={2} className={classes.spaceBtwn1} >
                 <HeadingOne btmText="Manage Your Project Load with ease using the powerful Working Days Project manager App" />
               </Grid>
-
-
 
               {/* <Grid item xs={12} >
             <SearchBar />

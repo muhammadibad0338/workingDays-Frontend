@@ -9,6 +9,7 @@ const TypographyHead = styled(Typography)(({ theme }) => ({
     fontSize: '2rem',
     fontWeight: 'bold',
     color: '#FFFFFF !important',
+    
     // color: theme.palette.headTypography.main,
 }));
 

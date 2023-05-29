@@ -31,7 +31,7 @@ import { makeStyles, withStyles } from "@mui/styles"
 import { Link, useNavigate } from 'react-router-dom';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-
+import SearchBar from './SearchBar';
 //Components
 import ProfileMenu from './ProfileMenu';
 import CustomDrawer from './CustomDrawer';
@@ -62,6 +62,9 @@ const useStyles = makeStyles((theme) => ({
         outline: 'none',
         cursor: 'pointer'
     },
+    SrchBar:{
+
+    }
 }));
 
 
@@ -133,6 +136,7 @@ const ResponsiveAppbar = ({ currentUser, toggleTheme, theme }) => {
                             color="inherit"
                         >
                             <MenuIcon />
+                           
                         </IconButton>
                         <Menu
                             id="menu-appbar"
@@ -178,8 +182,9 @@ const ResponsiveAppbar = ({ currentUser, toggleTheme, theme }) => {
                                 {page.title}
                             </Button>
                         ))}
+                         <SearchBar />
                     </Box>
-
+                        
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Profile Menu">
                             <IconButton onClick={toggleNotificationDrawer} sx={{ pr: 2 }}>
