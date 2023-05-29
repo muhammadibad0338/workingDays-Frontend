@@ -159,7 +159,6 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
   }));
 
 
-  console.log(currentUser.name)
 
   return (
     <>
@@ -170,7 +169,7 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
 
               <Grid item xs={12} mt={4} className={classes.spaceBtwn} >
 
-                <HeadingOne title={`Hello ${currentUser.name}!`} />
+                <HeadingOne sx={{color:'white'}} title={`Hello ${currentUser?.name}!`} />
 
                 {[0, 1, 2].includes(currentUser.level) && <ContainedBtn sx={{border:'3px solid white'}} title='Create Project' onClick={() => setisDialogOpen(true)} />}
               </Grid>

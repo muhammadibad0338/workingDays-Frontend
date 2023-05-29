@@ -17,6 +17,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import TaskIcon from '@mui/icons-material/Task';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
@@ -149,10 +150,11 @@ function MiniDrawer({ Component, projectDetails }) {
             Icon: AccountTreeIcon,
             path: `/project/${id}/tree`
         },
-        // {
-        //     name: 'Project Setting',
-        //     Icon: SettingsIcon
-        // }
+        {
+            name: 'Project Report',
+            Icon: WorkHistoryIcon,
+            path: `/project/${id}/report`
+        }
     ]
 
     return (
@@ -180,7 +182,7 @@ function MiniDrawer({ Component, projectDetails }) {
                 <Divider />
                 <List>
                     {drawerRoutes.map(({ name, Icon, path }, index) => (
-                        <ListItem key={name} disablePadding sx={{ display: 'block' }}>
+                        <ListItem key={index} disablePadding sx={{ display: 'block' }}>
                             <ListItemButton
                                 sx={{
                                     minHeight: 48,

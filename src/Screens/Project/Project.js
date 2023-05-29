@@ -381,10 +381,10 @@ const Project = (
                 {/* Agile Cycle */}
                 <AgileCntnr className='agileCycle' pb={2} >
                     {
-                        (!reduxTaskLoading || projectTasks.lenght > 0) ?
+                        (!reduxTaskLoading || projectTasks?.lenght > 0) ?
                             agileCycle.map((phase, ind) => {
                                 return (
-                                    <Model key={ind} uid={uid} index={ind} modelHeading={phase} projectId={id} tasks={projectTasks.filter(task => task?.agileCycle == phase)} />
+                                    <Model key={ind} uid={uid} index={ind} modelHeading={phase} projectId={id} tasks={projectTasks?.filter(task => task?.agileCycle == phase)} />
                                 )
                             }) :
                             <CircularProgress />
@@ -601,7 +601,7 @@ const mapStateToProps = (store) => ({
     currentUser: store.user.user,
     searchUser: store.user.searchUserInTeam,
     projectDetails: store.project.projectDetails,
-    projectTasks: store.task.tasks,
+    projectTasks: store.task.tasks.tasks,
     reduxTaskLoading: store.task.loading,
 });
 

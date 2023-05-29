@@ -43,7 +43,7 @@ export const getProjectsTasks = (id) => async (dispatch) => {
       method: "GET",
       url: `${baseUrl}/task/currentProjectTask/${id}`,
     });
-    await dispatch(setTasks(res?.data?.tasks))
+    await dispatch(setTasks(res?.data))
     dispatch(setLoading(false));
   } catch (err) {
     Swal.fire({

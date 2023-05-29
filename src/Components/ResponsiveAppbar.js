@@ -152,8 +152,8 @@ const ResponsiveAppbar = ({ currentUser, toggleTheme, theme }) => {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={() => {
+                            {pages.map((page,ind) => (
+                                <MenuItem key={ind} onClick={() => {
                                     navigate(`${page.path}`)
                                     handleCloseNavMenu()
                                 }}>
@@ -165,9 +165,9 @@ const ResponsiveAppbar = ({ currentUser, toggleTheme, theme }) => {
                         <img src={Logo} />
                     </Box>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
+                        {pages.map((page,ind) => (
                             <Button
-                                key={page.title}
+                                key={ind}
                                 // onClick={handleCloseNavMenu}
                                 onClick={() => {
                                     navigate(`${page.path}`)

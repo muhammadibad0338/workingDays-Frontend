@@ -73,7 +73,7 @@ const ColorBox = styled(Box)(({ theme }) => ({
     // minHeight: '100vh',
 }));
 
-const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, updateTaskAgileCycle, index, uid, updateTaskDescription }) => {
+const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, updateTaskAgileCycle, index, uid, updateTaskDescription, key }) => {
     const classes = useStyles();
     const agileCycleArr = ['Requirments', 'Design', 'Develop', 'Test', 'Deploy', 'Maintenance']
 
@@ -133,14 +133,14 @@ const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, upd
 
     return (
         <>
-            <Box className={classes.mainCntnr} mr={4} >
+            <Box className={classes.mainCntnr} mr={4} key={key} >
                 <Box p={2} mb={4} className={classes.headCntnr} >
                     <ColorText className={classes.mainHead} >{modelHeading} </ColorText>
                 </Box>
                 <Box p={1} mt={4} className={[classes.tasksCntnr, 'example']} >
                     {/* <Box p={1} mb={1} className={classes.task} ></Box> */}
                     {
-                        tasks.length > 0 &&
+                        tasks?.length > 0 &&
                         tasks.map((task, ind) => {
                             return (
                                 <Box p={1} mb={1} className={classes.task} key={ind} >
