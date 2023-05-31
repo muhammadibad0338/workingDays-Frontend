@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { makeStyles, } from "@mui/styles";
 import {
-    Box, Typography, IconButton, Button, CircularProgress, OutlinedInput
+    Box, Typography, IconButton, Button, CircularProgress, OutlinedInput, Tooltip
 } from "@mui/material";
 import { styled, } from '@mui/material/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -167,7 +167,7 @@ const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, upd
                                     }} > {moment(task?.createdAt).format("DD/MM/YYYY")} </ColorText> </ColorText>}
                                     <Box>
                                         {(task?.employee?._id == uid || currentUser.role === "softwareCompany") && <>
-                                            {modelHeading !== "Requirments" && <IconButton sx={{ color: '#0096FF' }} aria-label="move Forward" component="label"
+                                            {modelHeading !== "Requirments" && <Tooltip title="Update Task Status"><IconButton sx={{ color: '#0096FF' }} aria-label="move Forward" component="label"
                                                 onClick={() => {
                                                     updateTaskAgileCycle({
                                                         agileCycle: agileCycleArr[index - 1],
@@ -176,8 +176,9 @@ const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, upd
                                                 }}
                                             >
                                                 <ArrowBackIcon />
-                                            </IconButton>}
-                                            {modelHeading !== "Maintenance" && <IconButton sx={{ color: '#0096FF' }} aria-label="move Backward" component="label"
+                                            </IconButton>
+                                            </Tooltip>}
+                                            {modelHeading !== "Maintenance" && <Tooltip title="Update Task Status"><IconButton sx={{ color: '#0096FF' }} aria-label="move Backward" component="label"
                                                 onClick={() => {
                                                     updateTaskAgileCycle({
                                                         agileCycle: agileCycleArr[index + 1],
@@ -186,28 +187,35 @@ const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, upd
                                                 }}
                                             >
                                                 <ArrowForwardIcon />
-                                            </IconButton>}
+                                            </IconButton>
+                                            </Tooltip>}
+
                                         </>}
                                         {
-                                            currentUser.role === "softwareCompany" && <IconButton color="error" aria-label="Delete Task" component="label"
-                                                onClick={() => setTaskDelete(task._id, projectId)}
-                                            >
-                                                <DeleteIcon />
-                                            </IconButton>
+                                            currentUser.role === "softwareCompany" &&
+                                            <Tooltip title="Delete Task">
+                                                <IconButton color="error" aria-label="Delete Task" component="label"
+                                                    onClick={() => setTaskDelete(task._id, projectId)}
+                                                >
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </Tooltip>
                                         }
                                         {
-                                            currentUser.role === "softwareCompany" && <IconButton sx={{ color: '#0096FF' }} aria-label="Edit Task" component="label"
-                                                onClick={() => {
-                                                    setTaskId(`${task._id}`)
-                                                    setEditTaskCredentials({
-                                                        name: task?.name,
-                                                        description: task?.description
-                                                    })
-                                                    setIsCreateIssueEditedDialogOpen(true)
-                                                }}
-                                            >
-                                                <EditIcon />
-                                            </IconButton>
+                                            currentUser.role === "softwareCompany" && <Tooltip title="Edit Task">
+                                                <IconButton sx={{ color: '#0096FF' }} aria-label="Edit Task" component="label"
+                                                    onClick={() => {
+                                                        setTaskId(`${task._id}`)
+                                                        setEditTaskCredentials({
+                                                            name: task?.name,
+                                                            description: task?.description
+                                                        })
+                                                        setIsCreateIssueEditedDialogOpen(true)
+                                                    }}
+                                                >
+                                                    <EditIcon />
+                                                </IconButton>
+                                            </Tooltip>
                                         }
 
                                     </Box>
