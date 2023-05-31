@@ -24,13 +24,14 @@ import { connect } from "react-redux";
 import { getProjectDetails, setProjectDetails, addEmployeeToproject } from "../../Redux/Project/ProjectAction"
 import { getSearchUsersInTeam } from '../../Redux/User/UserAction';
 import { getProjectsTasks } from "../../Redux/Task/TaskAction"
-import { setTasks, createTask, updateTaskDescription,getProjectsTaskTree } from "../../Redux/Task/TaskAction"
+import { setTasks, createTask, updateTaskDescription, getProjectsTaskTree } from "../../Redux/Task/TaskAction"
 import { useParams } from 'react-router-dom';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import Swal from "sweetalert2";
 import dayjs from 'dayjs';
+import moment from 'moment/moment';
 
 
 import './Components/Model.css'
@@ -392,11 +393,24 @@ const Project = (
                 </AgileCntnr>
             </ColorBox>
             {/* Create Issue Dialog */}
-            <FullScreenDialog maxWidth='sm' fullWidth={true} open={isCreateIssueDialogOpen} hideDialogHandler={() => setIsCreateIssueDialogOpen(false)} >
+            <FullScreenDialog
+                maxWidth='sm'
+                fullWidth={true}
+                open={isCreateIssueDialogOpen}
+                hideDialogHandler={() => {
+                    setIsCreateIssueDialogOpen(false)
+                    setCreateIssueContinue(false)
+                }}
+            >
                 <ColorBox p={2} >
                     <Box>
                         <Box className={classes.alignEnd} >
-                            <IconButton aria-label="Close" onClick={() => setIsCreateIssueDialogOpen(false)} >
+                            <IconButton aria-label="Close"
+                                onClick={() => {
+                                    setCreateIssueContinue(false)
+                                    setIsCreateIssueDialogOpen(false)
+                                }}
+                            >
                                 <ColorText>
                                     <CloseIcon />
                                 </ColorText>
@@ -406,24 +420,25 @@ const Project = (
                     </Box>
                     {createIssueContinue ?
                         <Box my={2} >
-                            <LocalizationProvider dateAdapter={AdapterDayjs}   >
-                                <DemoContainer
-                                    components={['DatePicker', 'DateTimePicker', 'DateRangePicker']}
-                                >
-                                    <DemoItem label="Select Task  Starting Date and Ending Date" component="DateRangePicker">
-                                        <DateRangePicker defaultValue={[today, tomorrow]} minDate={today}
-                                            onChange={(e) => {
-                                                console.log(e[0].$d, "date picker", e[1].$d)
-                                                setCreateTaskCredentials({
-                                                    ...createTaskCredentials,
-                                                    deadlineStart: e[0].$d ? `${e[0].$d}` : '',
-                                                    deadlineEnd: e[1]?.$d ? `${e[1].$d}` : ''
-                                                })
-                                            }}
-                                        />
-                                    </DemoItem>
-                                </DemoContainer>
-                            </LocalizationProvider>
+                            {Object.keys(projectDetails).length === 0 ? <CircularProgress /> :
+                                <LocalizationProvider dateAdapter={AdapterDayjs}   >
+                                    <DemoContainer
+                                        components={['DatePicker', 'DateTimePicker', 'DateRangePicker']}
+                                    >
+                                        <DemoItem label="Select Task  Starting Date and Ending Date" component="DateRangePicker">
+                                            <DateRangePicker defaultValue={[today, tomorrow]} minDate={moment(projectDetails?.createdAt).format("DD/MM/YYYY")}
+                                                onChange={(e) => {
+                                                    console.log(e[0].$d, "date picker", e[1].$d)
+                                                    setCreateTaskCredentials({
+                                                        ...createTaskCredentials,
+                                                        deadlineStart: e[0].$d ? `${e[0].$d}` : '',
+                                                        deadlineEnd: e[1]?.$d ? `${e[1].$d}` : ''
+                                                    })
+                                                }}
+                                            />
+                                        </DemoItem>
+                                    </DemoContainer>
+                                </LocalizationProvider>}
                             <Box mt={3} >
                                 {/* <ContainedBtn title="create task" endIcon={<AddIcon />} onClick={projectCreateTask} disabled={taskCreateLoading} /> */}
                                 <Button type='submit' disabled={taskCreateLoading} variant="contained"
