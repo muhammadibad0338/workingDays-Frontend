@@ -210,14 +210,18 @@ const Project = (
     const [isAddMemberDialogOpen, setIsAddMemberDialogOpen] = useState(false)
     const [isCreateIssueDialogOpen, setIsCreateIssueDialogOpen] = useState(false)
 
+    const today = dayjs();
+    const tomorrow = dayjs().add(2, 'day');
+
+
     const [searchQuery, setSearchQuery] = useState('')
     const [employee, setEmployee] = useState('')
     const [createTaskCredentials, setCreateTaskCredentials] = useState({
         name: "",
         description: "",
         agileCycle: "",
-        deadlineStart: "",
-        deadlineEnd: ""
+        deadlineStart:  "" ,
+        deadlineEnd:  ""
     })
 
     const [createIssueContinue, setCreateIssueContinue] = useState(false)
@@ -232,6 +236,7 @@ const Project = (
 
     let { id } = useParams();
 
+    
     useEffect(() => {
         getProjectDetails(id)
         getProjectsTasks(id)
@@ -270,9 +275,9 @@ const Project = (
         settaskCreateLoading(true)
         if (createTaskCredentials.agileCycle.trim().length == 0 ||
             createTaskCredentials.description.trim().length == 0 ||
-            createTaskCredentials.name.trim().length == 0 ||
-            createTaskCredentials.deadlineStart.trim().length == 0 ||
-            createTaskCredentials.deadlineEnd.trim().length == 0
+            createTaskCredentials.name.trim().length == 0 
+            // createTaskCredentials.deadlineStart.trim().length == 0 ||
+            // createTaskCredentials.deadlineEnd.trim().length == 0
         ) {
             Swal.fire({
                 customClass: {
@@ -296,8 +301,8 @@ const Project = (
                     project: id,
                     softwareCompany: joinedSoftwareCompany,
                     createdBy: uid,
-                    deadlineStart: createTaskCredentials.deadlineStart,
-                    deadlineEnd: createTaskCredentials.deadlineEnd
+                    deadlineStart: createTaskCredentials.deadlineStart.trim().length == 0 ? today : createTaskCredentials.deadlineStart,
+                    deadlineEnd: createTaskCredentials.deadlineEnd.trim().length == 0 ? tomorrow : createTaskCredentials.deadlineEnd
                 }).then((res) => {
                     setCreateTaskCredentials({
                         name: "",
@@ -321,8 +326,8 @@ const Project = (
                     softwareCompany: joinedSoftwareCompany,
                     createdBy: uid,
                     employee: employee,
-                    deadlineStart: createTaskCredentials.deadlineStart,
-                    deadlineEnd: createTaskCredentials.deadlineEnd
+                    deadlineStart: createTaskCredentials.deadlineStart.trim().length == 0 ? today : createTaskCredentials.deadlineStart,
+                    deadlineEnd: createTaskCredentials.deadlineEnd.trim().length == 0 ? tomorrow : createTaskCredentials.deadlineEnd
                 }).then((res) => {
                     setCreateTaskCredentials({
                         name: "",
@@ -357,8 +362,7 @@ const Project = (
         return true
     }
 
-    const today = dayjs();
-    const tomorrow = dayjs().add(1, 'day');
+
 
     return (
         <>
@@ -382,7 +386,7 @@ const Project = (
                 {/* Agile Cycle */}
                 <AgileCntnr className='agileCycle' pb={2} >
                     {
-                        (!reduxTaskLoading || projectTasks?.lenght > 0) ?
+                        (projectTasks?.length > 0) ?
                             agileCycle.map((phase, ind) => {
                                 return (
                                     <Model key={ind} uid={uid} index={ind} modelHeading={phase} projectId={id} tasks={projectTasks?.filter(task => task?.agileCycle == phase)} />
