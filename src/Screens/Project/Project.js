@@ -220,8 +220,8 @@ const Project = (
         name: "",
         description: "",
         agileCycle: "",
-        deadlineStart:  "" ,
-        deadlineEnd:  ""
+        deadlineStart: "",
+        deadlineEnd: ""
     })
 
     const [createIssueContinue, setCreateIssueContinue] = useState(false)
@@ -236,7 +236,7 @@ const Project = (
 
     let { id } = useParams();
 
-    
+
     useEffect(() => {
         getProjectDetails(id)
         getProjectsTasks(id)
@@ -275,7 +275,7 @@ const Project = (
         settaskCreateLoading(true)
         if (createTaskCredentials.agileCycle.trim().length == 0 ||
             createTaskCredentials.description.trim().length == 0 ||
-            createTaskCredentials.name.trim().length == 0 
+            createTaskCredentials.name.trim().length == 0
             // createTaskCredentials.deadlineStart.trim().length == 0 ||
             // createTaskCredentials.deadlineEnd.trim().length == 0
         ) {
@@ -392,7 +392,7 @@ const Project = (
                                     <Model key={ind} uid={uid} index={ind} modelHeading={phase} projectId={id} tasks={projectTasks?.filter(task => task?.agileCycle == phase)} />
                                 )
                             }) :
-                            <CircularProgress />
+                            <CircularProgress sx={{ color: '#21268E' }} />
                     }
                 </AgileCntnr>
             </ColorBox>
