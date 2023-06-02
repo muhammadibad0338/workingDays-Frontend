@@ -265,7 +265,6 @@ const Model = ({
                     <ColorText className={classes.mainHead} >{modelHeading} </ColorText>
                 </Box>
                 <Box p={1} mt={4} className={[classes.tasksCntnr, 'example']} >
-                    {/* <Box p={1} mb={1} className={classes.task} ></Box> */}
                     {
                         tasks?.length > 0 &&
                         tasks.map((task, ind) => {
