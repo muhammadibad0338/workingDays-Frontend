@@ -24,14 +24,14 @@ import { connect } from "react-redux";
 import { getProjectDetails, setProjectDetails, addEmployeeToproject } from "../../Redux/Project/ProjectAction"
 import { getSearchUsersInTeam } from '../../Redux/User/UserAction';
 import { getProjectsTasks } from "../../Redux/Task/TaskAction"
-import { setTasks, createTask, updateTaskDescription,getProjectsTaskTree } from "../../Redux/Task/TaskAction"
+import { setTasks, createTask, updateTaskDescription, getProjectsTaskTree } from "../../Redux/Task/TaskAction"
 import { useParams } from 'react-router-dom';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import Swal from "sweetalert2";
 import dayjs from 'dayjs';
-
+import dashboardBg from "../../Assets/Images/dashboardBg.jpg"
 
 import './Components/Model.css'
 
@@ -45,6 +45,17 @@ import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 
 
 const useStyles = makeStyles((theme) => ({
+    dashboardImg:
+    {
+        // width: '100%',
+        // minHeight: '100vh !important',
+        height: '160px !important',
+        backgroundImage: `url(${dashboardBg})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        borderRadius: '0px 10px 10px 10px !important'
+    },
     projectIcon: {
         height: '30px',
         width: '30px',
@@ -54,6 +65,9 @@ const useStyles = makeStyles((theme) => ({
     mainHead: {
         textTransform: 'uppercase',
         margin: '20px 0px !important',
+        fontSize: '2rem',
+        fontWeight: 'bold',
+        color: '#FFFFFF !important',
 
     },
     modelCntnr: {
@@ -361,35 +375,39 @@ const Project = (
 
     return (
         <>
-            <ColorBox p={3} >
-                <ColorText> <Link to='/' style={{ textDecoration: 'none', color: '#5800FF' }} >Projects / </Link> {projectDetails?.name} </ColorText>
-                {/* Dialog controller Buttons */}
-                <Box className={classes.alignCntnr} my={4} >
-                    <ColorText variant='h5' className={classes.mainHead} >{projectDetails?.name}  Board</ColorText>
-                    {[0, 1, 2].includes(currentUser?.level) && <IconButton style={{ marginLeft: '10px' }} color="primary" aria-label="upload picture" component="label"
-                        onClick={() => setIsAddMemberDialogOpen(true)}
-                    >
-                        <ColorText>
-                            <PersonAddAlt1Icon />
-                        </ColorText>
-                    </IconButton>}
-                    {[0, 1, 2, 3].includes(currentUser?.level) &&
-                        <ContainedBtn sx={{ marginTop: '10px', marginLeft: '10px' }} title='Create Issue' endIcon={<AddIcon />}
-                            onClick={() => setIsCreateIssueDialogOpen(true)}
-                        />}
+            <ColorBox   >
+                <Box className={classes.dashboardImg} p={3} >
+                    <ColorText sx={{color:'white' ,fontSize: '1rem', fontWeight: 'bold',}}> <Link to='/' style={{ textDecoration: 'none', color: 'white' }} >Projects / </Link> {projectDetails?.name} </ColorText>
+                    {/* Dialog controller Buttons */}
+                    <Box className={classes.alignCntnr} my={4} >
+                        <ColorText variant='h5' className={classes.mainHead} >{projectDetails?.name}  Board</ColorText>
+                        {[0, 1, 2].includes(currentUser?.level) && <IconButton style={{ marginLeft: '10px' }} color="primary" aria-label="upload picture" component="label"
+                            onClick={() => setIsAddMemberDialogOpen(true)}
+                        >
+                            <ColorText>
+                                <PersonAddAlt1Icon sx={{ backgroundImage: 'linear-gradient(rgba(76, 207, 248, 1), rgba(74, 75, 227, 1),rgba(35, 52, 156, 1))',color:'white',padding:'5px 20px',borderRadius:'50%',fontWeight:'bold',height:'40px',  border:'3px solid white'}} />
+                            </ColorText>
+                        </IconButton>}
+                        {[0, 1, 2, 3].includes(currentUser?.level) &&
+                            <ContainedBtn sx={{ marginTop: '10px', marginLeft: '10px', border: '3px solid white' }} title='Create Issue' endIcon={<AddIcon />}
+                                onClick={() => setIsCreateIssueDialogOpen(true)}
+                            />}
+                    </Box>
                 </Box>
                 {/* Agile Cycle */}
-                <AgileCntnr className='agileCycle' pb={2} >
-                    {
-                        (!reduxTaskLoading || projectTasks.lenght > 0) ?
-                            agileCycle.map((phase, ind) => {
-                                return (
-                                    <Model key={ind} uid={uid} index={ind} modelHeading={phase} projectId={id} tasks={projectTasks.filter(task => task?.agileCycle == phase)} />
-                                )
-                            }) :
-                            <CircularProgress />
-                    }
-                </AgileCntnr>
+                <Box p={3} >
+                    <AgileCntnr className='agileCycle'   >
+                        {
+                            (!reduxTaskLoading || projectTasks.lenght > 0) ?
+                                agileCycle.map((phase, ind) => {
+                                    return (
+                                        <Model key={ind} uid={uid} index={ind} modelHeading={phase} projectId={id} tasks={projectTasks.filter(task => task?.agileCycle == phase)} />
+                                    )
+                                }) :
+                                <CircularProgress />
+                        }
+                    </AgileCntnr>
+                </Box>
             </ColorBox>
             {/* Create Issue Dialog */}
             <FullScreenDialog maxWidth='sm' fullWidth={true} open={isCreateIssueDialogOpen} hideDialogHandler={() => setIsCreateIssueDialogOpen(false)} >

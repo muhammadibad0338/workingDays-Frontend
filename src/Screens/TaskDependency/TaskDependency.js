@@ -1,18 +1,10 @@
 import React from 'react'
 import {
-    Tooltip,
-    Avatar,
-    CircularProgress,
-    OutlinedInput,
-    NativeSelect,
-    InputBase,
-    Button,
     Typography,
     Box,
     Grid,
     Card,
     CardContent,
-    Icon
 } from "@mui/material";
 import { styled, useTheme } from '@mui/material/styles';
 import { makeStyles, withStyles } from "@mui/styles";
@@ -36,46 +28,111 @@ const useStyles = makeStyles((theme) => ({
     {
         width: '100%',
         // minHeight: '100vh !important',
-        height: '240px !important',
+        height: '160px !important',
         backgroundImage: `url(${dashboardBg})`,
+        // background:'#f1f1f1 url(${dashboardBg}) ',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         borderRadius: '10px 10px 10px 10px !important',
-    }, taskCard: {
+    },
+    taskCard: {
         display: 'flex',
-        flexWrap: 'wrap',
+        flexDirection: 'column',
         alignItems: 'center',
-        padding: '10px',
-        height: '150px !important',
-        width: '300px !important',
-        marginRight: '30px',
-        borderRadius: '12px 12px 6px 6px !important'
+        padding: theme.spacing(2),
+        margin : theme.spacing(3),
+
+        [theme.breakpoints.up('sm')]: {
+          flexDirection: 'row',
+        },
+        
     },
 
     backSet: {
         width: '100px',
         height: '100px',
         borderRadius: '50%',
-        border:'3px solid #4A4BE3',
-        textAlign:'center',
-        lineHeight:'100px',
-        verticalAlign:'middle',
-        backgroundColor:'#FFFFFF',
+        border: '3px solid #4A4BE3',
+        textAlign: 'center',
+        lineHeight: '100px',
+        verticalAlign: 'middle',
+        backgroundColor: '#FFFFFF',
+        [theme.breakpoints.down('sm')]: {
+            marginBottom: 20,
+            textAlign:'center'
+          },
 
     },
-     depIcon: {
+    depIcon: {
         fontSize: '50px !important',
         color: '#4A4BE3 !important',
-        verticalAlign:'middle',
+        verticalAlign: 'middle',
+        textAlign:'center', 
+        marginRight: theme.spacing(1),
+        marginBottom: theme.spacing(2),
+        [theme.breakpoints.up('sm')]: {
+          marginBottom: 0,
+        },
     },
     taskText:
-    {
-    color: '#7A7A7A',
-    
+    {   
+        color: '#7A7A7A',
+        [theme.breakpoints.down('sm')]: {
+            marginTop: '40px',
+          },
+
     }
 }))
 
+const ActionCard = () => {
+    const navigate = useNavigate();
+    let { id } = useParams();
+    const classes = useStyles();
+
+    return (
+        <Grid container spacing={1} justify="center"    >
+            <Grid item xs={12} sm={6} md={4}  >
+
+                <Card className={classes.taskCard}    >
+                    <div className={classes.backSet}>
+                        <AddIcon className={classes.depIcon} />
+                    </div>
+                   
+                   <div >
+                    <Typography mb={1} ml={4} className={classes.taskText}>Add Task</Typography>
+                    <TaskDependencyBtn title='Add'  onClick={() => navigate(`/project/${id}/taskDependency/addTaskDependency`)} />
+                    </div>
+                </Card>
+            </Grid>
+
+
+            <Grid item xs={12} sm={6} md={4}     >
+                <Card className={classes.taskCard}  >
+                    <div className={classes.backSet}>
+                        <EditSharpIcon className={classes.depIcon} />
+                    </div>
+                    <div >
+                    <Typography mb={1}  ml={4} className={classes.taskText}>Edit Task</Typography>
+                    <TaskDependencyBtn title='Edit' />
+                    </div>
+                </Card>
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={4}     >
+                <Card className={classes.taskCard}  >
+                    <div className={classes.backSet}>
+                        <DeleteSharpIcon className={classes.depIcon} />
+                    </div>
+                   <div>
+                    <Typography mb={1}  ml={4} className={classes.taskText}>Delete Task</Typography>
+                    <TaskDependencyBtn title='Delete' />
+                    </div>
+                </Card>
+            </Grid>
+        </Grid>
+    )
+}
 const TaskDependency = () => {
 
     const navigate = useNavigate();
@@ -83,74 +140,20 @@ const TaskDependency = () => {
     const classes = useStyles();
     return (
         <>
-            <div className={classes.dashboardImg}>
-                <Grid container p={3}  >
-                    <Grid item xs={12} mb={10} >
-                        {/* <ColorText variant='h4' >Task Dependency</ColorText> */}
+
+            <Box sx={{ backgroundColor: '#EAEDF0', height: '100%' }}    >
+                <Box   >
+                    <Box className={classes.dashboardImg} p={3}  >
                         <HeadingOne title="Task Dependency" />
-                    </Grid>
+                    </Box>
+                </Box>
+                <Box sx={{position:'absolute',top:'220px'}}  >
+                    <ActionCard />
+                </Box>
 
-                    {/* <Card sx={{ minWidth: 275 }}>
-                        <CardContent>
-                        
-                            <Grid item xs={12} md={4}
-                            
-                                onClick={() => navigate(`/project/${id}/taskDependency/addTaskDependency`)}  >
-                                <ContainedBtn title='Add Task Dependency'  />
-                                
-                            </Grid>
-                            
-                        </CardContent>
-                    </Card> */}
-
-                    <Card className={classes.taskCard}  >
-                        <div className={classes.backSet}>
-                            <AddIcon className={classes.depIcon} />
-                        </div>
-                        <CardContent>
-                        
-                        </CardContent>
-                        
-                        <Grid item xs={12} md={4}
-
-                            onClick={() => navigate(`/project/${id}/taskDependency/addTaskDependency`)}  >
-                                <Typography mb={1} ml={1} className={classes.taskText}>Add Task</Typography>
-                            <TaskDependencyBtn title='Add' />
-                            
-                        </Grid>
-                    </Card>
+            </Box>
 
 
-                    <Card className={classes.taskCard}>
-                        <div className={classes.backSet}>
-                            <EditSharpIcon className={classes.depIcon} />
-                        </div>
-                        <CardContent>
-
-
-                        </CardContent>
-                        <Grid item xs={12} md={4}  >
-                        <Typography mb={1} ml={1} className={classes.taskText}>Edit Task</Typography>
-                            <TaskDependencyBtn title='Edit' />
-                        </Grid>
-                    </Card>
-
-                    <Card className={classes.taskCard}>
-                        <div className={classes.backSet}>
-                            <DeleteSharpIcon className={classes.depIcon} />
-                        </div>
-                        <CardContent>
-
-
-                        </CardContent>
-                        <Grid item xs={12} md={4}  >
-                        <Typography mb={1} ml={1} className={classes.taskText}>Delete Task</Typography>
-                            <TaskDependencyBtn title='Delete' />
-                        </Grid>
-                    </Card>
-
-                </Grid>
-            </div>
         </>
     )
 }

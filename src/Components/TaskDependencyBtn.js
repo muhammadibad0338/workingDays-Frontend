@@ -14,7 +14,9 @@ const Btn = styled(Button)(({ theme }) => ({
     fontWeight:'bold',
     height:'48px',
     width:'120px',
-    
+    marginLeft:'30px',
+  
+      
     '&:hover':{
         transition: '0.8 s',
         outline: theme.palette.type === "light" ? '' : '2px solid white'

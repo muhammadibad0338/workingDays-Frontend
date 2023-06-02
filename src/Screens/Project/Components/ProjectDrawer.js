@@ -29,6 +29,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { connect } from "react-redux";
 import { useParams, useNavigate } from 'react-router-dom';
+import { color } from '@mui/system';
 
 
 
@@ -40,10 +41,12 @@ const useStyles = makeStyles((theme) => ({
         width: '30px',
         borderRadius: '2px',
         marginRight: '15px'
+        
     },
     iconButton: {
         width: '30px',
-        height: '30px'
+        height: '30px',
+        
     },
     iconButtonCntnr: {
         display: 'flex',
@@ -89,6 +92,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
         flexShrink: 0,
         whiteSpace: 'nowrap',
         boxSizing: 'border-box',
+        
         ...(open && {
             ...openedMixin(theme),
             '& .MuiDrawer-paper': openedMixin(theme),
@@ -106,10 +110,13 @@ const ColorBox = styled(Box)(({ theme }) => ({
 
 const ColorToggleListItemText = styled(ListItemText)(({ theme }) => ({
     color: theme.palette.headTypography.main
+    // color:'aqua !important'
+
 }));
 
 const ColorToggleText = styled(Typography)(({ theme }) => ({
     color: theme.palette.headTypography.main
+    // color:'aqua !important'
 }));
 
 const ProjectDetailBox = styled(Box)(({ theme }) => ({
@@ -161,14 +168,14 @@ function MiniDrawer({ Component, projectDetails }) {
         >
             {/* <CssBaseline /> */}
 
-            <Drawer variant="permanent" open={!open}  >
+            <Drawer variant="permanent" open={!open}   >
                 {/* <Divider /> */}
                 <Box py={1} className={classes.iconButtonCntnr} >
-                    <IconButton className={classes.iconButton} onClick={() => setOpen(!open)} >
-                        <ColorToggleText>
-                            {open ? <KeyboardArrowRightIcon /> : <KeyboardArrowLeftIcon />}
+                    <IconButton  className={classes.iconButton} onClick={() => setOpen(!open)} >
+                        <ColorToggleText >
+                            {open ? <KeyboardArrowRightIcon  /> : <KeyboardArrowLeftIcon />}
                         </ColorToggleText>
-                    </IconButton>
+                    </IconButton >
                 </Box>
                 <ProjectDetailBox px={3} pb={2} style={{ display: 'flex' }} >
                     <img src={projectDetails?.icon} className={classes.projectIcon} />
@@ -179,32 +186,37 @@ function MiniDrawer({ Component, projectDetails }) {
                 </ProjectDetailBox>
                 <Divider />
                 <List>
-                    {drawerRoutes.map(({ name, Icon, path }, index) => (
+                    {drawerRoutes.map(({ name, Icon, path }, index ,) => (
                         <ListItem key={name} disablePadding sx={{ display: 'block' }}>
                             <ListItemButton
                                 sx={{
                                     minHeight: 48,
                                     justifyContent: open ? 'initial' : 'center',
                                     px: 2.5,
-                                    borderLeft: `${drawerIndex === index ? '5px solid #0096FF' : "none"}`
+                                    // borderLeft: `${drawerIndex === index ? '5px solid #0096FF' : "none"}`
+                                    backgroundImage: `${drawerIndex === index ? 'linear-gradient(rgba(76, 207, 248, 1), rgba(74, 75, 227, 1),rgba(35, 52, 156, 1))' : "none"}` ,
+                                    
                                 }}
                                 onClick={() => {
                                     navigate(path)
                                     setDrawerIndex(index)
+                                    
                                 }}
                             >
                                 <ListItemIcon
                                     sx={{
+                                        
                                         minWidth: 0,
                                         mr: !open ? 3 : 'auto',
-                                        justifyContent: 'center',
+                                        justifyContent: 'center', 
+                                        
                                     }}
                                 >
-                                    <ColorToggleText>
-                                        <Icon />
+                                    <ColorToggleText  >
+                                        <Icon sx={{ opacity: !open ? 1 : 0,color: `${drawerIndex === index ? 'white' : "none"}` }} />
                                     </ColorToggleText>
-                                </ListItemIcon>
-                                <ColorToggleListItemText primary={name} sx={{ opacity: !open ? 1 : 0 }} />
+                                </ListItemIcon >
+                                <ColorToggleListItemText primary={name} sx={{ opacity: !open ? 1 : 0,color: `${drawerIndex === index ? 'white' : "none"}` }} />
                             </ListItemButton>
                         </ListItem>
                     ))}

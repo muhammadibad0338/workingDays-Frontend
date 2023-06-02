@@ -26,14 +26,31 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-between',
         flexWrap: 'wrap',
         // marginTop : '100px !important'
+        backgroundColor:'#EAEDF0',
     },
     alignEnd: {
         display: 'flex',
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        // position:'absolute',
+        // right:'10px',
+        // bottom:'470px',
+        // [theme.breakpoints.down('850')]: {
+        //     right:'12px',
+        //     bottom:'400px',
+            
+        //   },
+        //   [theme.breakpoints.down('625')]: {
+        //     right:'3px',
+        //     bottom:'500px',
+        //   },
+        //   [theme.breakpoints.down('600')]: {
+        //     right:'1px',
+        //   },
     },
     alignBetween: {
         display: 'flex',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+
     }, 
     dashboardImg:
     {
@@ -44,7 +61,8 @@ const useStyles = makeStyles((theme) => ({
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        borderRadius: '10px 10px 10px 10px !important'
+        borderRadius: '10px 10px 10px 10px !important',
+        
     }
     
 }));
@@ -58,9 +76,10 @@ const TaskBox = styled(Box)(({ theme, isSelected }) => ({
     width: '270px',
     minHeight: '80px',
     borderRadius: '6px',
-    border: '1px solid #0095FF',
+    // border: '1px solid #0095FF',
+    backgroundColor:'#FFFFFF !important',
     cursor: 'pointer',
-    boxShadow: isSelected ? 'rgb(114, 255, 255) 0px 7px 29px 0px' : '',
+    boxShadow: isSelected ? 'rgb(213, 215, 219) 0px 7px 29px 0px' : '',
     
 
 }));
@@ -92,8 +111,19 @@ const AddTaskDependency = ({ projectTasks, getProjectsTasks, reduxTaskLoading, g
                             {/* <ColorText variant='h4' sx={{ textAlign: 'center' }} >Select a Task which you want to make DEPENDENT</ColorText> */}
                             <HeadingOne title="Add Task Dependency"  />
                             <HeadingOne btmText="Select a task which you want to make DEPENDENT"  />
+                        
                         </Grid>
-                        <Grid item xs={12} className={classes.TaskContainer} mt={10} >
+                         <Grid item xs={12} className={classes.alignEnd} m={2} >
+                            <ContainedBtn
+                                endIcon={<ArrowForwardIcon />}
+                                disabled={selectedTask.trim().length === 24 ? false : true}
+                                sx={{border:'3px solid white'}}
+                                title="Continue"
+                                onClick={() => setIsContinue(true)}
+                            />
+                        </Grid>
+                        
+                        <Grid item xs={12} className={classes.TaskContainer}   >
                             {
                                 (!reduxTaskLoading || projectTasks?.lenght > 0) ?
                                     projectTasks?.map((task, ind) => {
@@ -115,14 +145,15 @@ const AddTaskDependency = ({ projectTasks, getProjectsTasks, reduxTaskLoading, g
                                     <CircularProgress />
                             }
                         </Grid>
-                        <Grid item xs={12} className={classes.alignEnd} m={2} >
+                        {/* <Grid item xs={12} className={classes.alignEnd} m={2} >
                             <ContainedBtn
                                 endIcon={<ArrowForwardIcon />}
                                 disabled={selectedTask.trim().length === 24 ? false : true}
+                                sx={{border:'3px solid white'}}
                                 title="Continue"
                                 onClick={() => setIsContinue(true)}
                             />
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                     :
                     <Grid container >
