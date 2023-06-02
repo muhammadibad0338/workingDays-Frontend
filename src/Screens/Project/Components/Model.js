@@ -9,18 +9,20 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { connect } from "react-redux";
-import { setTaskDelete, updateTaskAgileCycle, updateTaskDescription } from '../../../Redux/Task/TaskAction';
+import { setTaskDelete, updateTaskAgileCycle, updateTaskDescription, updateTaskDeadLine } from '../../../Redux/Task/TaskAction';
 import './Model.css'
 import EditIcon from '@mui/icons-material/Edit';
 import FullScreenDialog from '../../../Components/Dialog';
 import Swal from "sweetalert2";
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import InfoIcon from '@mui/icons-material/Info';
 
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 
 
 import moment from 'moment/moment';
@@ -70,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: '6px',
         boxShadow: '1px 1px rgba(23,43,77,0.2),0 0 1px rgba(23,43,77,0.2)',
         border: theme.palette.type == "light" ? 'none' : '1px solid #0095FF',
-        cursor: 'pointer'
+        // cursor: 'pointer'
     },
     alignEnd: {
         display: 'flex',
@@ -95,6 +97,14 @@ const useStyles = makeStyles((theme) => ({
     dFlex: {
         display: 'flex'
     },
+    loadingBtn: {
+        margin: '5px 0px !important',
+        backgroundImage: 'linear-gradient(rgba(76, 207, 248, 1), rgba(74, 75, 227, 1),rgba(35, 52, 156, 1)) !important',
+        color: 'white !important',
+        height: '50px !important',
+        marginLeft: '20px !important',
+        marginTop: '40px !important'
+    }
 }));
 const ColorText = styled(Typography)(({ theme }) => ({
     color: theme.palette.headTypography.main
@@ -108,7 +118,8 @@ const ColorBox = styled(Box)(({ theme }) => ({
 const SpaceBetweenBox = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    alignItems: 'center'
 }));
 
 const BoxDisplayForState = ({ stateName, currentState, }) => {
@@ -122,7 +133,19 @@ const BoxDisplayForState = ({ stateName, currentState, }) => {
 }
 
 
-const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, updateTaskAgileCycle, index, uid, updateTaskDescription, key }) => {
+const Model = ({
+    modelHeading,
+    tasks,
+    currentUser,
+    setTaskDelete,
+    projectId,
+    updateTaskAgileCycle,
+    index,
+    uid,
+    updateTaskDescription,
+    key,
+    updateTaskDeadLine
+}) => {
     const classes = useStyles();
     const agileCycleArr = ['Requirments', 'Design', 'Develop', 'Test', 'Deploy', 'Maintenance']
 
@@ -132,6 +155,8 @@ const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, upd
     const [isTaskDetailDialogOpen, setIsTaskDetailDialogOpen] = useState(false)
     const [isCreateIssueEditedDialogOpen, setIsCreateIssueEditedDialogOpen] = useState(false)
     const [taskEditLoading, settaskEditLoading] = useState(false)
+    const [extendTaskLoading, setExtendTaskLoading] = useState(false)
+    const [deadlineExtend, setDeadlineExtend] = useState('')
     const [editTaskCredentials, setEditTaskCredentials] = useState({
         name: "",
         description: "",
@@ -139,9 +164,26 @@ const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, upd
     const [taskId, setTaskId] = useState('')
     const [taskDetails, setTaskDetails] = useState({})
 
+    const today = dayjs();
+    const tomorrow = dayjs().add(1, 'day');
+
+    // console.log(tomorrow,"tomorrow")
+    // console.log(moment('2023-06-09T15:07:55.075Z').format("DD/MM/YYYY"),"check min date")
+
+    const isDateDifferent = (DateOne, DateTwo) => {
+        if (!DateOne || !DateTwo) {
+            return false
+        }
+        const formattedDate1 = dayjs(DateOne).format('YYYY-MM-DD');
+        const formattedDate2 = dayjs(DateTwo).format('YYYY-MM-DD');
+        if (formattedDate1 === formattedDate2) {
+            return false
+        }
+        return true
+    }
 
     const projectEditTask = () => {
-        console.log('chala projectEditTask')
+        // console.log('chala projectEditTask')
         settaskEditLoading(true)
         if (editTaskCredentials.description.trim().length == 0 ||
             editTaskCredentials.name.trim().length == 0 ||
@@ -156,6 +198,7 @@ const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, upd
                 html: `<strong><font color="black">Please fill all Fields </font></strong>`,
             });
             settaskEditLoading(false)
+
 
         }
         else {
@@ -183,6 +226,38 @@ const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, upd
         }
     }
 
+    const ExtendTaskDeadline = () => {
+        // console.log('chala projectEditTask')
+        setExtendTaskLoading(true)
+        if (!deadlineExtend
+        ) {
+            Swal.fire({
+                customClass: {
+                    container: `my-swal`,
+                },
+                icon: "error",
+                title: "Working Days",
+                html: `<strong><font color="black">Please Select Deadline Date First </font></strong>`,
+            });
+            setExtendTaskLoading(false)
+
+        }
+        else {
+
+            updateTaskDeadLine({
+                deadlineExtend: deadlineExtend
+            },
+                taskId,
+                projectId
+            ).then((res) => {
+                setDeadlineExtend('')
+                setExtendTaskLoading(false)
+                setIsTaskDetailDialogOpen(false)
+                setTaskId('')
+            })
+        }
+    }
+
     return (
         <>
             <Box className={classes.mainCntnr} mr={4} key={key} >
@@ -198,10 +273,7 @@ const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, upd
                                 <Box p={1} mb={1}
                                     className={classes.task}
                                     key={ind}
-                                    onClick={() => {
-                                        setTaskDetails({ ...task })
-                                        setIsTaskDetailDialogOpen(true)
-                                    }}
+
                                 >
                                     <ColorText sx={{ fontWeight: 'bold', letterSpacing: '2px', fontSize: '17px' }} >{task?.name}</ColorText>
                                     <hr style={{ margin: '5px 0px', opacity: '0.5' }} />
@@ -276,36 +348,37 @@ const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, upd
                                                 </IconButton>
                                             </Tooltip>
                                         }
+                                        <Tooltip title="Task Details">
+                                            <IconButton sx={{ color: '#0096FF' }} aria-label="Task Details" component="label"
+                                                onClick={() => {
+                                                    setTaskId(`${task._id}`)
+                                                    setTaskDetails({ ...task })
+                                                    setIsTaskDetailDialogOpen(true)
+                                                }}
+                                            >
+                                                <InfoIcon />
+                                            </IconButton>
+                                        </Tooltip>
 
                                     </Box>
-                                    {/* <Accordion>
-                                        <AccordionSummary
-                                            expandIcon={<ExpandMoreIcon />}
-                                            aria-controls="panel1a-content"
-                                            id="panel1a-header"
-                                        >
-                                            <Typography>Extend Deadline</Typography>
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                <DemoContainer components={['DatePicker']}>
-                                                    <DatePicker label="Extend Deadline" />
-                                                </DemoContainer>
-                                            </LocalizationProvider>
-                                        </AccordionDetails>
-                                    </Accordion> */}
                                 </Box>
                             )
                         })
                     }
                 </Box>
             </Box>
-            <FullScreenDialog maxWidth='sm' fullWidth={true} open={isCreateIssueEditedDialogOpen} hideDialogHandler={() => setIsCreateIssueEditedDialogOpen(false)} >
+            <FullScreenDialog maxWidth='sm' fullWidth={true} open={isCreateIssueEditedDialogOpen} hideDialogHandler={() => {
+                setIsCreateIssueEditedDialogOpen(false)
+                setTaskId('')
+            }}>
                 <ColorBox p={2} >
                     <Box my={2} >
                         <Box>
                             <Box className={classes.alignEnd} >
-                                <IconButton aria-label="Close" onClick={() => setIsCreateIssueEditedDialogOpen(false)} >
+                                <IconButton aria-label="Close" onClick={() => {
+                                    setIsCreateIssueEditedDialogOpen(false)
+                                    setTaskId('')
+                                }}>
                                     <ColorText>
                                         <CloseIcon />
                                     </ColorText>
@@ -359,11 +432,11 @@ const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, upd
                         <Box mt={3} >
                             {/* <ContainedBtn title="create task" endIcon={<AddIcon />} onClick={projectCreateTask} disabled={taskCreateLoading} /> */}
                             <Button type='submit' disabled={taskEditLoading} variant="contained"
-                                style={{ margin: '5px 0px', backgroundColor: '#0096FF' }}
-                                endIcon={<EditIcon />}
+                                style={{ margin: '5px 0px', backgroundImage: 'linear-gradient(rgba(76, 207, 248, 1), rgba(74, 75, 227, 1),rgba(35, 52, 156, 1))', color: 'white' }}
+                                endIcon={<EditIcon sx={{ color: 'white' }} />}
                                 onClick={projectEditTask}
                             >
-                                {taskEditLoading ? <CircularProgress /> : 'Edit task'}
+                                {taskEditLoading ? <CircularProgress sx={{ color: 'white' }} /> : 'Edit task'}
                             </Button>
                         </Box>
                     </Box>
@@ -374,6 +447,8 @@ const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, upd
                 hideDialogHandler={() => {
                     setIsTaskDetailDialogOpen(false)
                     setTaskDetails({})
+                    setDeadlineExtend('')
+                    setTaskId('')
                 }}
             >
                 <ColorBox p={2} >
@@ -383,6 +458,8 @@ const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, upd
                                 onClick={() => {
                                     setIsTaskDetailDialogOpen(false)
                                     setTaskDetails({})
+                                    setDeadlineExtend('')
+                                    setTaskId('')
                                 }}
                                 className={classes.IconButton} >
                                 <ColorText>
@@ -414,7 +491,7 @@ const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, upd
                     <Box>
                         <SpaceBetweenBox>
                             <BoxDisplayForState stateName='Assign To' currentState={taskDetails?.employee?.name} />
-                            <BoxDisplayForState stateName='Assign By' currentState={taskDetails?.createdBy?.name} />
+                            {taskDetails?.createdBy && <BoxDisplayForState stateName='Assign By' currentState={taskDetails?.createdBy?.name} />}
                         </SpaceBetweenBox>
                         <SpaceBetweenBox>
                             <BoxDisplayForState stateName='Deadline Start' currentState={moment(taskDetails?.deadlineStart).format("DD/MM/YYYY")} />
@@ -422,16 +499,37 @@ const Model = ({ modelHeading, tasks, currentUser, setTaskDelete, projectId, upd
                         </SpaceBetweenBox>
                         <SpaceBetweenBox>
                             <BoxDisplayForState stateName='Assing At' currentState={moment(taskDetails?.createdAt).format("DD/MM/YYYY")} />
+                            {taskDetails?.deadlineExtend && <BoxDisplayForState stateName='Extended DeadLine' currentState={moment(taskDetails?.deadlineExtend).format("DD/MM/YYYY")} />}
                         </SpaceBetweenBox>
                     </Box>
                     <Box className={classes.dFlex} >
                         <Box sx={{ border: '1px solid #21268C', px: 2, py: 1, borderRadius: '5px' }} >
                             <Typography variant='h6' sx={{ color: '#21268C', mr: 1 }}  >Extend Deadline</Typography>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DemoContainer components={['DatePicker']}>
-                                    <DatePicker label="Extend Deadline" />
-                                </DemoContainer>
-                            </LocalizationProvider>
+                            <SpaceBetweenBox>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DemoContainer components={['DatePicker']}>
+                                        <DemoItem label="DatePicker">
+                                            <DatePicker
+                                                defaultValue={tomorrow}
+                                                minDate={dayjs(taskDetails?.deadlineEnd).add(1, 'day')}
+                                                views={['year', 'month', 'day']}
+                                                onChange={(e) => {
+                                                    // console.log(e.$d, "DatePicker")
+                                                    setDeadlineExtend(e.$d ? e.$d : '')
+                                                }}
+                                            />
+                                        </DemoItem>
+                                    </DemoContainer>
+                                </LocalizationProvider>
+                                {(!taskDetails?.deadlineExtend || isDateDifferent(deadlineExtend, taskDetails?.deadlineExtend)) && <Button type='submit' variant="contained"
+                                    disabled={extendTaskLoading}
+                                    className={classes.loadingBtn}
+                                    endIcon={<EditIcon sx={{ color: 'white' }} />}
+                                onClick={ExtendTaskDeadline}
+                                >
+                                    {extendTaskLoading ? <CircularProgress sx={{ color: 'white' }} /> : 'Extend Deadline'}
+                                </Button>}
+                            </SpaceBetweenBox>
                         </Box>
                     </Box>
                 </ColorBox>
@@ -449,7 +547,8 @@ const mapStateToProps = (store) => ({
 const mapDispatchToProps = (dispatch) => ({
     setTaskDelete: (taskId, projectId) => dispatch(setTaskDelete(taskId, projectId)),
     updateTaskAgileCycle: (data, taskId, projectId) => dispatch(updateTaskAgileCycle(data, taskId, projectId)),
-    updateTaskDescription: (data, taskId, projectId) => dispatch(updateTaskDescription(data, taskId, projectId))
+    updateTaskDescription: (data, taskId, projectId) => dispatch(updateTaskDescription(data, taskId, projectId)),
+    updateTaskDeadLine: (data, taskId, projectId) => dispatch(updateTaskDeadLine(data, taskId, projectId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Model);

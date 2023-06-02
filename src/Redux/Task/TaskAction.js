@@ -285,3 +285,40 @@ export const addTaskDependency = (taskId, taskRefs) => async (dispatch) => {
     return false
   }
 }
+
+export const updateTaskDeadLine = (data, taskId, projectId) => async (dispatch) => {
+  try {
+    dispatch(setLoading(true))
+    let res = await axios({
+      url: `${baseUrl}/task/extedDeadline/${taskId}`,
+      method: "PUT",
+      data: data
+    });
+    Swal.fire({
+      customClass: {
+        container: `my-swal`,
+      },
+      icon: "success",
+      title: "Working Days",
+      html: `<strong><font color="black">Task DeadLine Extended Sucessfully</font></strong>`
+    }).then(() => {
+
+      dispatch(setLoading(false))
+      dispatch(getProjectsTasks(projectId))
+    })
+    return res
+  }
+  catch (err) {
+    Swal.fire({
+      customClass: {
+        container: `my-swal`,
+      },
+      icon: "error",
+      title: "Working Days",
+      html: `<strong><font color="black">${err?.response?.data?.message || err?.response?.data}</font></strong>`,
+    });
+    dispatch(setError(err?.message));
+    dispatch(setLoading(false));
+    return null
+  }
+}

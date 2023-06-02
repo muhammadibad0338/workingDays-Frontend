@@ -94,7 +94,7 @@ const AddTaskDependency = ({ projectTasks, getProjectsTasks, reduxTaskLoading, g
                                         </TaskBox>
                                     )
                                 }) :
-                                <CircularProgress />
+                                <CircularProgress sx={{ color: '#21268E' }} />
                         }
                     </Grid>
                     <Grid item xs={12} className={classes.alignEnd} m={2} >
@@ -132,7 +132,7 @@ const AddTaskDependency = ({ projectTasks, getProjectsTasks, reduxTaskLoading, g
                                         )
                                     }
                                 }) :
-                                <CircularProgress />
+                                <CircularProgress sx={{ color: '#21268E' }} />
                         }
                     </Grid>
                     <Grid item xs={12} className={classes.alignBetween} m={2} mt={5} >
