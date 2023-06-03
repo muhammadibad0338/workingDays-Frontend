@@ -151,7 +151,7 @@ function MiniDrawer({ Component, projectDetails }) {
             path: `/project/${id}/tree`
         },
         {
-            name: 'Project Report',
+            name: 'Report/Graph',
             Icon: WorkHistoryIcon,
             path: `/project/${id}/report`
         }
