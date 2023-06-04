@@ -25,7 +25,8 @@ import moment from 'moment/moment';
 import { useParams } from 'react-router-dom';
 
 import { getProjectDetails } from "../../Redux/Project/ProjectAction"
-import { getProjectsTasks, setTasks } from "../../Redux/Task/TaskAction"
+import { getProjectsTasks, setTasks, getProjectsTaskReports } from "../../Redux/Task/TaskAction"
+import ReportTable from './Components/ReportTable';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -44,11 +45,6 @@ const useStyles = makeStyles((theme) => ({
 const BoxDisplayForState = ({ stateName, currentState, }) => {
     const classes = useStyles();
 
-
-
-
-
-
     return (
         <Box className={classes.dFlex} my={1} >
             <Typography variant='h5' sx={{ color: '#21268C', mr: 1 }} >{stateName} :  </Typography>
@@ -57,13 +53,26 @@ const BoxDisplayForState = ({ stateName, currentState, }) => {
     )
 }
 
-const ProjectReport = ({ projectDetails, projectTasks, getProjectDetails, getProjectsTasks, setTasks, completeTask, IncompleteTask }) => {
+const ProjectReport = ({
+    projectDetails,
+    projectTasks,
+    getProjectDetails,
+    getProjectsTasks,
+    setTasks,
+    completeTask,
+    IncompleteTask,
+    getProjectsTaskReports,
+    projectTasksReports
+}) => {
     const classes = useStyles();
     let { id } = useParams();
+
+    const [employeeID, setemployeeID] = useState('')
 
     useEffect(() => {
         getProjectDetails(id)
         getProjectsTasks(id)
+        getProjectsTaskReports(id, employeeID)
         return () => {
             setTasks([])
         }
@@ -121,6 +130,9 @@ const ProjectReport = ({ projectDetails, projectTasks, getProjectDetails, getPro
             <Grid item xs={12} sm={4} >
                 <BoxDisplayForState stateName='Incomplete Task' currentState={IncompleteTask?.length} />
             </Grid>
+            <Grid item xs={12} mt={5} >
+                <ReportTable taskReports={projectTasksReports} />
+            </Grid>
         </Grid>
     )
 }
@@ -134,11 +146,13 @@ const mapStateToProps = (store) => ({
     projectTasks: store.task.tasks.tasks,
     completeTask: store.task.tasks.completeTasks,
     IncompleteTask: store.task.tasks.IncompleteTask,
+    projectTasksReports: store.task.projectTaskReports,
 });
 
 
 const mapDispatchToProps = (dispatch) => ({
     getProjectsTasks: (id) => dispatch(getProjectsTasks(id)),
+    getProjectsTaskReports: (id, employeeId) => dispatch(getProjectsTaskReports(id, employeeId)),
     getProjectDetails: (id) => dispatch(getProjectDetails(id)),
     setTasks: (task) => dispatch(setTasks(task)),
 });

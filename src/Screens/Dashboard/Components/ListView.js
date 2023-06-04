@@ -166,8 +166,6 @@ const ListView = ({ userProjects,getProjectDetails }) => {
                         }
                     </TableBody>
                 </Table>
-                        {/* <Pagination
-                            totalEntries={userProjects.length} /> */}
             </TableContainer>
         </>
     )
