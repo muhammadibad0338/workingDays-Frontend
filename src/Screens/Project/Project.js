@@ -9,7 +9,8 @@ import {
     OutlinedInput,
     NativeSelect,
     InputBase,
-    Button
+    Button,
+    Divider
 } from "@mui/material";
 import { makeStyles, withStyles } from "@mui/styles";
 import { Link, useNavigate } from 'react-router-dom';
@@ -138,7 +139,17 @@ const useStyles = makeStyles((theme) => ({
         border: '1px solid gray',
         // color: `${theme.palette.headTypography.main} !important `,
         // backgroundColor: `${theme.palette.primary.main} !important `,
-    }
+    },
+    IconButton: {
+        backgroundImage: 'linear-gradient(rgba(76, 207, 248, 1), rgba(74, 75, 227, 1),rgba(35, 52, 156, 1))',
+        border: ' 2px solid #FFFFFF !important',
+        borderRadius: '50%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '50px',
+        width: '50px'
+    },
 }));
 
 
@@ -425,24 +436,27 @@ const Project = (
                     setCreateIssueContinue(false)
                 }}
             >
-                <ColorBox p={2} >
-                    <Box>
-                        <Box className={classes.alignEnd} >
-                            <IconButton aria-label="Close"
-                                onClick={() => {
-                                    setCreateIssueContinue(false)
-                                    setIsCreateIssueDialogOpen(false)
-                                }}
-                            >
-                                <ColorText>
-                                    <CloseIcon />
-                                </ColorText>
-                            </IconButton>
-                        </Box>
-                        <ColorText variant='h6' style={{ fontWeight: 'bold' }} >Create a Issue  </ColorText>
+
+                <Box p={2}  >
+                    <Box className={classes.alignEnd} >
+                        <IconButton aria-label="Close"
+                            onClick={() => {
+                                setCreateIssueContinue(false)
+                                setIsCreateIssueDialogOpen(false)
+                            }}
+                            className={classes.IconButton}
+                        >
+                            <ColorText>
+                                <CloseIcon fontSize='large' sx={{ color: '#FFFFFF', pt: 1 }} />
+                            </ColorText>
+                        </IconButton>
                     </Box>
+                    <ColorText variant='h6' style={{ fontWeight: 'bold' }} >Create a Issue  </ColorText>
+                </Box>
+                <Divider sx={{ height: '2px', backgroundColor: '#21268C' }} />
+                <ColorBox p={2}  >
                     {createIssueContinue ?
-                        <Box my={2} >
+                        <Box my={2}  >
                             {Object.keys(projectDetails).length === 0 ? <CircularProgress /> :
                                 <LocalizationProvider dateAdapter={AdapterDayjs}   >
                                     <DemoContainer
