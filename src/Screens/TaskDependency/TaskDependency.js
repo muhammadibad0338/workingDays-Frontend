@@ -144,7 +144,7 @@ const TaskDependency = () => {
             <Box sx={{ backgroundColor: '#EAEDF0', height: '100%' }}    >
                 <Box   >
                     <Box className={classes.dashboardImg} p={3}  >
-                        <HeadingOne title="Task Dependency" />
+                        <HeadingOne sx={{color:'white'}} title="Task Dependency" />
                     </Box>
                 </Box>
                 <Box sx={{position:'absolute',top:'220px'}}  >

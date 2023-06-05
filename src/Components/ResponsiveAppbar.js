@@ -182,7 +182,7 @@ const ResponsiveAppbar = ({ currentUser, toggleTheme, theme }) => {
                                 {page.title}
                             </Button>
                         ))}
-                         <SearchBar />
+                         {/* <SearchBar /> */}
                     </Box>
                         
                     <Box sx={{ flexGrow: 0 }}>

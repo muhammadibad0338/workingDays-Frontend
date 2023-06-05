@@ -24,18 +24,13 @@ import SearchIcon from '@mui/icons-material/Search';
 
 const useStyles = makeStyles((theme) => ({
     rootSearch: {
-        padding: "1px 3px",
+        padding: "2px 4px",
         display: "flex",
         alignItems: "center",
-        width: 300,
-        borderRadius:'20px !important',
-        // marginBottom: 20,
-        // marginTop: 30,
-        marginLeft:'80px !important',
+        width: 500,
+        marginBottom: 20,
+        marginTop: 30,
         [theme.breakpoints.down("md")]: {
-            width: "100%",
-        },
-        [theme.breakpoints.down("sm")]: {
             width: "100%",
         },
     },

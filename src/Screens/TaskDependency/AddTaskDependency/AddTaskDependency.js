@@ -76,10 +76,10 @@ const TaskBox = styled(Box)(({ theme, isSelected }) => ({
     width: '270px',
     minHeight: '80px',
     borderRadius: '6px',
-    // border: '1px solid #0095FF',
+    outline: isSelected ? '4px solid #0095FF' : "",
     backgroundColor:'#FFFFFF !important',
     cursor: 'pointer',
-    boxShadow: isSelected ? 'rgb(213, 215, 219) 0px 7px 29px 0px' : '',
+    // boxShadow: isSelected ? 'rgb(213, 215, 219) 0px 7px 29px 0px' : '',
     
 
 }));
@@ -110,7 +110,7 @@ const AddTaskDependency = ({ projectTasks, getProjectsTasks, reduxTaskLoading, g
                     <Grid container  >
                         <Grid item xs={12} my={2} ml={3} >
                             {/* <ColorText variant='h4' sx={{ textAlign: 'center' }} >Select a Task which you want to make DEPENDENT</ColorText> */}
-                            <HeadingOne title="Add Task Dependency"  />
+                            <HeadingOne sx={{color:'white'}} title="Add Task Dependency"  />
                             <HeadingOne btmText="Select a task which you want to make DEPENDENT"  />
                         
                         </Grid>
@@ -160,7 +160,7 @@ const AddTaskDependency = ({ projectTasks, getProjectsTasks, reduxTaskLoading, g
                     <Grid container >
                         <Grid item xs={12} my={2} >
                             {/* <ColorText variant='h4' sx={{ textAlign: 'center' }} >Now Selects  Parent Tasks</ColorText> */}
-                            <HeadingOne title="Parent Tasks" ml={2} />
+                            <HeadingOne sx={{color:'white'}} title="Parent Tasks" ml={2} />
                             <HeadingOne btmText="Now Selects  Parent Tasks" ml={2} />
                         </Grid>
                         <Grid item xs={12} className={classes.TaskContainer} mt={10} >

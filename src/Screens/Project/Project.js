@@ -383,7 +383,7 @@ const Project = (
         <>
             <ColorBox   >
                 <Box className={classes.dashboardImg} p={3} >
-                    <ColorText sx={{color:'white' ,fontSize: '1rem', fontWeight: 'bold',}}> <Link to='/' style={{ textDecoration: 'none', color: 'white' }} >Projects / </Link> {projectDetails?.name} </ColorText>
+                    <ColorText sx={{ color: 'white', fontSize: '1rem', fontWeight: 'bold', }}> <Link to='/' style={{ textDecoration: 'none', color: 'white' }} >Projects / </Link> {projectDetails?.name} </ColorText>
                     {/* Dialog controller Buttons */}
                     <Box className={classes.alignCntnr} my={4} >
                         <ColorText variant='h5' className={classes.mainHead} >{projectDetails?.name}  Board</ColorText>
@@ -391,7 +391,7 @@ const Project = (
                             onClick={() => setIsAddMemberDialogOpen(true)}
                         >
                             <ColorText>
-                                <PersonAddAlt1Icon sx={{ backgroundImage: 'linear-gradient(rgba(76, 207, 248, 1), rgba(74, 75, 227, 1),rgba(35, 52, 156, 1))',color:'white',padding:'5px 20px',borderRadius:'50%',fontWeight:'bold',height:'40px',  border:'3px solid white'}} />
+                                <PersonAddAlt1Icon sx={{ backgroundImage: 'linear-gradient(rgba(76, 207, 248, 1), rgba(74, 75, 227, 1),rgba(35, 52, 156, 1))', color: 'white', padding: '5px 20px', borderRadius: '50%', fontWeight: 'bold', height: '40px', border: '3px solid white' }} />
                             </ColorText>
                         </IconButton>}
                         {[0, 1, 2, 3].includes(currentUser?.level) &&
@@ -401,17 +401,19 @@ const Project = (
                     </Box>
                 </Box>
                 {/* Agile Cycle */}
-                <AgileCntnr className='agileCycle' pb={2} >
-                    {
-                        (projectTasks?.length > 0) ?
-                            agileCycle.map((phase, ind) => {
-                                return (
-                                    <Model key={ind} uid={uid} index={ind} modelHeading={phase} projectId={id} tasks={projectTasks?.filter(task => task?.agileCycle == phase)} />
-                                )
-                            }) :
-                            <CircularProgress sx={{ color: '#21268E' }} />
-                    }
-                </AgileCntnr>
+                <Box p={3} >
+                    <AgileCntnr className='agileCycle' pb={2} >
+                        {
+                            (projectTasks?.length > 0) ?
+                                agileCycle.map((phase, ind) => {
+                                    return (
+                                        <Model key={ind} uid={uid} index={ind} modelHeading={phase} projectId={id} tasks={projectTasks?.filter(task => task?.agileCycle == phase)} />
+                                    )
+                                }) :
+                                <CircularProgress sx={{ color: '#21268E' }} />
+                        }
+                    </AgileCntnr>
+                </Box>
             </ColorBox>
             {/* Create Issue Dialog */}
             <FullScreenDialog
