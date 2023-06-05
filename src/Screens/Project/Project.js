@@ -576,26 +576,30 @@ const Project = (
             </FullScreenDialog>
             {/* Add Team Member To project Dialog */}
             <FullScreenDialog maxWidth='sm' fullWidth={true} open={isAddMemberDialogOpen} hideDialogHandler={() => setIsAddMemberDialogOpen(false)} >
-                <ColorBox p={2} >
-                    <Box>
-                        <Box className={classes.alignEnd} >
-                            <IconButton aria-label="Close" onClick={() => setIsAddMemberDialogOpen(false)} >
-                                <ColorText>
-                                    <CloseIcon />
-                                </ColorText>
-                            </IconButton>
-                        </Box>
-                        <ColorText variant='h6' style={{ fontWeight: 'bold' }} >Add Team Member to {projectDetails?.name}  </ColorText>
-                        <Box my={2} style={{ maxWidth: '300px' }} >
-                            <ColorText style={{ marginBottom: '-20px' }} >Name or emails</ColorText>
-                            <SearchBar
-                                onChange={(e) => handelSearch(e)}
-                                value={searchQuery}
-                                btnClickHandler={btnClickHandler}
-                                loading={reduxUserLoading}
-                            />
-                        </Box>
+
+                <Box>
+                    <Box className={classes.alignEnd} py={2} >
+                        <IconButton aria-label="Close" onClick={() => setIsAddMemberDialogOpen(false)} className={classes.IconButton} >
+                            <ColorText>
+                                <CloseIcon fontSize='large' sx={{ color: '#FFFFFF', pt: 1 }} />
+                            </ColorText>
+                        </IconButton>
                     </Box>
+                    <Box p={2} >
+                        <ColorText variant='h6' style={{ fontWeight: 'bold' }} >Add Team Member to {projectDetails?.name}  </ColorText>
+                    </Box>
+                    <Divider sx={{ height: '2px', backgroundColor: '#21268C' }} />
+                    <Box my={2} style={{ maxWidth: '300px' }} p={2} >
+                        <ColorText style={{ marginBottom: '-20px' }} >Name or emails</ColorText>
+                        <SearchBar
+                            onChange={(e) => handelSearch(e)}
+                            value={searchQuery}
+                            btnClickHandler={btnClickHandler}
+                            loading={reduxUserLoading}
+                        />
+                    </Box>
+                </Box>
+                <ColorBox p={2} >
                     <Box className={classes.searchResultCntnr} >
                         {
                             reduxUserLoading ? <CircularProgress /> : searchUser.map((user, ind) => {
