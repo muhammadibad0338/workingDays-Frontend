@@ -95,10 +95,11 @@ const AddTaskDependency = ({ projectTasks, getProjectsTasks, reduxTaskLoading, g
     const [addTaskDependencyLoading, setAddTaskDependencyLoading] = useState(false)
 
     useEffect(() => {
-        if (projectTasks.length === 0) {
+        // console.log(projectTasks?.length ,"projectTasks?.length ")
+        // if (projectTasks?.length === 0) {
             getProjectsTasks(id)
             getProjectDetails(id)
-        }
+        // }
     }, [])
 
 
@@ -223,7 +224,7 @@ const AddTaskDependency = ({ projectTasks, getProjectsTasks, reduxTaskLoading, g
 //Redux Action
 const mapStateToProps = (store) => ({
     currentUser: store.user.user,
-    projectTasks: store.task.tasks,
+    projectTasks: store.task.tasks.tasks,
     reduxTaskLoading: store.task.loading,
 });
 

@@ -13,6 +13,7 @@ import ProjectTree from '../Screens/ProjectTree/ProjectTree';
 import Profile from '../Screens/Profile/Profile';
 import TaskDependency from '../Screens/TaskDependency/TaskDependency';
 import AddTaskDependency from '../Screens/TaskDependency/AddTaskDependency/AddTaskDependency';
+import ProjectReport from '../Screens/ProjectReport/ProjectReport';
 
 
 
@@ -60,6 +61,11 @@ const routesArr = [
         projectDrawer: true,
     },
     {
+        path: "/project/:id/report",
+        Component: ProjectReport,
+        projectDrawer: true,
+    },
+    {
         path: "/project/:id/taskDependency/addTaskDependency",
         Component: AddTaskDependency,
         projectDrawer: true,
@@ -70,13 +76,13 @@ const routesArr = [
 const routes = ({ toggleTheme, theme }) => {
     return (
         <Routes>
-            {/* <Route   path='/login' element={<Login />} />
-            <Route path='/signup' element={<Signup />} /> */}
+            <Route   path='/login' element={<Login />} />
+            <Route path='/signup' element={<Signup />} />
             {
                 routesArr.map(({ path, Component, projectDrawer }, ind) => {
                     return (
                         <Route
-                            key={path}
+                            key={ind}
                             path={path}
                             element={<ProtectedRoutes component={Component} projectDrawer={projectDrawer} toggleTheme={toggleTheme} theme={theme} />}
                         />

@@ -32,6 +32,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import Swal from "sweetalert2";
 import dayjs from 'dayjs';
 import dashboardBg from "../../Assets/Images/dashboardBg.jpg"
+import moment from 'moment/moment';
+
 
 import './Components/Model.css'
 
@@ -223,6 +225,10 @@ const Project = (
     const [isAddMemberDialogOpen, setIsAddMemberDialogOpen] = useState(false)
     const [isCreateIssueDialogOpen, setIsCreateIssueDialogOpen] = useState(false)
 
+    const today = dayjs();
+    const tomorrow = dayjs().add(2, 'day');
+
+
     const [searchQuery, setSearchQuery] = useState('')
     const [employee, setEmployee] = useState('')
     const [createTaskCredentials, setCreateTaskCredentials] = useState({
@@ -244,6 +250,7 @@ const Project = (
 
 
     let { id } = useParams();
+
 
     useEffect(() => {
         getProjectDetails(id)
@@ -283,9 +290,9 @@ const Project = (
         settaskCreateLoading(true)
         if (createTaskCredentials.agileCycle.trim().length == 0 ||
             createTaskCredentials.description.trim().length == 0 ||
-            createTaskCredentials.name.trim().length == 0 ||
-            createTaskCredentials.deadlineStart.trim().length == 0 ||
-            createTaskCredentials.deadlineEnd.trim().length == 0
+            createTaskCredentials.name.trim().length == 0
+            // createTaskCredentials.deadlineStart.trim().length == 0 ||
+            // createTaskCredentials.deadlineEnd.trim().length == 0
         ) {
             Swal.fire({
                 customClass: {
@@ -309,8 +316,8 @@ const Project = (
                     project: id,
                     softwareCompany: joinedSoftwareCompany,
                     createdBy: uid,
-                    deadlineStart: createTaskCredentials.deadlineStart,
-                    deadlineEnd: createTaskCredentials.deadlineEnd
+                    deadlineStart: createTaskCredentials.deadlineStart.trim().length == 0 ? today : createTaskCredentials.deadlineStart,
+                    deadlineEnd: createTaskCredentials.deadlineEnd.trim().length == 0 ? tomorrow : createTaskCredentials.deadlineEnd
                 }).then((res) => {
                     setCreateTaskCredentials({
                         name: "",
@@ -334,8 +341,8 @@ const Project = (
                     softwareCompany: joinedSoftwareCompany,
                     createdBy: uid,
                     employee: employee,
-                    deadlineStart: createTaskCredentials.deadlineStart,
-                    deadlineEnd: createTaskCredentials.deadlineEnd
+                    deadlineStart: createTaskCredentials.deadlineStart.trim().length == 0 ? today : createTaskCredentials.deadlineStart,
+                    deadlineEnd: createTaskCredentials.deadlineEnd.trim().length == 0 ? tomorrow : createTaskCredentials.deadlineEnd
                 }).then((res) => {
                     setCreateTaskCredentials({
                         name: "",
@@ -370,8 +377,7 @@ const Project = (
         return true
     }
 
-    const today = dayjs();
-    const tomorrow = dayjs().add(1, 'day');
+
 
     return (
         <>
@@ -395,26 +401,37 @@ const Project = (
                     </Box>
                 </Box>
                 {/* Agile Cycle */}
-                <Box p={3} >
-                    <AgileCntnr className='agileCycle'   >
-                        {
-                            (!reduxTaskLoading || projectTasks.lenght > 0) ?
-                                agileCycle.map((phase, ind) => {
-                                    return (
-                                        <Model key={ind} uid={uid} index={ind} modelHeading={phase} projectId={id} tasks={projectTasks.filter(task => task?.agileCycle == phase)} />
-                                    )
-                                }) :
-                                <CircularProgress />
-                        }
-                    </AgileCntnr>
-                </Box>
+                <AgileCntnr className='agileCycle' pb={2} >
+                    {
+                        (projectTasks?.length > 0) ?
+                            agileCycle.map((phase, ind) => {
+                                return (
+                                    <Model key={ind} uid={uid} index={ind} modelHeading={phase} projectId={id} tasks={projectTasks?.filter(task => task?.agileCycle == phase)} />
+                                )
+                            }) :
+                            <CircularProgress sx={{ color: '#21268E' }} />
+                    }
+                </AgileCntnr>
             </ColorBox>
             {/* Create Issue Dialog */}
-            <FullScreenDialog maxWidth='sm' fullWidth={true} open={isCreateIssueDialogOpen} hideDialogHandler={() => setIsCreateIssueDialogOpen(false)} >
+            <FullScreenDialog
+                maxWidth='sm'
+                fullWidth={true}
+                open={isCreateIssueDialogOpen}
+                hideDialogHandler={() => {
+                    setIsCreateIssueDialogOpen(false)
+                    setCreateIssueContinue(false)
+                }}
+            >
                 <ColorBox p={2} >
                     <Box>
                         <Box className={classes.alignEnd} >
-                            <IconButton aria-label="Close" onClick={() => setIsCreateIssueDialogOpen(false)} >
+                            <IconButton aria-label="Close"
+                                onClick={() => {
+                                    setCreateIssueContinue(false)
+                                    setIsCreateIssueDialogOpen(false)
+                                }}
+                            >
                                 <ColorText>
                                     <CloseIcon />
                                 </ColorText>
@@ -424,24 +441,25 @@ const Project = (
                     </Box>
                     {createIssueContinue ?
                         <Box my={2} >
-                            <LocalizationProvider dateAdapter={AdapterDayjs}   >
-                                <DemoContainer
-                                    components={['DatePicker', 'DateTimePicker', 'DateRangePicker']}
-                                >
-                                    <DemoItem label="Select Task  Starting Date and Ending Date" component="DateRangePicker">
-                                        <DateRangePicker defaultValue={[today, tomorrow]} minDate={today}
-                                            onChange={(e) => {
-                                                console.log(e[0].$d, "date picker", e[1].$d)
-                                                setCreateTaskCredentials({
-                                                    ...createTaskCredentials,
-                                                    deadlineStart: e[0].$d ? `${e[0].$d}` : '',
-                                                    deadlineEnd: e[1]?.$d ? `${e[1].$d}` : ''
-                                                })
-                                            }}
-                                        />
-                                    </DemoItem>
-                                </DemoContainer>
-                            </LocalizationProvider>
+                            {Object.keys(projectDetails).length === 0 ? <CircularProgress /> :
+                                <LocalizationProvider dateAdapter={AdapterDayjs}   >
+                                    <DemoContainer
+                                        components={['DatePicker', 'DateTimePicker', 'DateRangePicker']}
+                                    >
+                                        <DemoItem label="Select Task  Starting Date and Ending Date" component="DateRangePicker">
+                                            <DateRangePicker defaultValue={[today, tomorrow]} minDate={moment(projectDetails?.createdAt).format("DD/MM/YYYY")}
+                                                onChange={(e) => {
+                                                    console.log(e[0].$d, "date picker", e[1].$d)
+                                                    setCreateTaskCredentials({
+                                                        ...createTaskCredentials,
+                                                        deadlineStart: e[0].$d ? `${e[0].$d}` : '',
+                                                        deadlineEnd: e[1]?.$d ? `${e[1].$d}` : ''
+                                                    })
+                                                }}
+                                            />
+                                        </DemoItem>
+                                    </DemoContainer>
+                                </LocalizationProvider>}
                             <Box mt={3} >
                                 {/* <ContainedBtn title="create task" endIcon={<AddIcon />} onClick={projectCreateTask} disabled={taskCreateLoading} /> */}
                                 <Button type='submit' disabled={taskCreateLoading} variant="contained"
@@ -619,7 +637,7 @@ const mapStateToProps = (store) => ({
     currentUser: store.user.user,
     searchUser: store.user.searchUserInTeam,
     projectDetails: store.project.projectDetails,
-    projectTasks: store.task.tasks,
+    projectTasks: store.task.tasks.tasks,
     reduxTaskLoading: store.task.loading,
 });
 

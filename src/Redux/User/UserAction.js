@@ -215,7 +215,7 @@ export const getUserTeam = (id) => async (dispatch) => {
             url: `${baseUrl}/team/currentUserTeam/${id}`,
         });
         await dispatch(setUserTeam(res?.data))
-        console.log(res?.data, "getUserTeam")
+        // console.log(res?.data, "getUserTeam")
         dispatch(setLoading(false));
     } catch (err) {
         Swal.fire({

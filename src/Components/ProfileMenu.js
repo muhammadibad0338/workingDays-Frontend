@@ -103,8 +103,8 @@ const ProfileMenu = ({ anchorElUser, handleCloseUserMenu, options, currentUser, 
                     <Typography style={{ fontSize: '13px' }} >{currentUser?.email} </Typography>
                 </Box>
             </Box>
-            {options.map((option) => (
-                <MenuItem key={option} onClick={() => {
+            {options.map((option,ind) => (
+                <MenuItem key={ind} onClick={() => {
                     handleCloseUserMenu()
                     option?.fncn()
                 }}   >

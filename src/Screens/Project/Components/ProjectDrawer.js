@@ -17,6 +17,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import TaskIcon from '@mui/icons-material/Task';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
@@ -156,10 +157,11 @@ function MiniDrawer({ Component, projectDetails }) {
             Icon: AccountTreeIcon,
             path: `/project/${id}/tree`
         },
-        // {
-        //     name: 'Project Setting',
-        //     Icon: SettingsIcon
-        // }
+        {
+            name: 'Report/Graph',
+            Icon: WorkHistoryIcon,
+            path: `/project/${id}/report`
+        }
     ]
 
     return (
