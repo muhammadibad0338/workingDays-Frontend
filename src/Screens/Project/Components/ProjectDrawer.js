@@ -177,7 +177,7 @@ function MiniDrawer({ Component, projectDetails }) {
                         <ColorToggleText >
                             {open ? <KeyboardArrowRightIcon  /> : <KeyboardArrowLeftIcon />}
                         </ColorToggleText>
-                    </IconButton >
+                    </IconButton>
                 </Box>
                 <ProjectDetailBox px={3} pb={2} style={{ display: 'flex' }} >
                     <img src={projectDetails?.icon} className={classes.projectIcon} />
@@ -215,9 +215,9 @@ function MiniDrawer({ Component, projectDetails }) {
                                     }}
                                 >
                                     <ColorToggleText  >
-                                        <Icon sx={{ opacity: !open ? 1 : 0,color: `${drawerIndex === index ? 'white' : "none"}` }} />
+                                        <Icon sx={{ color: `${drawerIndex === index ? 'white' : "none"}` }} />
                                     </ColorToggleText>
-                                </ListItemIcon >
+                                </ListItemIcon>
                                 <ColorToggleListItemText primary={name} sx={{ opacity: !open ? 1 : 0,color: `${drawerIndex === index ? 'white' : "none"}` }} />
                             </ListItemButton>
                         </ListItem>
@@ -229,7 +229,7 @@ function MiniDrawer({ Component, projectDetails }) {
             >
                 <Component />
             </Box>
-        </ColorBox >
+        </ColorBox>
     );
 }
 //Redux Action
