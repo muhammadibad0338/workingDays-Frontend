@@ -76,8 +76,8 @@ const routesArr = [
 const routes = ({ toggleTheme, theme }) => {
     return (
         <Routes>
-            {/* <Route   path='/login' element={<Login />} />
-            <Route path='/signup' element={<Signup />} /> */}
+            <Route   path='/login' element={<Login />} />
+            <Route path='/signup' element={<Signup />} />
             {
                 routesArr.map(({ path, Component, projectDrawer }, ind) => {
                     return (

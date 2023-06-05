@@ -342,7 +342,7 @@ export const getProjectsTaskReports = (id, employeeId) => async (dispatch) => {
       url: `${baseUrl}/task/projectTasksReports/${id}`,
       params: { employeeId },
     });
-    await dispatch(setProjectTaskReports(res?.data?.tasks))
+    await dispatch(setProjectTaskReports(res?.data))
     // dispatch(setLoading(false));
     return res
   } catch (err) {

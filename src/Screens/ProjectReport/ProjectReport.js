@@ -17,6 +17,8 @@ import {
     Chip,
     TableCell
 } from "@mui/material";
+import NativeSelect from '@mui/material/NativeSelect';
+import InputBase from '@mui/material/InputBase';
 import { makeStyles, } from "@mui/styles"
 import { styled } from '@mui/system';
 import HeadingOne from '../../Components/HeadingOne';
@@ -27,6 +29,7 @@ import { useParams } from 'react-router-dom';
 import { getProjectDetails } from "../../Redux/Project/ProjectAction"
 import { getProjectsTasks, setTasks, getProjectsTaskReports } from "../../Redux/Task/TaskAction"
 import ReportTable from './Components/ReportTable';
+import DoughnutChart from './Components/DoughnutChart';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -52,6 +55,38 @@ const BoxDisplayForState = ({ stateName, currentState, }) => {
         </Box>
     )
 }
+const BootstrapInput = styled(InputBase)(({ theme }) => ({
+    'label + &': {
+        marginTop: theme.spacing(3),
+    },
+    '& .MuiInputBase-input': {
+        borderRadius: 4,
+        position: 'relative',
+        backgroundColor: theme.palette.background.paper,
+        border: '1px solid #ced4da',
+        fontSize: 16,
+        padding: '10px 26px 10px 12px',
+        transition: theme.transitions.create(['border-color', 'box-shadow']),
+        // Use the system font instead of the default Roboto font.
+        fontFamily: [
+            '-apple-system',
+            'BlinkMacSystemFont',
+            '"Segoe UI"',
+            'Roboto',
+            '"Helvetica Neue"',
+            'Arial',
+            'sans-serif',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+        ].join(','),
+        '&:focus': {
+            borderRadius: 4,
+            borderColor: '#80bdff',
+            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+        },
+    },
+}));
 
 const ProjectReport = ({
     projectDetails,
@@ -78,6 +113,11 @@ const ProjectReport = ({
         }
 
     }, [])
+
+    const getEmployeeTaskReport = (employee) => {
+        setemployeeID(employee)
+        getProjectsTaskReports(id, employee)
+    }
 
     return (
         <Grid container p={4} >
@@ -130,8 +170,31 @@ const ProjectReport = ({
             <Grid item xs={12} sm={4} >
                 <BoxDisplayForState stateName='Incomplete Task' currentState={IncompleteTask?.length} />
             </Grid>
+
             <Grid item xs={12} mt={5} >
-                <ReportTable taskReports={projectTasksReports} />
+                <Box m={2} style={{ width: "50%", }} >
+                    <Typography style={{ fontSize: "12px", marginLeft: "3px" }}>
+                        Select Employee
+                    </Typography>
+                    <NativeSelect
+                        id="demo-customized-select-native"
+                        // style={{ width: "100%", border: '1px solid gray' }}
+                        className={classes.nativeSelect}
+                        input={<BootstrapInput />}
+                        onChange={(e) => getEmployeeTaskReport(e.target.value)}
+                    >
+                        <option value='' >All Employee</option>
+                        {projectDetails?.projectTeam.map((team, i) => (
+                            <option key={i} value={team?._id}> {team?.name}</option>
+                        ))}
+                    </NativeSelect>
+                </Box>
+            </Grid>
+            <Grid item xs={12} mt={2} >
+                <ReportTable taskReports={projectTasksReports?.tasks} />
+            </Grid>
+            <Grid item xs={12} md={6} mt={5} >
+                <DoughnutChart tasksStatus={projectTasksReports?.tasksStatus} />
             </Grid>
         </Grid>
     )

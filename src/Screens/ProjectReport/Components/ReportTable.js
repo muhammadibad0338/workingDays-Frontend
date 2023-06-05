@@ -87,7 +87,7 @@ const ReportTable = ({ taskReports }) => {
 
     return (
         <>
-            {taskReports.length === 0 ? <CircularProgress sx={{ color: "#0096FF" }} /> : <TableContainer className={classes.tableContainer}>
+            {taskReports?.length === 0 ? <CircularProgress sx={{ color: "#0096FF" }} /> : <TableContainer className={classes.tableContainer}>
                 <Table  >
                     <TableHead className={classes.tableHead} >
                         <TableRow >
