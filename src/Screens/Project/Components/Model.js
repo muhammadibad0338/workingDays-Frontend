@@ -322,7 +322,7 @@ const Model = ({
 
                                         </>}
                                         {
-                                            currentUser.role === "softwareCompany" &&
+                                            ([0, 1, 2, 3].includes(currentUser?.level) && (currentUser?.level < task?.employee?.level  ) )&& 
                                             <Tooltip title="Delete Task">
                                                 <IconButton color="error" aria-label="Delete Task" component="label"
                                                     onClick={() => setTaskDelete(task._id, projectId)}
@@ -332,12 +332,12 @@ const Model = ({
                                             </Tooltip>
                                         }
                                         {
-                                            currentUser.role === "softwareCompany" && <Tooltip title="Edit Task">
+                                            ([0, 1, 2, 3].includes(currentUser?.level) && (currentUser?.level < task?.employee?.level  ) )&& <Tooltip title="Edit Task">
                                                 <IconButton sx={{ color: '#0096FF' }} aria-label="Edit Task" component="label"
                                                     onClick={() => {
                                                         setTaskId(`${task._id}`)
                                                         setEditTaskCredentials({
-                                                            name: task?.name,
+                                                            name: currentUser?.level?.name,
                                                             description: task?.description
                                                         })
                                                         setIsCreateIssueEditedDialogOpen(true)
@@ -347,7 +347,7 @@ const Model = ({
                                                 </IconButton>
                                             </Tooltip>
                                         }
-                                        <Tooltip title="Task Details">
+                                        {([0, 1, 2, 3].includes(currentUser?.level) && (currentUser?.level < task?.employee?.level  ) )&&  <Tooltip title="Task Details">
                                             <IconButton sx={{ color: '#0096FF' }} aria-label="Task Details" component="label"
                                                 onClick={() => {
                                                     setTaskId(`${task._id}`)
@@ -357,7 +357,7 @@ const Model = ({
                                             >
                                                 <InfoIcon />
                                             </IconButton>
-                                        </Tooltip>
+                                        </Tooltip>}
 
                                     </Box>
                                 </Box>
@@ -524,7 +524,7 @@ const Model = ({
                                     disabled={extendTaskLoading}
                                     className={classes.loadingBtn}
                                     endIcon={<EditIcon sx={{ color: 'white' }} />}
-                                onClick={ExtendTaskDeadline}
+                                    onClick={ExtendTaskDeadline}
                                 >
                                     {extendTaskLoading ? <CircularProgress sx={{ color: 'white' }} /> : 'Extend Deadline'}
                                 </Button>}

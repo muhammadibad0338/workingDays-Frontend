@@ -6,7 +6,8 @@ import {
     CircularProgress,
     Tooltip,
     Chip,
-    Avatar
+    Avatar,
+    Divider
 } from "@mui/material";
 import { styled } from '@mui/system';
 import { makeStyles, } from "@mui/styles"
@@ -56,7 +57,17 @@ const useStyles = makeStyles((theme) => ({
         // top: '30px',
         backgroundColor: 'inherit',
         zIndex: '99',
-    }
+    },
+    IconButton: {
+        backgroundImage: 'linear-gradient(rgba(76, 207, 248, 1), rgba(74, 75, 227, 1),rgba(35, 52, 156, 1))',
+        border: ' 2px solid #FFFFFF !important',
+        borderRadius: '50%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '50px',
+        width: '50px'
+    },
 }));
 
 const ColorBox = styled(Box)(({ theme }) => ({
@@ -151,16 +162,19 @@ const AddTeamMembers = ({ isDialogOpen, hideDialogHandler, getSearchUsers, redux
         <>
             <FullScreenDialog maxWidth='sm' fullWidth={true} open={isDialogOpen} hideDialogHandler={hideDialogHandler} >
                 <ColorBox   >
-                    <Box className={classes.stickyBox} p={2} >
-                        <Box className={classes.alignEnd} >
-                            <IconButton aria-label="Close" onClick={hideDialogHandler} >
+                    <Box className={classes.stickyBox}  >
+                        <Box className={classes.alignEnd} p={2} >
+                            <IconButton aria-label="Close" onClick={hideDialogHandler} className={classes.IconButton}  >
                                 <ColorText>
-                                    <CloseIcon />
+                                    <CloseIcon fontSize='large' sx={{ color: '#FFFFFF', pt: 1 }} />
                                 </ColorText>
                             </IconButton>
                         </Box>
-                        <ColorText variant='h6' style={{ fontWeight: 'bold' }} >Add Team Member to WorkingDays </ColorText>
-                        <Box my={2}  >
+                        <Box p={2} >
+                            <ColorText variant='h6' style={{ fontWeight: 'bold' }} >Add Team Member to WorkingDays </ColorText>
+                        </Box>
+                        <Divider sx={{ height: '2px', backgroundColor: '#21268C' }} />
+                        <Box my={2} p={2} >
                             <ColorText style={{ marginBottom: '-20px' }} >Name or emails </ColorText>
                             <SearchBar
                                 onChange={(e) => handelSearch(e)}

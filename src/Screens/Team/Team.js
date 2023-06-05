@@ -137,6 +137,15 @@ const InternChip = styled(Chip)(({ theme, chip }) => ({
     cursor: 'pointer'
 }));
 
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: '#E1E1E1',
+    },
+    '&:nth-of-type(even)': {
+        backgroundColor: '#F3F3F3',
+    },
+}));
+
 const Team = ({ currentUser, getUserTeam, userTeam, updateUserDesignation }) => {
     const classes = useStyles();
     const [isDialogOpen, setisDialogOpen] = useState(false)
@@ -197,7 +206,7 @@ const Team = ({ currentUser, getUserTeam, userTeam, updateUserDesignation }) => 
                                         {
                                             userTeam?.team?.teamMembers?.map((person, i) => {
                                                 return (
-                                                    <TableRow key={i} className={classes.tableRow}  >
+                                                    <StyledTableRow key={i} className={classes.tableRow}  >
                                                         <TableCell sx={{border:'none',padding:'0px',margin:'none'}} >
                                                             <Box p={2} className={classes.contactBox} >
                                                                 <Tooltip sx={{ backgroundColor: 'inherit' }} >
@@ -269,7 +278,7 @@ const Team = ({ currentUser, getUserTeam, userTeam, updateUserDesignation }) => 
                                                                 </Box>
                                                             </Box>}
                                                         </TableCell>
-                                                    </TableRow>
+                                                    </StyledTableRow>
                                                 )
                                             })
                                         }
