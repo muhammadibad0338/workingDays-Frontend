@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
   spaceBtwn1: {
     display: 'flex',
-    alignItems:'flex-start'
+    alignItems: 'flex-start'
   },
 
   alignEnd: {
@@ -79,7 +79,17 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     borderRadius: '0px 10px 10px 10px !important'
-  }
+  },
+  IconButton: {
+    backgroundImage: 'linear-gradient(rgba(76, 207, 248, 1), rgba(74, 75, 227, 1),rgba(35, 52, 156, 1))',
+    border: ' 2px solid #FFFFFF !important',
+    borderRadius: '50%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '50px',
+    width: '50px'
+},
 }));
 
 
@@ -165,9 +175,9 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
 
               <Grid item xs={12} mt={4} className={classes.spaceBtwn} >
 
-                <HeadingOne sx={{color:'white'}} title={`Hello ${currentUser?.name}!`} />
+                <HeadingOne sx={{ color: 'white' }} title={`Hello ${currentUser?.name}!`} />
 
-                {[0, 1, 2].includes(currentUser.level) && <ContainedBtn sx={{border:'3px solid white'}} title='Create Project' onClick={() => setisDialogOpen(true)} />}
+                {[0, 1, 2].includes(currentUser.level) && <ContainedBtn sx={{ border: '3px solid white' }} title='Create Project' onClick={() => setisDialogOpen(true)} />}
               </Grid>
 
               <Grid item xs={12} mt={2} className={classes.spaceBtwn1} >
@@ -207,16 +217,14 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
       </ColorBox>
       <FullScreenDialog maxWidth='sm' fullWidth={true} open={isDialogOpen} hideDialogHandler={() => setisDialogOpen(false)} >
         <Box className={[classes.alignEnd, classes.colorBox]} px={2} pt={1} >
-          <IconButton aria-label="Close" onClick={() => setisDialogOpen(false)} >
-            <ColorToggleText sx={{ display: 'flex' }} >
-              <CloseIcon />
-            </ColorToggleText>
+          <IconButton aria-label="Close" onClick={() => setisDialogOpen(false)} className={classes.IconButton} >
+              <CloseIcon fontSize='large' sx={{ color: '#FFFFFF',  }}  />
           </IconButton>
         </Box>
         <Box px={2} className={classes.colorBox} >
           <ColorToggleText variant='h6' style={{ fontWeight: 'bold', }} >Create new project</ColorToggleText>
         </Box>
-        <Divider sx={{ height: '1px', backgroundColor: 'black', mt: 2 }} />
+        <Divider sx={{ height: '1px', backgroundColor: '#21268C', mt: 2 }} />
         <Box p={2} className={classes.colorBox} >
           <Box my={2} style={{}} >
             {/* <Typography style={{ marginBottom: '-20px' }} >Project Name</Typography> */}
