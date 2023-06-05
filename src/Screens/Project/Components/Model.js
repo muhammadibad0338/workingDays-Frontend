@@ -322,7 +322,7 @@ const Model = ({
 
                                         </>}
                                         {
-                                            ([0, 1, 2, 3].includes(currentUser?.level) && (currentUser?.level < task?.employee?.level  ) )&& 
+                                            ([0, 1, 2, 3].includes(currentUser?.level) && (currentUser?.level < task?.employee?.level)) &&
                                             <Tooltip title="Delete Task">
                                                 <IconButton color="error" aria-label="Delete Task" component="label"
                                                     onClick={() => setTaskDelete(task._id, projectId)}
@@ -332,12 +332,12 @@ const Model = ({
                                             </Tooltip>
                                         }
                                         {
-                                            ([0, 1, 2, 3].includes(currentUser?.level) && (currentUser?.level < task?.employee?.level  ) )&& <Tooltip title="Edit Task">
+                                            ([0, 1, 2, 3].includes(currentUser?.level) && (currentUser?.level < task?.employee?.level)) && <Tooltip title="Edit Task">
                                                 <IconButton sx={{ color: '#0096FF' }} aria-label="Edit Task" component="label"
                                                     onClick={() => {
                                                         setTaskId(`${task._id}`)
                                                         setEditTaskCredentials({
-                                                            name: currentUser?.level?.name,
+                                                            name: task?.name,
                                                             description: task?.description
                                                         })
                                                         setIsCreateIssueEditedDialogOpen(true)
@@ -347,7 +347,7 @@ const Model = ({
                                                 </IconButton>
                                             </Tooltip>
                                         }
-                                        {([0, 1, 2, 3].includes(currentUser?.level) && (currentUser?.level < task?.employee?.level  ) )&&  <Tooltip title="Task Details">
+                                        {([0, 1, 2, 3].includes(currentUser?.level) && (currentUser?.level < task?.employee?.level)) && <Tooltip title="Task Details">
                                             <IconButton sx={{ color: '#0096FF' }} aria-label="Task Details" component="label"
                                                 onClick={() => {
                                                     setTaskId(`${task._id}`)
@@ -370,22 +370,26 @@ const Model = ({
                 setIsCreateIssueEditedDialogOpen(false)
                 setTaskId('')
             }}>
-                <ColorBox p={2} >
-                    <Box my={2} >
-                        <Box>
-                            <Box className={classes.alignEnd} >
-                                <IconButton aria-label="Close" onClick={() => {
-                                    setIsCreateIssueEditedDialogOpen(false)
-                                    setTaskId('')
-                                }}>
-                                    <ColorText>
-                                        <CloseIcon />
-                                    </ColorText>
-                                </IconButton>
-                            </Box>
-                            <ColorText variant='h6' style={{ fontWeight: 'bold' }} >Edited a Issue  </ColorText>
-                        </Box>
 
+                <Box my={2} >
+                    <Box p={2}  >
+                        <Box className={classes.alignEnd} >
+                            <IconButton aria-label="Close" onClick={() => {
+                                setIsCreateIssueEditedDialogOpen(false)
+                                setTaskId('')
+
+                            }}
+                                className={classes.IconButton}
+                            >
+                                <ColorText>
+                                    <CloseIcon fontSize='large' sx={{ color: '#FFFFFF', pt: 1 }} />
+                                </ColorText>
+                            </IconButton>
+                        </Box>
+                        <ColorText variant='h6' style={{ fontWeight: 'bold' }} >Edited a Issue  </ColorText>
+                    </Box>
+                    <Divider sx={{ height: '1px', backgroundColor: '#21268C', mt: 2 }} />
+                    <ColorBox p={2} >
                         <Box my={2} style={{ width: "100%" }}>
                             <ColorText style={{ fontSize: "12px", marginLeft: "3px" }}>
                                 Task Name
@@ -438,11 +442,11 @@ const Model = ({
                                 {taskEditLoading ? <CircularProgress sx={{ color: 'white' }} /> : 'Edit task'}
                             </Button>
                         </Box>
-                    </Box>
-                </ColorBox>
+                    </ColorBox>
+                </Box>
             </FullScreenDialog>
             {/* Dialog For Task Details */}
-            <FullScreenDialog maxWidth='sm' fullWidth={true} open={isTaskDetailDialogOpen}
+            < FullScreenDialog maxWidth='sm' fullWidth={true} open={isTaskDetailDialogOpen}
                 hideDialogHandler={() => {
                     setIsTaskDetailDialogOpen(false)
                     setTaskDetails({})
@@ -532,7 +536,7 @@ const Model = ({
                         </Box>
                     </Box>
                 </ColorBox>
-            </FullScreenDialog>
+            </FullScreenDialog >
         </>
     )
 }
