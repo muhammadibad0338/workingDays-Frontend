@@ -114,7 +114,7 @@ const ActionCard = () => {
                     </div>
                     <div >
                     <Typography mb={1}  ml={4} className={classes.taskText}>Edit Task</Typography>
-                    <TaskDependencyBtn title='Edit' />
+                    <TaskDependencyBtn title='Edit'  onClick={() => navigate(`/project/${id}/taskDependency/editTaskDependency`)} />
                     </div>
                 </Card>
             </Grid>

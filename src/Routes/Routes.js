@@ -14,6 +14,7 @@ import Profile from '../Screens/Profile/Profile';
 import TaskDependency from '../Screens/TaskDependency/TaskDependency';
 import AddTaskDependency from '../Screens/TaskDependency/AddTaskDependency/AddTaskDependency';
 import ProjectReport from '../Screens/ProjectReport/ProjectReport';
+import EditTaskDependency from '../Screens/TaskDependency/EditTaskDependency/EditTaskDependency';
 
 
 
@@ -68,6 +69,11 @@ const routesArr = [
     {
         path: "/project/:id/taskDependency/addTaskDependency",
         Component: AddTaskDependency,
+        projectDrawer: true,
+    },
+    {
+        path: "/project/:id/taskDependency/editTaskDependency",
+        Component: EditTaskDependency,
         projectDrawer: true,
     },
 ]

@@ -80,8 +80,6 @@ const TaskBox = styled(Box)(({ theme, isSelected }) => ({
     backgroundColor:'#FFFFFF !important',
     cursor: 'pointer',
     // boxShadow: isSelected ? 'rgb(213, 215, 219) 0px 7px 29px 0px' : '',
-    
-
 }));
 
 const AddTaskDependency = ({ projectTasks, getProjectsTasks, reduxTaskLoading, getProjectDetails, addTaskDependency }) => {
@@ -165,7 +163,7 @@ const AddTaskDependency = ({ projectTasks, getProjectsTasks, reduxTaskLoading, g
                         </Grid>
                         <Grid item xs={12} className={classes.TaskContainer} mt={10} >
                             {
-                                (!reduxTaskLoading || projectTasks?.lenght > 0) ?
+                                (!reduxTaskLoading || projectTasks?.length > 0) ?
                                     projectTasks?.map((task, ind) => {
                                         if (selectedTask !== task._id) {
                                             return (

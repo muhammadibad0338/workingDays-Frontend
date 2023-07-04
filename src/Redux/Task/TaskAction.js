@@ -297,6 +297,61 @@ export const addTaskDependency = (taskId, taskRefs) => async (dispatch) => {
   }
 }
 
+export const editTaskDependency = (taskId, replaceFromTaskRefs, replaceToTaskRefs) => async (dispatch) => {
+  try {
+    dispatch(setLoading(true))
+    let res = await axios({
+      url: `${baseUrl}/task/replaceTaskDependency/${taskId}`,
+      method: "PUT",
+      data: {
+        replaceFromTaskRefs,
+        replaceToTaskRefs,
+      }
+    });
+    if (res?.data?.success) {
+      Swal.fire({
+        customClass: {
+          container: `my-swal`,
+        },
+        icon: "success",
+        title: "Working Days",
+        html: `<strong><font color="black">${res?.data?.message}</font></strong>`
+      }).then(() => {
+
+        dispatch(setLoading(false))
+      })
+      return true
+    }
+    else {
+      Swal.fire({
+        customClass: {
+          container: `my-swal`,
+        },
+        icon: "warning",
+        title: "Working Days",
+        html: `<strong><font color="black">${res?.data?.message}</font></strong>`
+      }).then(() => {
+
+        dispatch(setLoading(false))
+      })
+      return false
+    }
+  }
+  catch (err) {
+    Swal.fire({
+      customClass: {
+        container: `my-swal`,
+      },
+      icon: "error",
+      title: "Working Days",
+      html: `<strong><font color="black">${err?.response?.data?.message || err?.response?.data}</font></strong>`,
+    });
+    dispatch(setError(err?.message));
+    dispatch(setLoading(false));
+    return false
+  }
+}
+
 export const updateTaskDeadLine = (data, taskId, projectId) => async (dispatch) => {
   try {
     dispatch(setLoading(true))
