@@ -187,7 +187,7 @@ const Team = ({ currentUser, getUserTeam, userTeam, updateUserDesignation }) => 
                                 <HeadingOne title="Team" />
                                 <ColorText>{userTeam?.teamMembers?.length} Team Members</ColorText>
                             </Box>
-                            {currentUser?.role == "softwareCompany" && <ContainedBtn title='ADD' startIcon={<AddIcon />} onClick={() => setisDialogOpen(true)} />}
+                            {[0, 1, 2].includes(currentUser.level) && <ContainedBtn title='ADD' startIcon={<AddIcon />} onClick={() => setisDialogOpen(true)} />}
                         </Box>
                         {/* <SearchBar /> */}
                     </Grid>
@@ -207,7 +207,7 @@ const Team = ({ currentUser, getUserTeam, userTeam, updateUserDesignation }) => 
                                             userTeam?.team?.teamMembers?.map((person, i) => {
                                                 return (
                                                     <StyledTableRow key={i} className={classes.tableRow}  >
-                                                        <TableCell sx={{border:'none',padding:'0px',margin:'none'}} >
+                                                        <TableCell sx={{ border: 'none', padding: '0px', margin: 'none' }} >
                                                             <Box p={2} className={classes.contactBox} >
                                                                 <Tooltip sx={{ backgroundColor: 'inherit' }} >
                                                                     <Avatar src={person?.profilePicture} />

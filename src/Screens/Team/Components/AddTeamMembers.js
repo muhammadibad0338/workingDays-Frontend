@@ -115,7 +115,7 @@ const InternChip = styled(Chip)(({ theme, chip }) => ({
 }));
 
 
-const AddTeamMembers = ({ isDialogOpen, hideDialogHandler, getSearchUsers, reduxUserLoading, searchUser, userTeam, sentRequest }) => {
+const AddTeamMembers = ({ isDialogOpen, hideDialogHandler, getSearchUsers, reduxUserLoading, searchUser, userTeam, sentRequest, currentUser }) => {
     const classes = useStyles();
     const [showClear, setshowClear] = useState(false);
     const [searchQuery, setSearchQuery] = useState('')
@@ -123,6 +123,7 @@ const AddTeamMembers = ({ isDialogOpen, hideDialogHandler, getSearchUsers, redux
     const [continueSendRequest, setContinueSendRequest] = useState(false)
     const [userIndex, setUserIndex] = useState(-1)
     const uid = localStorage.getItem('uid')
+    const joinedSoftwareCompany = localStorage.getItem('joinedSoftwareCompany')
 
     const [jobTitle, setJobTitle] = useState('')
 
@@ -202,7 +203,7 @@ const AddTeamMembers = ({ isDialogOpen, hideDialogHandler, getSearchUsers, redux
                                                     </Box>
                                                 </Box>
                                                 {
-                                                    user?.joinedSoftwareCompany == uid ? <ColorText>Already in your softwareCompany</ColorText>
+                                                    user?.joinedSoftwareCompany == joinedSoftwareCompany ? <ColorText>Already in your softwareCompany</ColorText>
                                                         : <ContainedBtn title={userIndex === ind ? "Cancel" : "Continue"}
                                                             endIcon={userIndex === ind ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                                                             onClick={() => {
@@ -226,9 +227,12 @@ const AddTeamMembers = ({ isDialogOpen, hideDialogHandler, getSearchUsers, redux
                                             {(continueSendRequest && userIndex === ind) && <Box px={2} >
                                                 <ColorText style={{ fontSize: '16px', fontWeight: 'bold' }} >Select Job Position </ColorText>
                                                 <Box mt={1} mb={2} >
-                                                    <ManagerChip label="Manager" chip={jobTitle === "manager" ? true : false}
+                                                    {[0].includes(currentUser.level) && <ManagerChip label="Executive" chip={jobTitle === "executive" ? true : false}
+                                                        onClick={() => setJobTitle('executive')}
+                                                    />}
+                                                    {[0, 1].includes(currentUser.level) && <ManagerChip label="Manager" chip={jobTitle === "manager" ? true : false}
                                                         onClick={() => setJobTitle('manager')}
-                                                    />
+                                                    />}
                                                     <LeadChip label="Team Lead" chip={jobTitle === "teamLead" ? true : false}
                                                         onClick={() => setJobTitle('teamLead')}
                                                     />

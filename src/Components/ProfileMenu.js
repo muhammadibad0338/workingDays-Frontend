@@ -111,7 +111,7 @@ const ProfileMenu = ({ anchorElUser, handleCloseUserMenu, options, currentUser, 
                     <Typography textAlign="center" > {option?.name} </Typography>
                 </MenuItem>
             ))}
-            <MenuItem  >
+            {/* <MenuItem  >
                 {theme} Mode
                 <ToggleButtonGroup
                     value={theme}
@@ -126,7 +126,7 @@ const ProfileMenu = ({ anchorElUser, handleCloseUserMenu, options, currentUser, 
                         <DarkModeIcon style={{ color: theme == "light" ? "#5E5E5E" : "#FFFFFF" }} />
                     </ToggleButton>
                 </ToggleButtonGroup>
-            </MenuItem>
+            </MenuItem> */}
         </StyledMenu>
     )
 }
