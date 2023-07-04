@@ -15,7 +15,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DoneIcon from '@mui/icons-material/Done';
 
 
-import { getProjectsTasks, addTaskDependency, editTaskDependency } from '../../../Redux/Task/TaskAction';
+import { getProjectsTasks, deleteTaskDependency } from '../../../Redux/Task/TaskAction';
 import { getProjectDetails } from "../../../Redux/Project/ProjectAction"
 import ContainedBtn from '../../../Components/ContainedBtn';
 import dashboardBg from "../../../Assets/Images/dashboardBg.jpg"
@@ -86,19 +86,18 @@ const TaskBox = styled(Box)(({ theme, isSelected }) => ({
 
 
 
-
-const EditTaskDependency = ({ projectTasks, getProjectsTasks, reduxTaskLoading, getProjectDetails, addTaskDependency, editTaskDependency }) => {
+const DeleteTaskDependency = ({ projectTasks, getProjectsTasks, reduxTaskLoading, getProjectDetails, deleteTaskDependency }) => {
     let { id } = useParams();
     const classes = useStyles();
     const navigate = useNavigate()
     const [level, setLevel] = useState('First')
     const [DependentTask, setDependentTask] = useState('')
-    const [replacingParent, setReplacingParent] = useState('')  //jis ko replace kia jaraha ha
-    const [replacedParent, setReplacedParent] = useState('') //jis se replace kia jarah ha
+    const [deletingParent, setDeletingParent] = useState('')
 
     const [DpendUpon, setDpendUpon] = useState([])
 
-    const [editTaskDependencyLoading, setEditTaskDependencyLoading] = useState(false)
+    const [deleteTaskDependencyLoading, setDeleteTaskDependencyLoading] = useState(false)
+
 
 
     useEffect(() => {
@@ -112,13 +111,8 @@ const EditTaskDependency = ({ projectTasks, getProjectsTasks, reduxTaskLoading, 
     const findDependUponByTaskId = (taskId) => {
         let Task = projectTasks.filter(task => task._id === taskId)
         setDpendUpon(Task[0]?.dependUpon || [])
-        // console.log(Task[0]?.dependUpon || [], "findDependUponByTaskId")
+        console.log(Task[0]?.dependUpon || [], "findDependUponByTaskId")
     }
-
-    const findTaskInDependUpon = (taskId) => {
-        const existsInDependUpon = DpendUpon.some(item => item._id === taskId);
-        return existsInDependUpon;
-    };
 
     return (
         <>
@@ -128,8 +122,8 @@ const EditTaskDependency = ({ projectTasks, getProjectsTasks, reduxTaskLoading, 
                     level === 'First' &&
                     <Grid container >
                         <Grid item xs={12} my={2} ml={3} >
-                            <HeadingOne sx={{ color: 'white' }} title="Edit Task Dependency" />
-                            <HeadingOne btmText="Select a Dependent/Children task which ParentTasks you want to replace" />
+                            <HeadingOne sx={{ color: 'white' }} title="Delete Task Dependency" />
+                            <HeadingOne btmText="Select a Dependent/Children task which ParentTasks you want to Delete" />
                         </Grid>
                         <Grid item xs={12} className={classes.alignEnd} m={2} >
                             <ContainedBtn
@@ -168,30 +162,44 @@ const EditTaskDependency = ({ projectTasks, getProjectsTasks, reduxTaskLoading, 
                     </Grid>
                 }
 
+
                 {/* Second Level jis Parent ko replace krna ha */}
                 {
                     level === 'Second' &&
                     <Grid container >
                         <Grid item xs={12} my={2} ml={3} >
-                            <HeadingOne sx={{ color: 'white' }} title="Edit Task Dependency" />
-                            <HeadingOne btmText="Select a Parant task which is Going to replace" />
+                            <HeadingOne sx={{ color: 'white' }} title="Delete Task Dependency" />
+                            <HeadingOne btmText="Select a Parant task which you want t Delete" />
                         </Grid>
                         <Grid item xs={12} className={classes.alignBetween} m={2} >
                             <ContainedBtn
                                 endIcon={<ArrowBackIcon />}
                                 title="Back"
-                                // disabled={addTaskDependencyLoading}
+                                disabled={deleteTaskDependencyLoading}
                                 onClick={() => {
                                     setLevel('First')
-                                    setReplacingParent('')
+                                    setDeletingParent('')
                                 }}
                             />
                             <ContainedBtn
                                 endIcon={<ArrowForwardIcon />}
-                                disabled={replacingParent.trim().length === 24 ? false : true}
+                                disabled={deleteTaskDependencyLoading || DependentTask.trim().length !== 24 || deletingParent.trim().length !== 24}
                                 sx={{ border: '3px solid white' }}
-                                title="Continue"
-                                onClick={() => setLevel('Third')}
+                                title={deleteTaskDependencyLoading ? <CircularProgress /> : "Delete Task Dependency"}
+                                onClick={() => {
+                                    if (DependentTask.trim().length === 24 || deletingParent.trim().length === 24) {
+                                        setDeleteTaskDependencyLoading(true)
+                                        deleteTaskDependency(DependentTask, deletingParent).then(res => {
+                                            if (res) {
+                                                setDependentTask('')
+                                                setDeletingParent('')
+                                                navigate(`/project/${id}/taskDependency`)
+                                                setDeleteTaskDependencyLoading(false)
+                                            }
+                                            setDeleteTaskDependencyLoading(false)
+                                        })
+                                    }
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12} className={classes.TaskContainer}   >
@@ -201,10 +209,9 @@ const EditTaskDependency = ({ projectTasks, getProjectsTasks, reduxTaskLoading, 
                                         return (
                                             <TaskBox key={ind} m={2}
                                                 onClick={() => {
-                                                    setReplacingParent(task._id)
-                                                    // findDependUponByTaskId(task._id)
+                                                    setDeletingParent(task._id)
                                                 }}
-                                                isSelected={replacingParent === task._id ? true : false}
+                                                isSelected={deletingParent === task._id ? true : false}
                                             >
                                                 <Box p={1} >
                                                     <ColorText sx={{ textAlign: 'center', }} style={{ fontWeight: 'bold' }} >{task?._id}</ColorText>
@@ -222,74 +229,6 @@ const EditTaskDependency = ({ projectTasks, getProjectsTasks, reduxTaskLoading, 
                     </Grid>
                 }
 
-                {/* Third Level jis Parent se replace krna ha */}
-
-                {
-                    level === 'Third' &&
-                    <Grid container  >
-                        <Grid item xs={12} my={2} ml={3} >
-                            <HeadingOne sx={{ color: 'white' }} title="Edit Task Dependency" />
-                            <HeadingOne btmText="Select a New Parant task which is Going to replaced" />
-                        </Grid>
-                        <Grid item xs={12} className={classes.alignBetween} m={2} >
-                            <ContainedBtn
-                                endIcon={<ArrowBackIcon />}
-                                title="Back"
-                                disabled={editTaskDependencyLoading}
-                                onClick={() => {
-                                    setLevel('Second')
-                                    setReplacedParent('')
-                                }}
-                            />
-                            <ContainedBtn
-                                endIcon={<ArrowForwardIcon />}
-                                disabled={editTaskDependencyLoading ||
-                                    replacedParent.trim().length !== 24 || replacingParent.trim().length !== 24 || DependentTask.trim().length !== 24}
-                                sx={{ border: '3px solid white' }}
-                                title={editTaskDependencyLoading ? <CircularProgress /> : "Edit Task Dependency"}
-                                onClick={() => {
-                                    if (replacedParent.trim().length === 24 || replacingParent.trim().length === 24 || DependentTask.trim().length === 24) {
-                                        setEditTaskDependencyLoading(true)
-                                        editTaskDependency(DependentTask, replacingParent, replacedParent).then(res => {
-                                            if (res) {
-                                                setDependentTask('')
-                                                setReplacedParent('')
-                                                setReplacingParent('')
-                                                navigate(`/project/${id}/taskDependency`)
-                                                setEditTaskDependencyLoading(false)
-                                            }
-                                            setEditTaskDependencyLoading(false)
-                                        })
-                                    }
-                                }}
-                            />
-                        </Grid>
-                        <Grid item xs={12} className={classes.TaskContainer} mt={0} >
-                            {
-                                (!reduxTaskLoading || projectTasks?.length > 0) ?
-                                    projectTasks?.map((task, ind) => {
-                                        if ((DependentTask !== task._id) && !findTaskInDependUpon(task._id)) {
-                                            return (
-                                                <TaskBox key={ind} m={2}
-                                                    onClick={() => setReplacedParent(task._id)}
-                                                    isSelected={replacedParent === task._id ? true : false}
-                                                >
-                                                    <Box p={1} >
-                                                        <ColorText sx={{ textAlign: 'center' }} >{task?._id}</ColorText>
-                                                    </Box>
-                                                    <Divider />
-                                                    <Box p={1} >
-                                                        <ColorText>{task?.name}</ColorText>
-                                                    </Box>
-                                                </TaskBox>
-                                            )
-                                        }
-                                    }) :
-                                    <CircularProgress />
-                            }
-                        </Grid>
-                    </Grid>
-                }
 
             </div>
         </>
@@ -307,7 +246,7 @@ const mapStateToProps = (store) => ({
 const mapDispatchToProps = (dispatch) => ({
     getProjectsTasks: (id) => dispatch(getProjectsTasks(id)),
     getProjectDetails: (id) => dispatch(getProjectDetails(id)),
-    editTaskDependency: (taskId, replaceFromTaskRefs, replaceToTaskRefs) => dispatch(editTaskDependency(taskId, replaceFromTaskRefs, replaceToTaskRefs))
+    deleteTaskDependency: (taskId, deleteTaskRefs) => dispatch(deleteTaskDependency(taskId, deleteTaskRefs))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditTaskDependency);
+export default connect(mapStateToProps, mapDispatchToProps)(DeleteTaskDependency);

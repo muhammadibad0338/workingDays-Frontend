@@ -126,7 +126,7 @@ const ActionCard = () => {
                     </div>
                    <div>
                     <Typography mb={1}  ml={4} className={classes.taskText}>Delete Task</Typography>
-                    <TaskDependencyBtn title='Delete' />
+                    <TaskDependencyBtn title='Delete' onClick={() => navigate(`/project/${id}/taskDependency/deleteTaskDependency`)} />
                     </div>
                 </Card>
             </Grid>
