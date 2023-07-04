@@ -30,7 +30,7 @@ import AddTeamMembers from './Components/AddTeamMembers';
 import { connect } from "react-redux";
 import { getUserTeam, updateUserDesignation } from "../../Redux/User/UserAction"
 
-
+import hirearchy from "../../Assets/Images/hirearchy.png"
 
 const useStyles = makeStyles((theme) => ({
     spaceBtwn: {
@@ -149,6 +149,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const Team = ({ currentUser, getUserTeam, userTeam, updateUserDesignation }) => {
     const classes = useStyles();
     const [isDialogOpen, setisDialogOpen] = useState(false)
+    const [isHirearchyDialogOpen, setIsHirearchyDialogOpen] = useState(false)
     const [operationLOading, setOperationLOading] = useState(false)
 
     const [continueDesignationRequest, setContinueDesignationRequest] = useState(false)
@@ -178,122 +179,130 @@ const Team = ({ currentUser, getUserTeam, userTeam, updateUserDesignation }) => 
     }
 
     return (
-        <ColorBox>
-            <Container maxWidth='fl' >
-                <Grid container >
-                    <Grid item xs={12} mt={4} className={classes.stickyBox} >
-                        <Box pt={1} className={classes.spaceBtwn}  >
-                            <Box>
-                                <HeadingOne title="Team" />
-                                <ColorText>{userTeam?.teamMembers?.length} Team Members</ColorText>
+        <>
+            <ColorBox>
+                <Container maxWidth='fl' >
+                    <Grid container >
+                        <Grid item xs={12} mt={4} className={classes.stickyBox} >
+                            <Box pt={1} className={classes.spaceBtwn}  >
+                                <Box>
+                                    <HeadingOne title="Team" />
+                                    <ColorText>{userTeam?.teamMembers?.length} Team Members</ColorText>
+                                </Box>
+                                <Box sx={{ display: 'flex', gap: '20px' }} >
+                                    <ContainedBtn title='Team Hirearchy' onClick={() => setIsHirearchyDialogOpen(true)} />
+                                    {[0, 1, 2].includes(currentUser.level) && <ContainedBtn title='ADD' startIcon={<AddIcon />} onClick={() => setisDialogOpen(true)} />}
+                                </Box>
                             </Box>
-                            {[0, 1, 2].includes(currentUser.level) && <ContainedBtn title='ADD' startIcon={<AddIcon />} onClick={() => setisDialogOpen(true)} />}
-                        </Box>
-                        {/* <SearchBar /> */}
-                    </Grid>
-                    {/* <Grid item xs={12} style={{ display: 'flex' }}  >
+                            {/* <SearchBar /> */}
+                        </Grid>
+                        {/* <Grid item xs={12} style={{ display: 'flex' }}  >
                     </Grid> */}
-                    <Grid item xs={12} mt={5} >
-                        {Object.keys(userTeam).length == 0 ? <CircularProgress /> : <Box  >
-                            <Box px={2} py={0.5} style={{ backgroundColor: 'inherit' }} >
-                                <ColorText>{userTeam?.team?.name}
-                                    {/* {continueDesignationRequest ? "true" : 'false'} {userIndex} */}
-                                </ColorText>
-                            </Box>
-                            <TableContainer className={classes.tableContainer}>
-                                <Table>
-                                    <TableBody>
-                                        {
-                                            userTeam?.team?.teamMembers?.map((person, i) => {
-                                                return (
-                                                    <StyledTableRow key={i} className={classes.tableRow}  >
-                                                        <TableCell sx={{ border: 'none', padding: '0px', margin: 'none' }} >
-                                                            <Box p={2} className={classes.contactBox} >
-                                                                <Tooltip sx={{ backgroundColor: 'inherit' }} >
-                                                                    <Avatar src={person?.profilePicture} />
-                                                                </Tooltip>
-                                                                <Box ml={1} >
-                                                                    <ColorText style={{ fontSize: '13px' }} >{person?.name} </ColorText>
-                                                                    <ColorText style={{ fontSize: '13px' }} >{person?.email} </ColorText>
-                                                                </Box>
-                                                                <Box ml={4} className={classes.lastActionBox} >
-                                                                    {person?.level === 0 && <CompanyChip label='COMPANY' />}
-                                                                    {person?.level === 1 && <ManagerChip label='Exectuive' />}
-                                                                    {person?.level === 2 && <ManagerChip label='Manager' />}
-                                                                    {person?.level === 3 && <LeadChip label='Team Lead' />}
-                                                                    {person?.level === 4 && <JuniorChip label='Junior Developer' />}
-                                                                    {person?.level === 5 && <InternChip label='Intern' />}
+                        <Grid item xs={12} mt={5} >
+                            {Object.keys(userTeam).length == 0 ? <CircularProgress /> : <Box  >
+                                <Box px={2} py={0.5} style={{ backgroundColor: 'inherit' }} >
+                                    <ColorText>{userTeam?.team?.name}
+                                        {/* {continueDesignationRequest ? "true" : 'false'} {userIndex} */}
+                                    </ColorText>
+                                </Box>
+                                <TableContainer className={classes.tableContainer}>
+                                    <Table>
+                                        <TableBody>
+                                            {
+                                                userTeam?.team?.teamMembers?.map((person, i) => {
+                                                    return (
+                                                        <StyledTableRow key={i} className={classes.tableRow}  >
+                                                            <TableCell sx={{ border: 'none', padding: '0px', margin: 'none' }} >
+                                                                <Box p={2} className={classes.contactBox} >
+                                                                    <Tooltip sx={{ backgroundColor: 'inherit' }} >
+                                                                        <Avatar src={person?.profilePicture} />
+                                                                    </Tooltip>
+                                                                    <Box ml={1} >
+                                                                        <ColorText style={{ fontSize: '13px' }} >{person?.name} </ColorText>
+                                                                        <ColorText style={{ fontSize: '13px' }} >{person?.email} </ColorText>
+                                                                    </Box>
+                                                                    <Box ml={4} className={classes.lastActionBox} >
+                                                                        {person?.level === 0 && <CompanyChip label='COMPANY' />}
+                                                                        {person?.level === 1 && <ManagerChip label='Exectuive' />}
+                                                                        {person?.level === 2 && <ManagerChip label='Manager' />}
+                                                                        {person?.level === 3 && <LeadChip label='Team Lead' />}
+                                                                        {person?.level === 4 && <JuniorChip label='Junior Developer' />}
+                                                                        {person?.level === 5 && <InternChip label='Intern' />}
 
-                                                                    {([0, 1, 2].includes(currentUser?.level) && person.level !== 0 && person.level !== currentUser.level && currentUser.level < person.level) && <EditChip label="Change Designation" onClick={() => {
-                                                                        if (userIndex === i) {
-                                                                            setUserIndex(-1)
-                                                                            setContinueDesignationRequest(false)
-                                                                            setDesignationLevel(-1)
+                                                                        {([0, 1, 2].includes(currentUser?.level) && person.level !== 0 && person.level !== currentUser.level && currentUser.level < person.level) && <EditChip label="Change Designation" onClick={() => {
+                                                                            if (userIndex === i) {
+                                                                                setUserIndex(-1)
+                                                                                setContinueDesignationRequest(false)
+                                                                                setDesignationLevel(-1)
+                                                                            }
+                                                                            else {
+                                                                                setUserIndex(i)
+                                                                                setContinueDesignationRequest(true)
+                                                                                setDesignationLevel(person.level)
+                                                                            }
+                                                                        }} />
                                                                         }
-                                                                        else {
-                                                                            setUserIndex(i)
-                                                                            setContinueDesignationRequest(true)
-                                                                            setDesignationLevel(person.level)
-                                                                        }
-                                                                    }} />
-                                                                    }
-                                                                    {/* <DetailsChip label="Details" /> */}
-                                                                </Box>
+                                                                        {/* <DetailsChip label="Details" /> */}
+                                                                    </Box>
 
-                                                            </Box>
-                                                            {(continueDesignationRequest && userIndex === i) && <Box p={2} >
-                                                                <ColorText variant="h6" sx={{ fontWeight: 'bold' }} >Select Designation</ColorText>
-                                                                <Box my={2} >
-                                                                    <ManagerChip label='Exectuive' chip={(designationLevel === 1) ? true : false}
-                                                                        onClick={() => setDesignationLevel(1)} />
-                                                                    <ManagerChip label='Manager' chip={(designationLevel === 2) ? true : false}
-                                                                        onClick={() => setDesignationLevel(2)} />
-                                                                    <LeadChip label='Team Lead' chip={(designationLevel === 3) ? true : false}
-                                                                        onClick={() => setDesignationLevel(3)} />
-                                                                    <JuniorChip label='Junior Developer' chip={(designationLevel === 4) ? true : false}
-                                                                        onClick={() => setDesignationLevel(4)}
-                                                                    />
-                                                                    <InternChip label='Intern' chip={(designationLevel === 5) ? true : false}
-                                                                        onClick={() => setDesignationLevel(5)}
-                                                                    />
-                                                                    {(person.level !== designationLevel && designationLevel !== -1) && <Box mt={4} >
-                                                                        <ContainedBtn title="Change Designation"
-                                                                            disabled={operationLOading}
-                                                                            onClick={() => {
-                                                                                setOperationLOading(true)
-                                                                                updateUserDesignation({
-                                                                                    level: designationLevel,
-                                                                                    employee: person._id,
-                                                                                    employeer: uid,
-                                                                                    joinedSoftwareCompany: currentUser.level === 0 ? uid : currentUser.joinedSoftwareCompany,
-                                                                                    title: jobTitleByLevel[String(designationLevel)]
-                                                                                }).then((res) => {
-                                                                                    setOperationLOading(false)
-                                                                                    setUserIndex(-1)
-                                                                                    setContinueDesignationRequest(false)
-                                                                                    setDesignationLevel(-1)
-                                                                                })
-                                                                            }} />
-                                                                    </Box>}
                                                                 </Box>
-                                                            </Box>}
-                                                        </TableCell>
-                                                    </StyledTableRow>
-                                                )
-                                            })
-                                        }
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </Box>}
+                                                                {(continueDesignationRequest && userIndex === i) && <Box p={2} >
+                                                                    <ColorText variant="h6" sx={{ fontWeight: 'bold' }} >Select Designation</ColorText>
+                                                                    <Box my={2} >
+                                                                        <ManagerChip label='Exectuive' chip={(designationLevel === 1) ? true : false}
+                                                                            onClick={() => setDesignationLevel(1)} />
+                                                                        <ManagerChip label='Manager' chip={(designationLevel === 2) ? true : false}
+                                                                            onClick={() => setDesignationLevel(2)} />
+                                                                        <LeadChip label='Team Lead' chip={(designationLevel === 3) ? true : false}
+                                                                            onClick={() => setDesignationLevel(3)} />
+                                                                        <JuniorChip label='Junior Developer' chip={(designationLevel === 4) ? true : false}
+                                                                            onClick={() => setDesignationLevel(4)}
+                                                                        />
+                                                                        <InternChip label='Intern' chip={(designationLevel === 5) ? true : false}
+                                                                            onClick={() => setDesignationLevel(5)}
+                                                                        />
+                                                                        {(person.level !== designationLevel && designationLevel !== -1) && <Box mt={4} >
+                                                                            <ContainedBtn title="Change Designation"
+                                                                                disabled={operationLOading}
+                                                                                onClick={() => {
+                                                                                    setOperationLOading(true)
+                                                                                    updateUserDesignation({
+                                                                                        level: designationLevel,
+                                                                                        employee: person._id,
+                                                                                        employeer: uid,
+                                                                                        joinedSoftwareCompany: currentUser.level === 0 ? uid : currentUser.joinedSoftwareCompany,
+                                                                                        title: jobTitleByLevel[String(designationLevel)]
+                                                                                    }).then((res) => {
+                                                                                        setOperationLOading(false)
+                                                                                        setUserIndex(-1)
+                                                                                        setContinueDesignationRequest(false)
+                                                                                        setDesignationLevel(-1)
+                                                                                    })
+                                                                                }} />
+                                                                        </Box>}
+                                                                    </Box>
+                                                                </Box>}
+                                                            </TableCell>
+                                                        </StyledTableRow>
+                                                    )
+                                                })
+                                            }
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </Box>}
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Container>
-            <AddTeamMembers
-                isDialogOpen={isDialogOpen}
-                hideDialogHandler={() => setisDialogOpen(false)}
-            />
-        </ColorBox >
+                </Container>
+                <AddTeamMembers
+                    isDialogOpen={isDialogOpen}
+                    hideDialogHandler={() => setisDialogOpen(false)}
+                />
+            </ColorBox>
+            <FullScreenDialog maxWidth='sm' fullWidth={true} open={isHirearchyDialogOpen} hideDialogHandler={() => setIsHirearchyDialogOpen(false)} >
+                <img src={hirearchy} style={{ width: '100%', height: 'auto', maxHeight: '100vh' }} />
+            </FullScreenDialog>
+        </>
     )
 }
 

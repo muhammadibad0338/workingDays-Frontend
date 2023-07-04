@@ -42,12 +42,12 @@ const useStyles = makeStyles((theme) => ({
         width: '30px',
         borderRadius: '2px',
         marginRight: '15px'
-        
+
     },
     iconButton: {
         width: '30px',
         height: '30px',
-        
+
     },
     iconButtonCntnr: {
         display: 'flex',
@@ -93,7 +93,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
         flexShrink: 0,
         whiteSpace: 'nowrap',
         boxSizing: 'border-box',
-        
+
         ...(open && {
             ...openedMixin(theme),
             '& .MuiDrawer-paper': openedMixin(theme),
@@ -124,7 +124,7 @@ const ProjectDetailBox = styled(Box)(({ theme }) => ({
     borderBottom: theme.palette.type == "light" ? '1px solid #BDBDBD' : '1px solid #0095FF'
 }));
 
-function MiniDrawer({ Component, projectDetails }) {
+function MiniDrawer({ Component, projectDetails, currentUser }) {
     const theme = useTheme();
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
@@ -145,22 +145,26 @@ function MiniDrawer({ Component, projectDetails }) {
         {
             name: 'Board',
             Icon: LeaderboardIcon,
-            path: `/project/${id}`
+            path: `/project/${id}`,
+            level: [0, 1, 2, 3, 4, 5]
         },
         {
             name: 'Task Dependency',
             Icon: TaskIcon,
-            path: `/project/${id}/taskDependency`
+            path: `/project/${id}/taskDependency`,
+            level: [0, 1, 2]
         },
         {
             name: 'Project Tree',
             Icon: AccountTreeIcon,
-            path: `/project/${id}/tree`
+            path: `/project/${id}/tree`,
+            level: [0, 1, 2, 3, 4, 5]
         },
         {
             name: 'Report/Graph',
             Icon: WorkHistoryIcon,
-            path: `/project/${id}/report`
+            path: `/project/${id}/report`,
+            level: [0, 1, 2, 3, 4, 5]
         }
     ]
 
@@ -173,9 +177,9 @@ function MiniDrawer({ Component, projectDetails }) {
             <Drawer variant="permanent" open={!open}   >
                 {/* <Divider /> */}
                 <Box py={1} className={classes.iconButtonCntnr} >
-                    <IconButton  className={classes.iconButton} onClick={() => setOpen(!open)} >
+                    <IconButton className={classes.iconButton} onClick={() => setOpen(!open)} >
                         <ColorToggleText >
-                            {open ? <KeyboardArrowRightIcon  /> : <KeyboardArrowLeftIcon />}
+                            {open ? <KeyboardArrowRightIcon /> : <KeyboardArrowLeftIcon />}
                         </ColorToggleText>
                     </IconButton>
                 </Box>
@@ -188,40 +192,44 @@ function MiniDrawer({ Component, projectDetails }) {
                 </ProjectDetailBox>
                 <Divider />
                 <List>
-                    {drawerRoutes.map(({ name, Icon, path }, index ,) => (
-                        <ListItem key={name} disablePadding sx={{ display: 'block' }}>
-                            <ListItemButton
-                                sx={{
-                                    minHeight: 48,
-                                    justifyContent: open ? 'initial' : 'center',
-                                    px: 2.5,
-                                    // borderLeft: `${drawerIndex === index ? '5px solid #0096FF' : "none"}`
-                                    backgroundImage: `${drawerIndex === index ? 'linear-gradient(rgba(76, 207, 248, 1), rgba(74, 75, 227, 1),rgba(35, 52, 156, 1))' : "none"}` ,
-                                    
-                                }}
-                                onClick={() => {
-                                    navigate(path)
-                                    setDrawerIndex(index)
-                                    
-                                }}
-                            >
-                                <ListItemIcon
-                                    sx={{
-                                        
-                                        minWidth: 0,
-                                        mr: !open ? 3 : 'auto',
-                                        justifyContent: 'center', 
-                                        
-                                    }}
-                                >
-                                    <ColorToggleText  >
-                                        <Icon sx={{ color: `${drawerIndex === index ? 'white' : "none"}` }} />
-                                    </ColorToggleText>
-                                </ListItemIcon>
-                                <ColorToggleListItemText primary={name} sx={{ opacity: !open ? 1 : 0,color: `${drawerIndex === index ? 'white' : "none"}` }} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
+                    {drawerRoutes.map(({ name, Icon, path, level }, index,) => {
+                        if (level.includes(currentUser.level)) {
+                            return (
+                                <ListItem key={name} disablePadding sx={{ display: 'block' }}>
+                                    <ListItemButton
+                                        sx={{
+                                            minHeight: 48,
+                                            justifyContent: open ? 'initial' : 'center',
+                                            px: 2.5,
+                                            // borderLeft: `${drawerIndex === index ? '5px solid #0096FF' : "none"}`
+                                            backgroundImage: `${drawerIndex === index ? 'linear-gradient(rgba(76, 207, 248, 1), rgba(74, 75, 227, 1),rgba(35, 52, 156, 1))' : "none"}`,
+
+                                        }}
+                                        onClick={() => {
+                                            navigate(path)
+                                            setDrawerIndex(index)
+
+                                        }}
+                                    >
+                                        <ListItemIcon
+                                            sx={{
+
+                                                minWidth: 0,
+                                                mr: !open ? 3 : 'auto',
+                                                justifyContent: 'center',
+
+                                            }}
+                                        >
+                                            <ColorToggleText  >
+                                                <Icon sx={{ color: `${drawerIndex === index ? 'white' : "none"}` }} />
+                                            </ColorToggleText>
+                                        </ListItemIcon>
+                                        <ColorToggleListItemText primary={name} sx={{ opacity: !open ? 1 : 0, color: `${drawerIndex === index ? 'white' : "none"}` }} />
+                                    </ListItemButton>
+                                </ListItem>
+                            )
+                        }
+                    })}
                 </List>
             </Drawer>
             <Box

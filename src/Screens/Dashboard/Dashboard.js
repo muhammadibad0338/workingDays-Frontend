@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     height: '50px',
     width: '50px'
-},
+  },
 }));
 
 
@@ -97,10 +97,20 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
   const classes = useStyles();
   const uid = localStorage.getItem('uid')
   const [isDialogOpen, setisDialogOpen] = useState(false)
+  let IconArray = [
+    'https://firebasestorage.googleapis.com/v0/b/facebook-clone-40392.appspot.com/o/Alian.png?alt=media&token=02bdc113-2c34-4296-8401-8c6e447ad7b2',
+    'https://firebasestorage.googleapis.com/v0/b/facebook-clone-40392.appspot.com/o/Bird.png?alt=media&token=1c228786-2a4d-4c21-b9ba-baf10c7f709d',
+    'https://firebasestorage.googleapis.com/v0/b/facebook-clone-40392.appspot.com/o/Design%20(1).png?alt=media&token=ccf7df7e-d9a5-44e6-a801-ba92ef0c04bf',
+    'https://firebasestorage.googleapis.com/v0/b/facebook-clone-40392.appspot.com/o/Food.png?alt=media&token=836bb4d1-5c94-4599-8c3c-79799cc0402e',
+    'https://firebasestorage.googleapis.com/v0/b/facebook-clone-40392.appspot.com/o/Nature.png?alt=media&token=df7db0cf-4f9a-4309-bd5f-346509972d8e',
+    'https://firebasestorage.googleapis.com/v0/b/facebook-clone-40392.appspot.com/o/Rocket.png?alt=media&token=a822d1d8-6d2f-4b07-b8ec-ae93757bb495',
+    'https://firebasestorage.googleapis.com/v0/b/facebook-clone-40392.appspot.com/o/Sicence.png?alt=media&token=9dd1e2b9-7ee7-46a4-abf1-1d4dff38c5a9',
+    'https://firebasestorage.googleapis.com/v0/b/facebook-clone-40392.appspot.com/o/Yeti.png?alt=media&token=40af511f-2f40-40c5-8915-89d9be9180b7'
+  ]
   const [credentials, setcredentials] = useState({
     name: "",
     description: "",
-    icon: "https://splitgate.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10420?size=small",
+    icon: IconArray[Math.floor(Math.random() * 8)],
     employees: [uid],
     user: {
       ...currentUser
@@ -218,7 +228,7 @@ const Dashboard = ({ currentUser, getUserProjects, userProjects, createProject, 
       <FullScreenDialog maxWidth='sm' fullWidth={true} open={isDialogOpen} hideDialogHandler={() => setisDialogOpen(false)} >
         <Box className={[classes.alignEnd, classes.colorBox]} px={2} pt={1} >
           <IconButton aria-label="Close" onClick={() => setisDialogOpen(false)} className={classes.IconButton} >
-              <CloseIcon fontSize='large' sx={{ color: '#FFFFFF',  }}  />
+            <CloseIcon fontSize='large' sx={{ color: '#FFFFFF', }} />
           </IconButton>
         </Box>
         <Box px={2} className={classes.colorBox} >
