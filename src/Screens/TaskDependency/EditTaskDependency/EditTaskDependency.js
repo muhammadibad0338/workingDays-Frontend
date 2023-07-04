@@ -246,7 +246,7 @@ const EditTaskDependency = ({ projectTasks, getProjectsTasks, reduxTaskLoading, 
                                 disabled={editTaskDependencyLoading ||
                                     replacedParent.trim().length !== 24 || replacingParent.trim().length !== 24 || DependentTask.trim().length !== 24}
                                 sx={{ border: '3px solid white' }}
-                                title="Edit Task Dependency"
+                                title={editTaskDependencyLoading ? <CircularProgress /> : "Edit Task Dependency"}
                                 onClick={() => {
                                     if (replacedParent.trim().length === 24 || replacingParent.trim().length === 24 || DependentTask.trim().length === 24) {
                                         setEditTaskDependencyLoading(true)

@@ -110,7 +110,7 @@ const ReportTable = ({ taskReports }) => {
                                         <TableCell className={classes.tableCellBody}  >
                                             <ToggleTypography>{task?.employee?.name}</ToggleTypography>
                                         </TableCell>
-                                        <TableCell className={classes.tableCellBody} ><ToggleTypography>{moment(task?.deadlineStart).format("DD/MM/YYYY")} --- {moment(task?.deadlineStart).format("DD/MM/YYYY")}</ToggleTypography>  </TableCell>
+                                        <TableCell className={classes.tableCellBody} ><ToggleTypography>{moment(task?.deadlineStart).format("DD/MM/YYYY")} --- {moment(task?.deadlineEnd).format("DD/MM/YYYY")}</ToggleTypography>  </TableCell>
                                         <TableCell className={classes.tableCellBody} ><StatusTypography Status={task?.isComplete} >{task?.isComplete ? "True" : 'False'} </StatusTypography>  </TableCell>
                                         <TableCell className={classes.tableCellBody} ><StatusTypography Status={task?.isLate} >{task?.isLate ? "True" : 'False'} </StatusTypography>  </TableCell>
                                         <TableCell className={classes.tableCellBody} ><ToggleTypography>{task?.isLate ? task?.daysLate : " No Late"} </ToggleTypography>  </TableCell>
