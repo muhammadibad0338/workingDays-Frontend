@@ -296,7 +296,7 @@ const Model = ({
                                         textTransform: 'capitalize', whiteSpace: 'break-spaces', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden'
                                     }} > {moment(task?.createdAt).format("DD/MM/YYYY")} </ColorText> </ColorText>}
                                     <Box>
-                                        {(task?.employee?._id == uid || currentUser.role === "softwareCompany") && <>
+                                        {(task?.employee?._id == uid ) && <>
                                             {modelHeading !== "Requirments" && <Tooltip title="Update Task Status"><IconButton sx={{ color: '#0096FF' }} aria-label="move Forward" component="label"
                                                 onClick={() => {
                                                     updateTaskAgileCycle({
